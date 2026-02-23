@@ -68,6 +68,41 @@
     }
   }
 
+  // FAB variants (shared base)
+  &[class*="btn--fab"] {
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    padding: 0;
+    overflow: hidden;
+
+    ::ng-deep img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  &--fab-primary {
+    color: $white;
+    background-color: $blue-dark;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+
+    &:active { background-color: $blue-light; }
+  }
+
+  &--fab-secondary {
+    background-color: transparent;
+    border: 2px solid $blue-dark;
+    box-shadow: none;
+
+    &:active {
+      border-color: $blue-light;
+      filter: none;
+      img { filter: invert(56%) sepia(81%) saturate(560%) hue-rotate(161deg) brightness(93%) contrast(90%); }
+    }
+  }
+
   // Icons
   &[class*="icon--"] {
     &::after {

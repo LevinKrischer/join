@@ -53,12 +53,12 @@
 
   <!-- Mobile: FAB buttons (hidden on lg+) -->
   <aside class="fab-container d-lg-none" aria-label="Quick actions">
-    <button class="fab fab--search" (click)="isMobileSearchOpen = !isMobileSearchOpen" aria-label="Toggle search">
+    <ui-button variant="fab-secondary" (click)="isMobileSearchOpen = !isMobileSearchOpen">
       <img src="assets/icons/search-32px.svg" alt="" aria-hidden="true" />
-    </button>
-    <button class="fab fab--add" (click)="openModal()" aria-label="Add new contact">
+    </ui-button>
+    <ui-button variant="fab-primary" (click)="openModal()">
       <img src="assets/icons/person-add-white-32px.svg" alt="" aria-hidden="true" />
-    </button>
+    </ui-button>
   </aside>
 
   <!-- Mobile: search input (toggled by search FAB, hidden on lg+) -->

@@ -3,8 +3,11 @@
 
   <p>Dies ist eine Testseite um einzelne Elemente zu testen und wird später wieder gelöscht.</p>
 
-  <ui-button type="submit" variant="primary" icon="add" (click)="openModal()">
-    Testbutton for Add new contact
+  <ui-button type="submit" variant="primary" icon="add" class="d-none d-lg-inline-flex" (click)="openModal()">
+    Add new contact
+  </ui-button>
+  <ui-button variant="fab-primary" class="d-lg-none" (click)="openModal()">
+    <img src="assets/icons/person-add-white-32px.svg" alt="" aria-hidden="true" />
   </ui-button>
 
   <app-contact-add-form *ngIf="isContactModalOpen" (closed)="closeModal()">></app-contact-add-form>
