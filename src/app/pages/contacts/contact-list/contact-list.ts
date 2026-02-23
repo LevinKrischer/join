@@ -5,15 +5,9 @@ import { ContactAddFormComponent } from '../../../components/contact-add-form/co
 import { Button } from '../../../shared/ui/button/button';
 import { InputFieldComponent } from '../../../shared/ui/input-field/input-field';
 
-
 @Component({
   selector: 'app-contact-list',
-  imports: [
-            ContactAddFormComponent,
-            CommonModule,
-            Button,
-            InputFieldComponent
-          ],
+  imports: [ContactAddFormComponent, CommonModule, Button, InputFieldComponent],
   templateUrl: './contact-list.html',
   styleUrl: './contact-list.scss',
 })
@@ -28,6 +22,10 @@ export class ContactList {
   isMobileSearchOpen = false;
   searchError: string | null = null;
 
+  /**
+   * Emits the search event and displays an error message if no contacts match after 3+ characters.
+   * @param event - The native input event from the search field.
+   */
   onSearchInput(event: Event) {
     this.search.emit(event);
     const term = (event.target as HTMLInputElement).value.toLowerCase();
@@ -35,24 +33,34 @@ export class ContactList {
       this.searchError = null;
       return;
     }
-    const hasResults = this.groups.some(g =>
-      g.contacts.some(c =>
-        c.name.toLowerCase().includes(term) ||
-        c.email.toLowerCase().includes(term) ||
-        c.phone.includes(term)
-      )
+    const hasResults = this.groups.some((g) =>
+      g.contacts.some(
+        (c) =>
+          c.name.toLowerCase().includes(term) ||
+          c.email.toLowerCase().includes(term) ||
+          c.phone.includes(term),
+      ),
     );
     this.searchError = hasResults ? null : 'No contacts found';
   }
 
+  /**
+   * Opens the contact add modal.
+   */
   openModal() {
     this.isContactModalOpen = true;
   }
 
+  /**
+   * Closes the contact add modal.
+   */
   closeModal() {
     this.isContactModalOpen = false;
   }
 
+  /**
+   * Emits the added event and closes the modal after a contact was created.
+   */
   onAdded() {
     this.added.emit();
     this.closeModal();
