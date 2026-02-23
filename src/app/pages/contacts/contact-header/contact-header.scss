@@ -1,12 +1,36 @@
+@use 'styles/variables' as *;
+
 /* contact-header.scss */
 
 .contact-header {
   font-size: 1rem;
   color: #141517;
-  padding: 5rem 0 2.5rem 0;
+  padding: 2rem 0 2rem 0;
   display: flex;
   align-items: center;
-  gap: 1rem;
+
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    @media (max-width: 500px) {
+      flex-wrap: wrap;
+      gap: 0;
+
+      .separator {
+        margin-top: 0.5rem;
+        width: 50%;
+        height: 2px;
+        order: 3;
+      }
+
+      .subline {
+        width: 100%;
+        order: 2;
+      }
+    }
+  }
 
   h3 {
     font-size: 3rem;
@@ -24,5 +48,37 @@
     width: 2px;
     height: 3rem;
     background: #29abe2;
+  }
+
+  .back-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    margin-left: auto;
+    margin-bottom: auto;
+
+    img {
+      width: 2rem;
+      height: 2rem;
+
+      &.active {
+        display: none;
+      }
+    }
+
+    &:active {
+      img.default {
+        display: none;
+      }
+
+      img.active {
+        display: block;
+      }
+    }
   }
 }

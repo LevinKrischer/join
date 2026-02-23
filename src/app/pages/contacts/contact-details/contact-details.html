@@ -1,8 +1,10 @@
 <!-- contact-details -->
 
 <div class="ContactDetails">
-  <app-contact-edit-form *ngIf="isContactModalOpen" [contact]="selectedContact" (closed)="closeModal()"
-    (saved)="onEditSaved()" (deleted)="onEditDeleted()" />
+  @if (isContactModalOpen) {
+    <app-contact-edit-form [contact]="selectedContact" (closed)="closeModal()"
+      (saved)="onEditSaved()" (deleted)="onEditDeleted()" />
+  }
 
   @if (!contact) {
   <div>Select a contact to view details</div>
@@ -19,7 +21,7 @@
         {{ contact.name }}
       </div>
 
-      <div class="contact-actions">
+      <div class="contact-actions d-none d-sm-flex">
         <button (click)="openEdit(contact)" title="Edit contact" aria-label="Edit contact">
           <img src="assets/icons/edit-dark-24px.svg" alt="Edit" />
           Edit
@@ -30,11 +32,30 @@
           Delete
         </button>
       </div>
+
+      <div class="mobile-actions-fab d-sm-none">
+        <button class="fab-btn" (click)="toggleMobileActions()" aria-label="Contact actions">
+          <img src="assets/icons/contact_actions.svg" alt="Actions" />
+        </button>
+
+        @if (isMobileActionsOpen) {
+        <div class="fadeIn mobile-actions-dropdown">
+          <button (click)="openEdit(contact); closeMobileActions()" aria-label="Edit contact">
+            <img src="assets/icons/edit-dark-24px.svg" alt="Edit" />
+            Edit
+          </button>
+          <button (click)="remove.emit(contact); closeMobileActions()" aria-label="Delete contact">
+            <img src="assets/icons/delete-dark-24px.svg" alt="Delete" />
+            Delete
+          </button>
+        </div>
+        }
+      </div>
     </div>
   </div>
 
   <div class="fadeIn d-flex flex-column gap-3">
-    <h5 class="pt-5 pb-2">Contact Information</h5>
+    <h5 class="pt-3 pb-2">Contact Information</h5>
 
     <div>
       <label>Email</label>

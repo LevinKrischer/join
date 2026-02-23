@@ -2,7 +2,14 @@
 
 
 <div class="contact-header">
-  <h3>Contacts</h3>
-  <span class="separator"></span>
-  <p class="subline">Better with a team</p>
+  <div class="header-title">
+    <h3>Contacts</h3>
+    <span class="separator"></span>
+    <p class="subline">Better with a team</p>
+  </div>
+
+  <button class="back-btn d-lg-none" (click)="back.emit()" aria-label="Back to list">
+    <img class="default" src="assets/icons/arrow-left-blue-32px.svg" alt="back" aria-hidden="true" />
+    <img class="active" src="assets/icons/arrow-left-blue-hover-32px.svg" alt="back" aria-hidden="true" />
+  </button>
 </div>

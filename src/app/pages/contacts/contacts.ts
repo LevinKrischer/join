@@ -1,4 +1,5 @@
 import { Component, OnInit, signal, computed, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ContactsDb } from '../../core/db/contacts.db';
 import { Contact, ContactWithInitials, GroupedContacts } from './../../core/db/contacts.db';
 import { ContactDetails } from './contact-details/contact-details';
@@ -9,7 +10,7 @@ import { UserFeedbackComponent } from "../../shared/ui/user-feedback/user-feedba
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [ContactDetails, ContactList, ContactHeader, UserFeedbackComponent],
+  imports: [CommonModule, ContactDetails, ContactList, ContactHeader, UserFeedbackComponent],
   templateUrl: './contacts.html',
   styleUrl: './contacts.scss',
 })
@@ -19,6 +20,7 @@ export class Contacts implements OnInit {
   groupedContacts = signal<GroupedContacts[]>([]);
   searchTerm = signal('');
   selected: ContactWithInitials | null = null;
+  isMobileDetailOpen = false;
 
   constructor(private contactsDb: ContactsDb) { }
 
@@ -74,6 +76,12 @@ export class Contacts implements OnInit {
 
   selectContact(c: ContactWithInitials) {
     this.selected = c;
+    this.isMobileDetailOpen = true;
+  }
+
+  backToList() {
+    this.isMobileDetailOpen = false;
+    this.selected = null;
   }
 
   editSelected() {
@@ -99,6 +107,7 @@ export class Contacts implements OnInit {
     this.groupedContacts.set(this.sortAndGroup(remaining));
 
     this.selected = null;
+    this.isMobileDetailOpen = false;
 
     this.feedback.show(`Contact '${deletedName}' has been deleted!`);
   }

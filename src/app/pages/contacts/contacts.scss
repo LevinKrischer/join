@@ -6,4 +6,17 @@
   .right {
     width: 60%;
   }
+
+  @media (max-width: 992px) {
+    .left,
+    .right {
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+
+    .left {
+      padding: 0;
+    }
+
+  }
 }

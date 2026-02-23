@@ -3,11 +3,15 @@
 @use 'styles/variables' as *;
 
 .contact-list {
-  padding: 0.6rem 1.2rem;
+  padding: 0.6rem 1.5rem;
   max-width: 28rem;
   background-color: $white;
   height: 100%;
   overflow-y: auto;
+
+  @media (max-width: 992px) {
+    max-width: none;
+  }
 }
 
 .sticky-top {
@@ -164,11 +168,16 @@ ui-button {
   }
 }
 
-.mobile-search {
-  position: sticky;
-  width: 70%;
-  bottom: 0;
-  z-index: 8;
-  background-color: $white;
-  padding: 0.5rem 0;
+.fab-search-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  pointer-events: auto;
 }
+
+.mobile-search {
+  flex: 1;
+  max-width: 11rem;
+}
+

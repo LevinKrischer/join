@@ -2,14 +2,14 @@
 <app-user-feedback #feedback></app-user-feedback>
 <div class="ContactsLayout">
   <!-- Left: navigation/list -->
-  <aside class="left">
+  <aside class="left" [ngClass]="isMobileDetailOpen ? 'd-none d-lg-block' : ''">
     <app-contact-list [groups]="filteredContacts()" [selectedId]="selected?.id ?? null" (search)="onSearch($event)"
       (select)="selectContact($event)" (added)="onContactAdded()" />
   </aside>
 
   <!-- Right: main detail view -->
-  <section class="right">
-    <app-contact-header [contact]="selected" />
-    <app-contact-details [contact]="selected" (edit)="editSelected()" (remove)="deleteSelected()" />
+  <section class="right" [ngClass]="isMobileDetailOpen ? '' : 'd-none d-lg-block'">
+    <app-contact-header [contact]="selected" (back)="backToList()" />
+    <app-contact-details [contact]="selected" (edit)="editSelected()" (remove)="deleteSelected()" (back)="backToList()" />
   </section>
 </div>

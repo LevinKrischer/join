@@ -9,6 +9,7 @@
   position: fixed;
   bottom: 0;
   min-height: 5rem;
+  gap: 0;
 
   @include for-size(lg) {
     position: relative;
@@ -19,6 +20,11 @@
 }
 
 #main-nav{
+  max-height: 4.75rem;
+  justify-content: center;
+  @include for-size(lg) {
+    max-height: auto;
+  }
   img.active {
     display: none;
   }
@@ -26,24 +32,22 @@
     display: flex;
   }
 
-
-  a{
-    padding: 2px 0;
-    @include for-size(lg) {
-      padding: 0;
+  li{
+    min-width: 4.75rem;
+    &.active {
+      background: $blue-darker;
+      border-radius: $navi-border-radius;
+      @include for-size(lg) {
+        border-radius: 0;
+      }
+      a {
+        color: $white;
+        img.active { display: flex; }
+        img.default { display: none; }
+      }
     }
-  }
-
-  li.active {
-    background: $blue-darker;
-    border-radius: $base-border-radius;
     @include for-size(lg) {
-      border-radius: 0;
-    }
-    a {
-      color: $white;
-      img.active { display: flex; }
-      img.default { display: none; }
+      min-width: auto;
     }
   }
 
@@ -51,26 +55,20 @@
     color: $grey-light2;
     transition: $trans-default;
     text-decoration: none;
+    padding: $space-sm 1.5rem;
+    text-align: center;
+    line-height: 1.2;
 
     &:hover {
-      background: $blue-dark-hover;
-      border-radius: $base-border-radius;
       color: $white;
       @include for-size(lg) {
         border-radius: 0;
+        background: $blue-dark-hover;
       }
     }
 
-    @include for-size(sm) {
-      padding: $space-sm 0.5rem;
-    }
-
-    @include for-size(md) {
-      padding: $space-sm 3rem;
-    }
-
     @include for-size(lg) {
-      padding: $space-sm 1.5rem;
+      padding: $space-sm 2.75rem;
     }
   }
 }
@@ -84,6 +82,7 @@
     color: $grey;
     transition: $trans-default;
     text-decoration: none;
+    padding-left: 2.75rem;
   }
   li.active {
     background: $blue-darker;

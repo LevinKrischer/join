@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ContactWithInitials } from '../../../core/db/contacts.db';
 
 @Component({
@@ -9,4 +9,5 @@ import { ContactWithInitials } from '../../../core/db/contacts.db';
 })
 export class ContactHeader {
   @Input() contact: ContactWithInitials | null = null;
+  @Output() back = new EventEmitter<void>();
 }
