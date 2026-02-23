@@ -21,7 +21,11 @@ body {
 }
 
 div.container{
-  padding: 5rem 6rem;
+  padding: 3rem 2rem;
   max-width: 63.5rem;
   margin: 0;
+
+  @include for-size(lg) {
+    padding: 5rem 6rem;
+  }
 }
