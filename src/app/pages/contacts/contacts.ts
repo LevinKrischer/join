@@ -17,27 +17,38 @@ import { UserFeedbackComponent } from '../../shared/ui/user-feedback/user-feedba
 export class Contacts implements OnInit {
   @ViewChild('feedback') feedback!: UserFeedbackComponent;
 
-  groupedContacts = signal<GroupedContacts[]>([]);
   searchTerm = signal('');
   selected: ContactWithInitials | null = null;
   isMobileDetailOpen = false;
 
-  constructor(private contactsDb: ContactsDb) {}
+  constructor(private contactsDb: ContactsDb) { }
 
   /**
-   * Fetches contacts from the database and initializes the grouped contacts signal.
+   * Loads contacts from the database once on initialization.
+   * Realtime updates are handled automatically through computed signals.
    */
   async ngOnInit() {
     await this.contactsDb.getContacts();
-    this.groupedContacts.set(this.sortAndGroup(this.contactsDb.contacts()));
   }
 
   /**
-   * Filters grouped contacts by name, email, or phone when the search term is at least 3 characters.
+   * Groups and sorts contacts reactively based on the current contacts
+   * stored in the ContactsDb service. Automatically updates when contacts
+   * change (e.g., through realtime events, add, edit, delete).
+   */
+  groupedContacts = computed<GroupedContacts[]>(() => {
+    return this.sortAndGroup(this.contactsDb.contacts());
+  });
+
+  /**
+   * Filters grouped contacts by name, email, or phone when the search term
+   * is at least 3 characters. Automatically updates when either the search
+   * term or the underlying contacts change.
    */
   filteredContacts = computed(() => {
     const term = this.searchTerm().toLowerCase();
     if (term.length < 3) return this.groupedContacts();
+
     return this.groupedContacts()
       .map((group) => ({
         ...group,
@@ -52,9 +63,7 @@ export class Contacts implements OnInit {
   });
 
   /**
-   * Returns the uppercase initials from a full name (first and last name characters).
-   * @param name - The full name to extract initials from.
-   * @returns A string of up to two characters representing the initials.
+   * Extracts initials from a full name (first and last name characters).
    */
   private getInitials(name: string): string {
     const parts = name.split(' ');
@@ -64,8 +73,7 @@ export class Contacts implements OnInit {
 
   /**
    * Sorts contacts alphabetically by name and groups them by their first letter.
-   * @param contacts - The flat array of contacts to sort and group.
-   * @returns An array of grouped contacts, each group keyed by its letter.
+   * Each contact is enriched with computed initials.
    */
   private sortAndGroup(contacts: Contact[]): GroupedContacts[] {
     const sorted = [...contacts].sort((a, b) => a.name.localeCompare(b.name));
@@ -87,7 +95,6 @@ export class Contacts implements OnInit {
 
   /**
    * Handles the search input event and updates the search term signal.
-   * @param event - The native input event from the search field.
    */
   onSearch(event: Event) {
     const value = (event.target as HTMLInputElement).value;
@@ -96,7 +103,6 @@ export class Contacts implements OnInit {
 
   /**
    * Selects a contact and opens the mobile detail view.
-   * @param c - The contact to select.
    */
   selectContact(c: ContactWithInitials) {
     this.selected = c;
@@ -112,35 +118,35 @@ export class Contacts implements OnInit {
   }
 
   /**
-   * Performs an update per edit action at Supabase.
+   * Performs an update per edit action at Supabase and refreshes the selected contact.
+   * The groupedContacts signal updates automatically.
    */
   async editSelected() {
     if (!this.selected) return;
 
     await this.contactsDb.getContacts();
-    this.groupedContacts.set(this.sortAndGroup(this.contactsDb.contacts()));
 
     const updated = this.contactsDb.contacts().find(c => c.id === this.selected!.id);
     if (updated) {
       this.selected = { ...updated, initials: this.getInitials(updated.name) };
     }
 
-    this.feedback.show(`Contact '${this.selected.name}' has been updated!`);
+    this.feedback.show(`Contact '${this.selected?.name}' has been updated!`);
   }
 
   /**
    * Refreshes the contacts list from the database and shows a creation feedback message.
+   * The groupedContacts signal updates automatically.
    */
   async onContactAdded() {
     await this.contactsDb.getContacts();
-    this.groupedContacts.set(this.sortAndGroup(this.contactsDb.contacts()));
-
     this.feedback.show(`Contact has been created!`);
   }
 
   /**
-   * Deletes the currently selected contact, refreshes the grouped list,
-   * clears the selection, and shows a deletion feedback message.
+   * Deletes the currently selected contact, clears the selection,
+   * closes the mobile detail view, and shows a deletion feedback message.
+   * The groupedContacts signal updates automatically.
    */
   async deleteSelected() {
     if (!this.selected) return;
@@ -148,9 +154,6 @@ export class Contacts implements OnInit {
     const deletedName = this.selected.name;
 
     await this.contactsDb.deleteContact(this.selected.id);
-
-    const remaining = this.contactsDb.contacts().filter((c) => c.id !== this.selected!.id);
-    this.groupedContacts.set(this.sortAndGroup(remaining));
 
     this.selected = null;
     this.isMobileDetailOpen = false;

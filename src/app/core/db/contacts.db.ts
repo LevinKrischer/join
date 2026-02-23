@@ -95,8 +95,8 @@ export class ContactsDb {
     this.channels = this.supa.supabase.channel('custom-all-channel')
       .on('postgres_changes',
         { event: '*', schema: 'public', table: 'contacts' },
-        (payload) => {
-          console.log('Change received!', payload);
+        async () => {
+          await this.getContacts();
         }
       )
       .subscribe();
