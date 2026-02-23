@@ -1,11 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ContactWithInitials } from '../../../core/db/contacts.db';
 import { ContactEditFormComponent } from '../../../components/contact-edit-form/contact-edit-form';
 
 @Component({
   selector: 'app-contact-details',
-  imports: [ContactEditFormComponent, CommonModule],
+  imports: [ContactEditFormComponent],
   templateUrl: './contact-details.html',
   styleUrl: './contact-details.scss',
 })
@@ -14,6 +13,7 @@ export class ContactDetails {
   @Input() contact: ContactWithInitials | null = null;
   @Output() edit = new EventEmitter<ContactWithInitials>();
   @Output() remove = new EventEmitter<ContactWithInitials>();
+  @Output() back = new EventEmitter<void>();
 
   isContactModalOpen = false;
 

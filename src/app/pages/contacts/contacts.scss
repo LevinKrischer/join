@@ -6,4 +6,10 @@
   .right {
     width: 60%;
   }
+
+  @media (max-width: 991.98px) {
+    .right {
+      width: 100%;
+    }
+  }
 }

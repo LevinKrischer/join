@@ -1,5 +1,22 @@
 @use 'styles/variables' as *;
 
+.back-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: $blue-light;
+  padding: 0.5rem 0;
+
+  img {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
 .ContactDetails {
 
   >div:nth-child(3) {

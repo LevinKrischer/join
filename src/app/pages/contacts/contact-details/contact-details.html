@@ -1,8 +1,14 @@
 <!-- contact-details -->
 
 <div class="ContactDetails">
-  <app-contact-edit-form *ngIf="isContactModalOpen" [contact]="selectedContact" (closed)="closeModal()"
-    (saved)="onEditSaved()" (deleted)="onEditDeleted()" />
+  <button class="back-btn d-lg-none" (click)="back.emit()" aria-label="Back to list">
+    <img src="assets/icons/arrow-left-blue-32px.svg" alt="" aria-hidden="true" /> Back
+  </button>
+
+  @if (isContactModalOpen) {
+    <app-contact-edit-form [contact]="selectedContact" (closed)="closeModal()"
+      (saved)="onEditSaved()" (deleted)="onEditDeleted()" />
+  }
 
   @if (!contact) {
   <div>Select a contact to view details</div>
