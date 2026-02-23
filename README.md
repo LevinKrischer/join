@@ -35,7 +35,6 @@ Add to `angular.json`:
 
 ```json
 "styles": [
-  "node_modules/bootstrap/scss/bootstrap.scss",
   "src/styles.scss"
 ],
 "scripts": [
@@ -54,11 +53,19 @@ join/
 │       └── styles/
 ├── src/
 │   ├── app/
-│   │   ├── components/     # Reusable UI components
-│   │   ├── pages/          # Route-level components
-│   │   ├── services/       # Supabase & business logic
-│   │   ├── models/         # TypeScript interfaces
-│   │   └── shared/         # Directives, pipes, utilities
+│   │   ├── components/      # Reusable form components (add/edit contact)
+│   │   ├── core/            # Core utilities & services
+│   │   │   ├── constants/   # App-wide constants (colors, etc.)
+│   │   │   ├── db/          # Supabase database services
+│   │   │   └── utils/       # Validation & helper functions
+│   │   ├── interfaces/      # TypeScript interfaces & types
+│   │   ├── layout/          # Layout shell (header, navigation)
+│   │   ├── pages/           # Route-level components
+│   │   ├── services/        # Application-level services
+│   │   └── shared/          # Shared UI components
+│   │       └── ui/          # Button, Card, Input, Modal, Feedback
+│   ├── environments/        # Environment configuration
+│   ├── styles/              # Global style partials
 │   └── styles.scss
 ```
 
