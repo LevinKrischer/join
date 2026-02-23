@@ -24,7 +24,6 @@ export class ContactEditFormComponent {
 
   isSaving = false;
   isDeleting = false;
-
   errorMessage = '';
 
   form: Partial<Contact> = {
@@ -46,8 +45,8 @@ export class ContactEditFormComponent {
   };
 
   /**
-   * Updates the form values whenever the input `contact` changes.
-   * Ensures the edit form always reflects the currently selected contact.
+   * Updates the form whenever the input `contact` changes.
+   * Ensures the edit form always reflects the selected contact.
    */
   ngOnChanges() {
     if (!this.contact) return;
@@ -60,8 +59,8 @@ export class ContactEditFormComponent {
   }
 
   /**
-   * Marks a field as dirty and triggers validation for that field.
-   * @param field - The form field to mark as dirty.
+   * Marks a field as dirty and triggers validation.
+   * @param field - The field to mark as dirty.
    */
   markDirty(field: keyof typeof this.dirty) {
     this.dirty[field] = true;
@@ -69,8 +68,8 @@ export class ContactEditFormComponent {
   }
 
   /**
-   * Performs live validation on a field only if it has already been marked dirty.
-   * @param field - The form field to validate.
+   * Performs validation only if the field is already dirty.
+   * @param field - The field to validate.
    */
   liveValidate(field: keyof typeof this.dirty) {
     if (this.dirty[field]) {
@@ -79,9 +78,8 @@ export class ContactEditFormComponent {
   }
 
   /**
-   * Validates a specific form field and updates the corresponding error message.
-   * Uses shared validation utilities for name, email, and phone.
-   * @param field - The form field to validate.
+   * Validates a single field and updates its error message.
+   * @param field - The field to validate.
    */
   validateField(field: keyof typeof this.form) {
     if (!this.contact) return;
@@ -107,9 +105,8 @@ export class ContactEditFormComponent {
   }
 
   /**
-   * Checks whether the entire form is valid.
-   * Ensures all fields are filled and no validation errors remain.
-   * @returns True if the form is valid, otherwise false.
+   * Checks whether all fields contain valid values.
+   * @returns True if the form is valid.
    */
   isFormValid() {
     return (
@@ -124,64 +121,121 @@ export class ContactEditFormComponent {
 
   /**
    * Saves the updated contact.
-   * Validates all fields, updates the contact in the database,
-   * emits the `saved` event on success, and handles error states.
+   * Handles validation, saving, error states, and event emission.
    */
   async save() {
-    this.markDirty('name');
-    this.markDirty('email');
-    this.markDirty('phone');
-
+    this.markAllDirty();
     if (!this.isFormValid() || !this.contact) return;
 
-    this.isSaving = true;
-    this.errorMessage = '';
+    this.startSaving();
 
     try {
-      await this.db.updateContact(this.contact.id, {
-        name: String(this.form.name),
-        email: String(this.form.email),
-        phone: String(this.form.phone),
-      });
-
+      await this.updateContact();
       this.saved.emit();
-    } catch (error) {
-      console.error('Failed to update contact:', error);
-      this.errorMessage = 'Saving failed. Please check your connection or try again later.';
-      this.cdr.detectChanges();
+    } catch (err) {
+      this.handleSaveError(err);
     } finally {
-      this.isSaving = false;
+      this.finishSaving();
     }
   }
 
   /**
    * Deletes the current contact.
-   * Prevents duplicate delete actions, removes the contact from the database,
-   * and emits the `deleted` event on success.
+   * Prevents duplicate actions and handles errors.
    */
   async delete() {
     if (!this.contact || this.isDeleting) return;
 
-    this.isDeleting = true;
-    this.errorMessage = '';
+    this.startDeleting();
 
     try {
       await this.db.deleteContact(this.contact.id);
       this.deleted.emit();
-    } catch (error) {
-      console.error('Failed to delete contact:', error);
-      this.errorMessage = 'Deleting failed. Please check your connection or try again later.';
-      this.cdr.detectChanges();
+    } catch (err) {
+      this.handleDeleteError(err);
     } finally {
-      this.isDeleting = false;
+      this.finishDeleting();
     }
   }
 
   /**
-   * Emits the `closed` event to notify the parent component
-   * that the edit form should be closed without saving.
+   * Emits the `closed` event to close the form without saving.
    */
   onCancel() {
     this.closed.emit();
+  }
+
+  // ---------------------------------------------------------
+  // Unterfunktionen (Refactoring)
+  // ---------------------------------------------------------
+
+  /**
+   * Marks all fields as dirty to trigger full validation.
+   */
+  private markAllDirty() {
+    this.markDirty('name');
+    this.markDirty('email');
+    this.markDirty('phone');
+  }
+
+  /**
+   * Initializes the saving state.
+   */
+  private startSaving() {
+    this.isSaving = true;
+    this.errorMessage = '';
+  }
+
+  /**
+   * Sends the updated contact data to the database.
+   */
+  private async updateContact() {
+    return this.db.updateContact(this.contact!.id, {
+      name: String(this.form.name),
+      email: String(this.form.email),
+      phone: String(this.form.phone),
+    });
+  }
+
+  /**
+   * Handles errors during saving.
+   * @param err - The thrown error.
+   */
+  private handleSaveError(err: unknown) {
+    console.error('Failed to update contact:', err);
+    this.errorMessage = 'Saving failed. Please check your connection or try again later.';
+    this.cdr.detectChanges();
+  }
+
+  /**
+   * Finalizes the saving state.
+   */
+  private finishSaving() {
+    this.isSaving = false;
+  }
+
+  /**
+   * Initializes the deleting state.
+   */
+  private startDeleting() {
+    this.isDeleting = true;
+    this.errorMessage = '';
+  }
+
+  /**
+   * Handles errors during deletion.
+   * @param err - The thrown error.
+   */
+  private handleDeleteError(err: unknown) {
+    console.error('Failed to delete contact:', err);
+    this.errorMessage = 'Deleting failed. Please check your connection or try again later.';
+    this.cdr.detectChanges();
+  }
+
+  /**
+   * Finalizes the deleting state.
+   */
+  private finishDeleting() {
+    this.isDeleting = false;
   }
 }
