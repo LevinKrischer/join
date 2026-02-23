@@ -4,13 +4,13 @@ A collaborative task management system built with Angular 21 and Supabase, featu
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Frontend | Angular 21, TypeScript, SCSS |
-| UI Framework | Bootstrap 5 |
-| Backend | Supabase (BaaS) |
-| State Management | Angular Signals |
-| Version Control | Git (single main branch) |
+| Layer            | Technology                   |
+| ---------------- | ---------------------------- |
+| Frontend         | Angular 21, TypeScript, SCSS |
+| UI Framework     | Bootstrap 5                  |
+| Backend          | Supabase (BaaS)              |
+| State Management | Angular Signals              |
+| Version Control  | Git (single main branch)     |
 
 ## Quick Start
 
@@ -80,7 +80,7 @@ join/
 
 - Single Page Application (SPA)
 - Drag & drop task cards
-- Responsive design (320px – 1440px)
+- Responsive design (320px – 1920px)
 - Accessible HTML (WCAG compliant)
 - Contact management with form validation
 - Real-time updates via Signals
@@ -97,7 +97,7 @@ Create `src/environments/env.ts`:
 export const environment = {
   production: false,
   supabaseUrl: 'YOUR_SUPABASE_URL',
-  supabaseKey: 'YOUR_SUPABASE_ANON_KEY'
+  supabaseKey: 'YOUR_SUPABASE_ANON_KEY',
 };
 ```
 

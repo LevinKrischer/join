@@ -83,7 +83,7 @@ header {
   position: absolute;
   background: $blue-dark;
   border-radius: 1.5em 0em 1.5em 1.5em;
-  bottom: -8rem;
+  bottom: -11rem;
   right: 2rem;
   z-index: 9999;
 
@@ -121,5 +121,8 @@ header {
       color: $blue-link;
       border-radius: 1.5em 0em 1.5em 1.5em;
     }
+  }
+  @include for-size(lg) {
+    bottom: -9rem;
   }
 }
