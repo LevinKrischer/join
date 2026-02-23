@@ -34,6 +34,7 @@
 
   li{
     min-width: 4.75rem;
+    flex: 1;
     &.active {
       background: $blue-darker;
       border-radius: $navi-border-radius;
@@ -58,6 +59,7 @@
     padding: $space-sm 1.5rem;
     text-align: center;
     line-height: 1.2;
+    gap: 0.25rem;
 
     &:hover {
       color: $white;
