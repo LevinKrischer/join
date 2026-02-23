@@ -80,7 +80,7 @@ join/
 
 - Single Page Application (SPA)
 - Drag & drop task cards
-- Responsive design (320px – 1920px)
+- Responsive design (320px – 1440px)
 - Accessible HTML (WCAG compliant)
 - Contact management with form validation
 - Real-time updates via Signals
