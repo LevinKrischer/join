@@ -22,8 +22,10 @@ header {
 
 #slogan {
   color: $blue-dark;
-  padding-left: 1rem;
-  font-weight: normal;
+  padding-left: $space-md;
+  h5{
+    font-family: 'Inter-Regular';
+  }
   @include for-size(lg) {
     padding-left: 6rem;
   }
@@ -37,7 +39,7 @@ header {
 }
 
 #header-right {
-  padding-right: 1rem;
+  padding-right: $space-md;
   @include for-size(sm) {
     padding-right: 1.5rem;
   }
@@ -71,7 +73,7 @@ header {
 
     img {
       transition: $trans-default;
-      width: 32px;
+      width: $space-lg;
       height: auto;
     }
 
@@ -87,7 +89,7 @@ header {
   background: $blue-dark;
   border-radius: 1.5em 0em 1.5em 1.5em;
   bottom: -11rem;
-  right: 2rem;
+  right: $space-lg;
   z-index: 9999;
 
   // Startzustand: unsichtbar
@@ -106,11 +108,11 @@ header {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: $space-sm;
     text-decoration: none;
-    padding: 1rem;
+    padding: $space-md;
     @include for-size(lg) {
-      padding: 0.5rem 1rem 1rem 1rem;
+      padding: 0.5rem $space-md $space-md $space-md;
     }
   }
 
