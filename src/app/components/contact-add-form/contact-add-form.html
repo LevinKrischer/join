@@ -34,6 +34,7 @@
             [error]="errors.email"
             (blur)="markDirty('email')"
             (input)="liveValidate('email')"
+            [maxlength]="35"
           />
 
           <app-input-field
@@ -45,6 +46,7 @@
             [error]="errors.phone"
             (blur)="markDirty('phone')"
             (input)="liveValidate('phone')"
+            [maxlength]="15"
           />
 
           <div class="d-flex gap-4 mt-2 justify-content-center justify-content-lg-start">

@@ -1,7 +1,7 @@
 /**
  * Validates whether the given name consists of at least two words
  * (first name and last name), each containing only alphabetic characters.
- * Supports German umlauts and ß.
+ * Supports German umlauts, ß and hyphens.
  *
  * @param input - The full name string to validate.
  * @returns True if the name contains at least two valid alphabetic words, otherwise false.
@@ -11,7 +11,6 @@ export function isValidName(input: string): boolean {
 
   const trimmed = input.trim();
 
-  // Wörter: Buchstaben + optionaler Bindestrich zwischen Buchstaben
   const regex = /^[A-Za-zÄÖÜäöüß]+(?:-[A-Za-zÄÖÜäöüß]+)*(?:\s+[A-Za-zÄÖÜäöüß]+(?:-[A-Za-zÄÖÜäöüß]+)*)+$/;
 
   return regex.test(trimmed) && trimmed.length <= 30;
@@ -25,12 +24,16 @@ export function isValidName(input: string): boolean {
  */
 export function isValidEmail(input: string): boolean {
   if (!input) return false;
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.trim());
+
+  const trimmed = input.trim();
+
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed) && trimmed.length <= 35;
 }
+
 
 /**
  * Validates whether the given string is a valid phone number.
- * Accepts numbers with or without a leading "+" and requires at least 10 digits.
+ * Accepts numbers with or without a leading "+" and requires at least 10 digits and maximum 15 digits.
  * @param input - The phone number string to validate.
  * @returns True if the phone number is valid, otherwise false.
  */
@@ -39,10 +42,10 @@ export function isValidPhone(input: string): boolean {
 
   if (input.startsWith('+')) {
     const digits = input.slice(1);
-    return /^\d+$/.test(digits) && digits.length >= 10;
+    return /^\d+$/.test(digits) && digits.length >= 10 && digits.length <= 15;
   }
 
-  return /^\d+$/.test(input) && input.length >= 10;
+  return /^\d+$/.test(input) && input.length >= 10 && input.length <= 15;
 }
 
 /**

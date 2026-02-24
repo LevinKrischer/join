@@ -83,17 +83,17 @@ export class ContactAddFormComponent {
 
     switch (field) {
       case 'name':
-        this.errors.name = isValidName(value) ? '' : 'Please enter first and last name.';
+        this.errors.name = isValidName(value) ? '' : 'Please enter first and last name with maximum 30 letters.';
         break;
 
       case 'email':
-        this.errors.email = isValidEmail(value) ? '' : 'Please enter a valid email address.';
+        this.errors.email = isValidEmail(value) ? '' : 'Please enter a valid email address with maximum 35 characters.';
         break;
 
       case 'phone':
         this.errors.phone = isValidPhone(value)
           ? ''
-          : 'Please enter at least 10 digits using numbers only (a leading + is allowed).';
+          : 'Please enter 10 to 15 digits using numbers only (a leading + is allowed).';
         break;
     }
   }

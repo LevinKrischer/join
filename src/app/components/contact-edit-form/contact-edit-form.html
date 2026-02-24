@@ -18,13 +18,13 @@
         <form (ngSubmit)="save()"
           class="mt-5 mt-lg-0 d-flex flex-column gap-0 px-lg-2 gap-lg-2 modal-content-area w-100 w-lg-75">
           <app-input-field type="text" label="Name" placeholder="Name" icon="assets/icons/form-person-24px.svg"
-            [(model)]="form.name" [maxlength]="30" [error]="errors.name" (blur)="markDirty('name')" (input)="liveValidate('name')" />
+            [(model)]="form.name" [maxlength]="30" [error]="errors.name" (blur)="markDirty('name')" (input)="liveValidate('name')" [maxlength]="30"/>
 
           <app-input-field type="email" label="Email" placeholder="Email" icon="assets/icons/form-mail-24px.svg"
-            [(model)]="form.email" [error]="errors.email" (blur)="markDirty('email')" (input)="liveValidate('email')" />
+            [(model)]="form.email" [error]="errors.email" (blur)="markDirty('email')" (input)="liveValidate('email')" [maxlength]="35"/>
 
           <app-input-field type="tel" label="Phone" placeholder="Phone" icon="assets/icons/form-phone-24px.svg"
-            [(model)]="form.phone" [error]="errors.phone" (blur)="markDirty('phone')" (input)="liveValidate('phone')" />
+            [(model)]="form.phone" [error]="errors.phone" (blur)="markDirty('phone')" (input)="liveValidate('phone')" [maxlength]="15"/>
 
           <div class="d-flex gap-4 mt-2 justify-content-center justify-content-lg-start">
             <ui-button type="button" variant="secondary" icon="cancel" class="d-none d-lg-inline-flex"
