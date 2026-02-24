@@ -11,10 +11,9 @@ export function isValidName(input: string): boolean {
 
   const trimmed = input.trim();
 
-  // Mindestens zwei Wörter, jeweils nur Buchstaben (inkl. Umlaute) und mindestens 1 Zeichen lang
   const regex = /^[A-Za-zÄÖÜäöüß]+(?:\s+[A-Za-zÄÖÜäöüß]+)+$/;
 
-  return regex.test(trimmed);
+  return regex.test(trimmed) && trimmed.length <= 30;
 }
 
 /**

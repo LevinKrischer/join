@@ -83,7 +83,7 @@ export class ContactAddFormComponent {
 
     switch (field) {
       case 'name':
-        this.errors.name = isValidName(value) ? '' : 'Name may only contain letters.';
+        this.errors.name = isValidName(value) ? '' : 'Name must contain at least first and last name, using letters only (max 30 characters).';
         break;
 
       case 'email':
