@@ -3,8 +3,8 @@
 
   <div class="inputWrapper" [class.hasError]="error">
     <input [id]="label" class="form-control" [type]="type" [placeholder]="placeholder" [value]="model ?? ''"
-      (input)="onInput($event)" (blur)="blur.emit()" aria-invalid="{{ !!error }}"
-      [attr.aria-describedby]="label + 'Error'" />
+      (input)="onInput($event)" (blur)="blur.emit()" aria-invalid="{{ !!error }}" [attr.aria-describedby]="label + 'Error'"
+      [attr.maxlength]="maxlength" />
 
     @if (icon) {
     <img class="inputIcon" [src]="icon" width="24" height="24" aria-hidden="true" />

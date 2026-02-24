@@ -11,10 +11,12 @@ export function isValidName(input: string): boolean {
 
   const trimmed = input.trim();
 
-  const regex = /^[A-Za-zÄÖÜäöüß]+(?:\s+[A-Za-zÄÖÜäöüß]+)+$/;
+  // Wörter: Buchstaben + optionaler Bindestrich zwischen Buchstaben
+  const regex = /^[A-Za-zÄÖÜäöüß]+(?:-[A-Za-zÄÖÜäöüß]+)*(?:\s+[A-Za-zÄÖÜäöüß]+(?:-[A-Za-zÄÖÜäöüß]+)*)+$/;
 
   return regex.test(trimmed) && trimmed.length <= 30;
 }
+
 
 /**
  * Validates whether the given string is a properly formatted email address.

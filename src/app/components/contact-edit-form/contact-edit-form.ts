@@ -89,7 +89,7 @@ export class ContactEditFormComponent {
 
     switch (field) {
       case 'name':
-        this.errors.name = isValidName(value) ? '' : 'Name may only contain letters.';
+        this.errors.name = isValidName(value) ? '' : 'Please enter first and last name.';
         break;
 
       case 'email':

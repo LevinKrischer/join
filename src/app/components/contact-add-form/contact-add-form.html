@@ -19,16 +19,11 @@
           </div>
         </div>
         <form (ngSubmit)="submit()" class="mt-5 mt-lg-0 d-flex flex-column gap-0 px-lg-2 gap-lg-2 modal-content-area w-100 w-lg-75">
-          <app-input-field
-            type="text"
-            label="Name"
-            placeholder="Name"
-            icon="assets/icons/form-person-24px.svg"
-            [(model)]="form.name"
-            [error]="errors.name"
-            (blur)="markDirty('name')"
-            (input)="liveValidate('name')"
-          />
+          <app-input-field type="text" label="Name" placeholder="Name" icon="assets/icons/form-person-24px.svg"
+            [(model)]="form.name" [error]="errors.name" (blur)="markDirty('name')" (input)="liveValidate('name')"
+            [maxlength]="30" />
+
+
 
           <app-input-field
             type="email"

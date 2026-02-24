@@ -18,6 +18,8 @@ export class InputFieldComponent {
   @Input() value = '';
   @Input() icon: string | null = null;
   @Input() error: string | null = null;
+  @Input() maxlength: number | null = null;
+
 
   @Input() model: any;
   @Output() modelChange = new EventEmitter<any>();
