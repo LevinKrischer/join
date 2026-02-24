@@ -22,11 +22,7 @@
 
       <ul>
         @for (c of group.contacts; track c.id) {
-          <li
-            class="contacts__item"
-            (click)="select.emit(c)"
-            [class.Active]="selectedId === c.id"
-          >
+          <li class="contacts__item" (click)="select.emit(c)" [class.Active]="selectedId === c.id">
             <abbr
               class="initialism d-flex d-inline-flex align-items-center justify-content-center rounded-circle"
               [title]="c.name"
@@ -50,5 +46,4 @@
       <img src="assets/icons/person-add-white-32px.svg" alt="" aria-hidden="true" />
     </ui-button>
   </aside>
-
 </main>

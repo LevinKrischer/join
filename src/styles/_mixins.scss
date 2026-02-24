@@ -29,3 +29,10 @@
     @media (min-width: 1400px) { @content; }
   }
 }
+
+@mixin text-overflow{
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

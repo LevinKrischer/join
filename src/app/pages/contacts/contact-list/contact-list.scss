@@ -1,6 +1,7 @@
 /* contact-list.scss */
 
 @use 'styles/variables' as *;
+@use 'styles/mixins' as mixins;
 
 .contact-list {
   padding: 0.6rem 1.5rem;
@@ -152,10 +153,12 @@ ui-button {
 
   &__name {
     font-size: 1.1rem;
+    @include mixins.text-overflow;
   }
 
   &__email {
     color: $blue-link;
+    @include mixins.text-overflow;
   }
 
 }
