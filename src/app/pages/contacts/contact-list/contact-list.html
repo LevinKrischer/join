@@ -10,12 +10,6 @@
       Add new contact
       <img src="assets/icons/person-add-white-32px.svg" alt="" aria-hidden="true" />
     </ui-button>
-
-    <app-input-field type="text" label="Search" placeholder="Search contacts" icon="assets/icons/search-32px.svg"
-      [error]="searchError"
-      (inputChange)="onSearchInput($event)"
-    />
-
   </header>
 
   @for (group of groups; track group.letter) {
@@ -52,22 +46,9 @@
 
   <!-- Mobile: FAB buttons (hidden on lg+) -->
   <aside class="fab-container d-lg-none" aria-label="Quick actions">
-    <div class="fab-search-row">
-      @if (isMobileSearchOpen) {
-        <search class="mobile-search">
-          <app-input-field type="text" label="Search" placeholder="Search contacts" icon="assets/icons/search-32px.svg"
-            [error]="searchError"
-            (inputChange)="onSearchInput($event)"
-          />
-        </search>
-      }
-      <ui-button class="search-input" variant="fab-secondary" (click)="isMobileSearchOpen = !isMobileSearchOpen">
-        <img src="assets/icons/search-32px.svg" alt="" aria-hidden="true" />
-      </ui-button>
-    </div>
-
     <ui-button variant="fab-primary" (click)="openModal()">
       <img src="assets/icons/person-add-white-32px.svg" alt="" aria-hidden="true" />
     </ui-button>
   </aside>
+
 </main>
