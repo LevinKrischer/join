@@ -13,10 +13,11 @@
 
   @media (max-width: 992px) {
     max-width: none;
+    padding-bottom: 5rem;
   }
 
   @media (max-width: 375px) {
-    padding: 1rem 0.5rem;
+    padding: 1rem 0.5rem 5rem;
   }
 }
 
