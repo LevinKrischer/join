@@ -12,6 +12,10 @@
   @media (max-width: 992px) {
     max-width: none;
   }
+
+  @media (max-width: 375px) {
+    padding: 1rem 0.5rem;
+  }
 }
 
 .sticky-top {
@@ -109,6 +113,8 @@ ui-button {
   abbr {
     width: 2.625rem;
     height: 2.625rem;
+    min-width: 2.625rem;
+    min-height: 2.625rem;
     text-decoration: none;
     border: 0.125rem solid $white;
   }
@@ -121,6 +127,11 @@ ui-button {
     cursor: pointer;
     border-radius: $base-border-radius;
     transition: $trans-default;
+
+    @media (max-width: 375px) {
+        gap: 0.75em;
+        padding: 0.5em
+      }
 
     &:hover {
       background: linear-gradient(to bottom, #F9F9F9, #F0F0F0);
@@ -135,6 +146,8 @@ ui-button {
       }
     }
   }
+
+
 
   &__name {
     font-size: 1.1rem;
@@ -179,11 +192,4 @@ ui-button {
 .mobile-search {
   flex: 1;
   max-width: 11rem;
-}
-
-// hide contact-initials Edge-Case because email-adresse won't fit the width
-@media screen and (max-width: 375px) {
-  .initialism{
-    display: none !important;
-  }
 }
