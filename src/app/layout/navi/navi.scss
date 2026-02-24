@@ -37,13 +37,9 @@
   }
 
   li {
-    max-width: 8rem;
+    max-width: 6.5rem;
     flex: 1;
     border-radius: $navi-border-radius;
-
-    &:hover {
-      background-color: $blue-dark-hover;
-    }
 
     &.active {
       background: $blue-darker;
@@ -100,7 +96,7 @@
 
     @include for-size(sm) {
       font-size: 1rem;
-      padding: $space-sm 1.5rem;
+      padding: $space-sm 1rem;
     }
 
     @include for-size(lg) {
