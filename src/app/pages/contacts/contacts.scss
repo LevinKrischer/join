@@ -1,16 +1,23 @@
-@use 'styles/mixins' as *;
-
 .ContactsLayout {
   display: flex;
   height: 100%;
   overflow-x: hidden;
 
   .right {
-    padding: 2rem 2rem;
-    width: 100%;
+    width: 60%;
+    padding: 5rem 2rem 2rem 3.375rem;
+  }
 
-    @include for-size(lg) {
-      padding: 5rem 3.375rem 2rem 3.375rem;
+  @media (max-width: 992px) {
+
+    .left,
+    .right {
+      padding: 3rem 2rem;
+      width: 100%;
+    }
+
+    .left {
+      padding: 0;
     }
 
   }
