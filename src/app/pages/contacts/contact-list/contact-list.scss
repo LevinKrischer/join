@@ -119,6 +119,7 @@ ui-button {
     min-width: 2.625rem;
     min-height: 2.625rem;
     text-decoration: none;
+    color: $white;
     border: 0.125rem solid $white;
   }
 
@@ -142,7 +143,7 @@ ui-button {
 
     &:active,
     &.Active {
-      background: $blue-darker;
+      background: $blue-dark;
 
       .contacts__name {
         color: $white;
