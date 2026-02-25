@@ -45,3 +45,6 @@ Thumbs.db
 
 # environments
 /src/environments/
+
+# notes
+/src/notes.txt
