@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy, computed, inject, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TasksDb, Task } from '../../core/db/tasks.db';
+import { InputFieldComponent } from '../../shared/ui/input-field/input-field';
+import { Button } from '../../shared/ui/button/button';
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, InputFieldComponent, Button],
   templateUrl: './board.html',
   styleUrl: './board.scss',
 })

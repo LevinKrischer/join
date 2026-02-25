@@ -18,7 +18,7 @@
 
     <div class="contact-info">
       <div class="contact-name force-wrap-truncate">
-        {{ contact.name }}
+        {{ contact.name | truncate }}
       </div>
 
       <div class="contact-actions d-none d-sm-flex">
@@ -60,7 +60,7 @@
     <div>
       <label>Email</label>
       <div>
-        <a class="force-wrap-truncate" href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+        <a class="force-wrap-truncate" href="mailto:{{ contact.email }}">{{ contact.email | truncate }}</a>
       </div>
     </div>
 

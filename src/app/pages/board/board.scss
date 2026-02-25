@@ -1,0 +1,16 @@
+/* board.scss */
+
+.board {
+  padding: 5rem 5.5rem 5rem 4rem;
+
+  &__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    ::ng-deep app-input-field {
+      margin-bottom: 0;
+    }
+  }
+}
