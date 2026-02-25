@@ -19,6 +19,7 @@ export interface GroupedContacts {
   contacts: ContactWithInitials[];
 }
 
+
 @Injectable({ providedIn: 'root' })
 export class ContactsDb {
 

@@ -1,4 +1,13 @@
-<div class="container">
-  <h2>Board</h2>
-  <p>Hier werden alle Tasks im Kanban-Board angezeigt.</p>
-</div>
+<main class="board">
+  <header class="board__header">
+    <h2>Board</h2>
+    <nav class="d-flex align-items-center gap-5" aria-label="Board actions">
+      <app-input-field type="text" label="Search tasks" placeholder="Find task" icon="assets/icons/search-32px.svg" />
+      <ui-button type="button" variant="primary" icon="add">Add task</ui-button>
+    </nav>
+  </header>
+
+  <section class="task-board border rounded p-4" aria-label="Task board">
+    <p>Task section with task cards!</p>
+  </section>
+</main>

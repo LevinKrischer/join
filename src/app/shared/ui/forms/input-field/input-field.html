@@ -11,7 +11,9 @@
     }
   </div>
 
+  @if (error) {
   <div class="text-danger small ps-2 errorMessage" [id]="label + 'Error'" role="alert">
     {{ error }}
   </div>
+  }
 </div>
