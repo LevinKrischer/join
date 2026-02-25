@@ -1,4 +1,76 @@
 <div class="container">
   <h2>Add Task</h2>
-  <p>Hier können neue Tasks erstellt werden.</p>
+
+  <form>
+    <div class="row">
+      <div class="col-12 col-lg-5">
+        <div class="mb-3">
+          <label for="Title" class="form-label">Title</label>
+          <app-input-field type="text" id="Title" placeholder="Enter title" [maxlength]="30" />
+        </div>
+
+        <div class="mb-3">
+          <label for="Description" class="form-label">Description</label>
+          <textarea
+            id="Description"
+            class="form-control"
+            rows="3"
+            placeholder="Enter description"
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="Due-Date" class="form-label">Due Date</label>
+          <input type="date" id="Due-Date" class="form-control" />
+        </div>
+      </div>
+
+      <div class="col-lg-1 d-none d-lg-flex justify-content-center">
+        <div class="vr"></div>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <div class="mb-3">
+          <label class="form-label d-block">Priority</label>
+          <div class="d-flex gap-2">
+            <ui-button type="button" variant="urgent" icon="urgent">Urgent</ui-button>
+            <ui-button type="button" variant="medium" icon="medium">Medium</ui-button>
+            <ui-button type="button" variant="low" icon="low">Low</ui-button>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="Assignment" class="form-label">Assigned To</label>
+          <select class="form-select" id="Assignment">
+            <option selected disabled>Select contacts to assign</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="Category" class="form-label">Category</label>
+          <select class="form-select" id="Category">
+            <option selected disabled>Select task category</option>
+            <option value="1">Technical</option>
+            <option value="2">User Story</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="Subtasks" class="form-label">Subtasks</label>
+          <app-input-field type="text" id="Subtasks" placeholder="Add new subtasks" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-12 d-flex justify-content-center justify-content-lg-end gap-3">
+        <ui-button type="button" variant="secondary" class="d-none d-lg-inline-flex">
+          Cancel
+        </ui-button>
+        <ui-button type="submit" variant="primary">Create Task</ui-button>
+      </div>
+    </div>
+  </form>
 </div>

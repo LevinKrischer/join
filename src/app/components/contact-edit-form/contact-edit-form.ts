@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, inject, ChangeDetectorRef } fro
 import { FormsModule } from '@angular/forms';
 import { ContactsDb, Contact, ContactWithInitials } from './../../core/db/contacts.db';
 import { isValidName, isValidEmail, isValidPhone } from '../../core/utils/validation';
-import { InputFieldComponent } from '../../shared/ui/input-field/input-field';
+import { InputFieldComponent } from '../../shared/ui/forms/input-field/input-field';
 import { ModalWrapper } from '../../shared/ui/modal-wrapper/modal-wrapper';
 import { Button } from '../../shared/ui/button/button';
 
@@ -89,11 +89,15 @@ export class ContactEditFormComponent {
 
     switch (field) {
       case 'name':
-        this.errors.name = isValidName(value) ? '' : 'Please enter first and last name with maximum 30 letters.';
+        this.errors.name = isValidName(value)
+          ? ''
+          : 'Please enter first and last name with maximum 30 letters.';
         break;
 
       case 'email':
-        this.errors.email = isValidEmail(value) ? '' : 'Please enter a valid email address with maximum 35 characters.';
+        this.errors.email = isValidEmail(value)
+          ? ''
+          : 'Please enter a valid email address with maximum 35 characters.';
         break;
 
       case 'phone':

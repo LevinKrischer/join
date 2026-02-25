@@ -4,7 +4,7 @@ import { Component, EventEmitter, Output, inject, ChangeDetectorRef } from '@ang
 import { FormsModule } from '@angular/forms';
 import { isValidName, isValidEmail, isValidPhone } from '../../core/utils/validation';
 import { ModalWrapper } from '../../shared/ui/modal-wrapper/modal-wrapper';
-import { InputFieldComponent } from '../../shared/ui/input-field/input-field';
+import { InputFieldComponent } from '../../shared/ui/forms/input-field/input-field';
 import { Button } from '../../shared/ui/button/button';
 
 @Component({
@@ -43,10 +43,10 @@ export class ContactAddFormComponent {
   };
 
   /**
- * Selects a random color from the predefined CONTACT_COLORS list.
- * Used to assign a visual identifier to newly created contacts.
- * @returns {string} A randomly selected color value.
- */
+   * Selects a random color from the predefined CONTACT_COLORS list.
+   * Used to assign a visual identifier to newly created contacts.
+   * @returns {string} A randomly selected color value.
+   */
   private getRandomColor() {
     const index = Math.floor(Math.random() * CONTACT_COLORS.length);
     return CONTACT_COLORS[index];
@@ -83,11 +83,15 @@ export class ContactAddFormComponent {
 
     switch (field) {
       case 'name':
-        this.errors.name = isValidName(value) ? '' : 'Please enter first and last name with maximum 30 letters.';
+        this.errors.name = isValidName(value)
+          ? ''
+          : 'Please enter first and last name with maximum 30 letters.';
         break;
 
       case 'email':
-        this.errors.email = isValidEmail(value) ? '' : 'Please enter a valid email address with maximum 35 characters.';
+        this.errors.email = isValidEmail(value)
+          ? ''
+          : 'Please enter a valid email address with maximum 35 characters.';
         break;
 
       case 'phone':
@@ -177,8 +181,7 @@ export class ContactAddFormComponent {
    */
   private handleSaveError(err: unknown) {
     console.error('Saving failed:', err);
-    this.errorMessage =
-      'Saving failed. Please check your connection or try again later.';
+    this.errorMessage = 'Saving failed. Please check your connection or try again later.';
     this.cdr.detectChanges();
   }
 

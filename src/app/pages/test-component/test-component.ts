@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ContactAddFormComponent } from './../../components/contact-add-form/contact-add-form';
 import { Component } from '@angular/core';
 import { Button } from '../../shared/ui/button/button';
-import { InputFieldComponent } from '../../shared/ui/input-field/input-field';
+import { InputFieldComponent } from '../../shared/ui/forms/input-field/input-field';
 
 /**
  * A testing or demonstration component used to orchestrate UI elements.
