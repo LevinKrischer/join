@@ -40,12 +40,8 @@
         </div>
 
         <div class="mb-3">
-          <label for="Assignment" class="form-label">Assigned To</label>
-          <select class="form-select" id="Assignment">
-            <option selected disabled>Select contacts to assign</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-          </select>
+          <label class="form-label">Assigned To</label>
+          <app-contact-picker [contacts]="contactsDb.contacts()" (selectedIdsChange)="onContactsSelected($event)"/>
         </div>
 
         <div class="mb-3">

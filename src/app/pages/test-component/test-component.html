@@ -34,6 +34,7 @@
   <div class="d-flex column gap-3 mt-3">
     <app-input-field type="email" label="Email" placeholder="Form input" icon="assets/icons/form-mail-24px.svg" />
     <app-input-field type="email" label="Email" placeholder="Search input" icon="assets/icons/search-32px.svg" />
+    <app-contact-picker [contacts]="contactsDb.contacts()" (selectedIdsChange)="onContactsSelected($event)"/>
   </div>
 
   <h2>TEST</h2>

@@ -2,12 +2,13 @@ import { Component, computed, signal, OnInit, inject, Output, EventEmitter } fro
 import { CommonModule } from '@angular/common';
 import { TasksDb, Task } from '../../../core/db/tasks.db';
 import { TaskCardComponent } from '../task-card/task-card';
+import { HorizontalScrollDirective } from "../../../services/horizontal-scroll.directive";
 
 
 @Component({
   selector: 'app-task-board',
   standalone: true,
-  imports: [CommonModule, TaskCardComponent],
+  imports: [CommonModule, TaskCardComponent, HorizontalScrollDirective],
   templateUrl: './task-board.html',
   styleUrls: ['./task-board.scss'],
 })

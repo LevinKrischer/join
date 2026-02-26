@@ -48,6 +48,10 @@
       margin-right: calc(-1.625rem / 2);
     }
   }
+
+  & * {
+    scrollbar-width: none;
+  }
 }
 
 .taskboard-scroll {
@@ -60,6 +64,7 @@
     overflow-x: hidden;
     gap: unset;
     --bs-gutter-x: 1.625rem;
+    scrollbar-width: none;
   }
 }
 
@@ -93,5 +98,16 @@ h2 {
   @include for-size(lg) {
     width: 1.5rem;
     height: 1.5rem;
+  }
+}
+
+.task-item {
+  max-width: 16rem;
+  min-width: 16rem;
+
+  @include for-size(lg) {
+    max-width: unset;
+    min-width: unset;
+    width: 100%;
   }
 }

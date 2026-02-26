@@ -15,10 +15,11 @@
   padding: 0.75rem;
   transition: $trans-default;
   font-weight: 400;
+  height: 3rem;
 
   @include for-size(lg) {
-      padding: 0.75rem 1rem ;
-    }
+    padding: 0.75rem 1rem;
+  }
 
   &:hover {
     filter: $sh-stronger;
@@ -93,7 +94,9 @@
     border: none;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 
-    &:active { background-color: $blue-light; }
+    &:active {
+      background-color: $blue-light;
+    }
   }
 
   &--fab-secondary {
@@ -104,7 +107,10 @@
     &:active {
       border-color: $blue-light;
       filter: none;
-      img { filter: invert(56%) sepia(81%) saturate(560%) hue-rotate(161deg) brightness(93%) contrast(90%); }
+
+      img {
+        filter: invert(56%) sepia(81%) saturate(560%) hue-rotate(161deg) brightness(93%) contrast(90%);
+      }
     }
   }
 

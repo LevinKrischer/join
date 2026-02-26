@@ -1,4 +1,5 @@
 @use 'styles/mixins' as *;
+@use 'styles/variables' as *;
 
 .board {
   padding: 3rem 1rem;
@@ -21,13 +22,27 @@
   &__header {
     width: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
 
-    ::ng-deep app-input-field {
-      margin-bottom: 0;
+    .header-headline {
+      margin-bottom: 2.5rem;
+    }
+
+    nav {
+      gap: 2rem;
+    }
+
+    @include for-size(lg) {
+      flex-direction: row;
+      justify-content: space-between;
     }
   }
+}
+
+.board-list-add-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: $blue-dark;
 }
 
 .modal-backdrop {
@@ -115,5 +130,12 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+.task-board {
+
+  @include for-size (lg) {
+    margin: 0 calc(-1.625rem / 2);
   }
 }
