@@ -43,6 +43,11 @@ export class Button {
    */
   @Input() icon: 'without' | 'add' | 'create' | 'cancel' | 'urgent' | 'medium' | 'low' = 'without';
 
+  /** * Whether the button appears in its active/selected state.
+   * @default false
+   */
+  @Input() active = false;
+
   /** * Whether the button is disabled and non-interactive.
    * @default false
    */

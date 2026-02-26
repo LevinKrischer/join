@@ -67,7 +67,8 @@
     background-color: $white;
     filter: $sh-stronger;
 
-    &:active {
+    &:active,
+    &.active {
       color: $white;
       font-weight: bold;
       filter: none;
@@ -160,7 +161,8 @@
   }
 
   &.icon--low {
-    &:active {
+    &:active,
+    &.active {
       background-color: $green;
     }
 
@@ -168,13 +170,15 @@
       background-image: url('/assets/icons/prio-low-20px.svg');
     }
 
-    &:active::after {
+    &:active::after,
+    &.active::after {
       background-image: url('/assets/icons/prio-low-white-20px.svg');
     }
   }
 
   &.icon--medium {
-    &:active {
+    &:active,
+    &.active {
       background-color: $orange;
     }
 
@@ -182,13 +186,15 @@
       background-image: url('/assets/icons/prio-medium-20px.svg');
     }
 
-    &:active::after {
+    &:active::after,
+    &.active::after {
       background-image: url('/assets/icons/prio-medium-white-20px.svg');
     }
   }
 
   &.icon--urgent {
-    &:active {
+    &:active,
+    &.active {
       background-color: $red;
     }
 
@@ -196,7 +202,8 @@
       background-image: url('/assets/icons/prio-urgent-20px.svg');
     }
 
-    &:active::after {
+    &:active::after,
+    &.active::after {
       background-image: url('/assets/icons/prio-urgent-white-20px.svg');
     }
   }
