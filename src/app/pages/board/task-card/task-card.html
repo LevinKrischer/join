@@ -11,11 +11,21 @@
     <span class="category">{{ task.category }}</span>
   </div>
 
-  <div class="assigned" *ngIf="task.contacts.length">
-    {{ assignedNames }}
+  <!-- place avatars at end of row -->
+  <div class="avatars" *ngIf="task.contacts.length">
+    <span *ngFor="let c of task.contacts" class="avatar" [style.background]="c.color">
+      {{ initials(c.name) }}
+    </span>
   </div>
 
-  <div class="subtasks" *ngIf="task.subtasks.length">
-    <small>{{ completedSubtasks }}</small>
+  <div class="info-row" *ngIf="task.subtasks.length || task.contacts.length">
+    <div class="progress-container" *ngIf="task.subtasks.length">
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="subtaskPercent"></div>
+      </div>
+      <small>{{ completedSubtasks }}</small>
+    </div>
+
+
   </div>
 </div>

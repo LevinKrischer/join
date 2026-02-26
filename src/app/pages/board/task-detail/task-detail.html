@@ -1,0 +1,48 @@
+<div class="task-detail">
+    <div class="category-badge" [style.background]="categoryColor" *ngIf="task?.category">
+        {{ task.category }}
+    </div>
+
+    <p class="task-description" *ngIf="task?.description">
+        {{ task.description }}
+    </p>
+
+    <div class="detail-meta">
+        <div class="meta-item">
+            <strong>Due date:</strong> {{ task?.due_date }}
+        </div>
+        <div class="meta-item">
+            <strong>Priority:</strong>
+            <span class="priority" [ngClass]="task?.priority">{{ task?.priority }}</span>
+        </div>
+    </div>
+
+    <div class="detail-section" *ngIf="task?.contacts?.length">
+        <h3>Assigned To:</h3>
+        <div class="contacts-list">
+            <div class="contact-item" *ngFor="let contact of task.contacts">
+                <span class="contact-avatar" [style.background]="contact.color">
+                    {{ initials(contact.name) }}
+                </span>
+                <span class="contact-name">{{ contact.name }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-section" *ngIf="task?.subtasks?.length">
+        <h3>Subtasks</h3>
+        <div class="subtasks-list">
+            <div class="subtask-item" *ngFor="let subtask of task.subtasks">
+                <input type="checkbox" [checked]="subtask.done" disabled class="subtask-checkbox" />
+                <span class="subtask-title" [class.done]="subtask.done">
+                    {{ subtask.title }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <button class="action-btn delete" title="Delete task">🗑 Delete</button>
+        <button class="action-btn edit" title="Edit task">✏ Edit</button>
+    </div>
+</div>
