@@ -46,7 +46,7 @@ export class TaskAddFormComponent {
 
   isSaving = false;
 
-  form: Omit<Task, 'id' | 'contacts' | 'created_at' | 'modified_at' | 'order'> = {
+  form: Omit<Task, 'id' | 'contacts' | 'created_at' | 'modified_at' | 'order' | 'category'> & { category: Task['category'] | '' } = {
     title: '',
     description: '',
     due_date: '',
@@ -194,7 +194,10 @@ export class TaskAddFormComponent {
   }
 
   private async saveTask() {
-    return this.tasksDb.createTask(this.form, this.selectedContactIds);
+    return this.tasksDb.createTask(
+      this.form as Omit<Task, 'id' | 'contacts' | 'created_at' | 'modified_at' | 'order'>,
+      this.selectedContactIds,
+    );
   }
 
   private handleSaveError(err: unknown) {

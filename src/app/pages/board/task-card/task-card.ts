@@ -63,6 +63,7 @@ export class TaskCardComponent {
         if (!this.task?.category) {
             return '';
         }
+        console.log(this.task.category.toLowerCase().replace(/\s+/g, '-'));
         return this.task.category.toLowerCase().replace(/\s+/g, '-');
     }
 
