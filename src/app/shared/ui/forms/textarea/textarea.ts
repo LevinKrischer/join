@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'ui-textarea',
@@ -11,6 +11,14 @@ export class Textarea {
   @Input() id: string = '';
   @Input() placeholder: string = '';
   @Input() rows: number = 3;
-  @Input() value: string = '';
+  @Input() maxlength: number | null = null;
   @Input() errorMessage: string = '';
+
+  @Input() model: string = '';
+  @Output() modelChange = new EventEmitter<string>();
+
+  onInput(event: Event) {
+    const value = (event.target as HTMLTextAreaElement).value;
+    this.modelChange.emit(value);
+  }
 }

@@ -34,8 +34,10 @@ export class InputFieldComponent {
   ngOnInit() {
     if (this.type === 'date' && !this.minDate) {
       const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      this.minDate = today.toISOString().split('T')[0];
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      this.minDate = `${yyyy}-${mm}-${dd}`;
     }
   }
 }

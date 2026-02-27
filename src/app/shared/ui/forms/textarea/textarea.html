@@ -8,6 +8,9 @@
     [attr.placeholder]="placeholder"
     [attr.rows]="rows"
     class="form-control"
+    [attr.maxlength]="maxlength"
+    [value]="model"
+    (input)="onInput($event)"
   ></textarea>
 
   @if (errorMessage) {

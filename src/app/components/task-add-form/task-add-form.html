@@ -24,35 +24,24 @@
           />
         </div>
 
-        <div class="mb-3">
-          <label for="Description" class="form-label">Description</label>
-          <ui-textarea
-            id="Description"
-            label="Description"
-            placeholder="Description"
-            [rows]="5"
-          ></ui-textarea>
-        </div>
+        <ui-textarea
+          id="Description"
+          label="Description"
+          placeholder="Description"
+          [rows]="5"
+          [maxlength]="200"
+          [(model)]="form.description"
+        ></ui-textarea>
 
-        <div class="mb-3">
-          <label for="Due-Date" class="form-label"
-            >Due Date<span class="text-danger">*</span></label
-          >
-          <input
-            type="date"
-            id="Due-Date"
-            class="form-control"
-            [(ngModel)]="form.due_date"
-            name="due_date"
-            [class.is-invalid]="errors['due_date']"
-            (blur)="markDirty('due_date')"
-          />
-          @if (errors['due_date']) {
-            <div class="invalid-feedback d-block">{{ errors['due_date'] }}</div>
-          }
-
-          <app-input-field type="date" label="Due-Date" id="Due-Date" />
-        </div>
+        <app-input-field
+          type="date"
+          label="Due Date"
+          id="Due-Date"
+          [(model)]="form.due_date"
+          [error]="errors['due_date']"
+          (blur)="markDirty('due_date')"
+          (inputChange)="liveValidate('due_date')"
+        />
       </div>
 
       <div class="col-lg-1 d-none d-lg-flex justify-content-center">

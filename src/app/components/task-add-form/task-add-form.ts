@@ -131,7 +131,6 @@ export class TaskAddFormComponent {
   // ---------------------------------------------------------
   // Form-specific handlers
   // ---------------------------------------------------------
-
   onContactsSelected(ids: number[]) {
     this.selectedContactIds = ids;
   }
