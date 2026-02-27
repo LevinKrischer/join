@@ -29,7 +29,7 @@ export class TaskAddFormComponent {
   errorMessage = '';
   successMessage = '';
 
-  form: Omit<Task, 'id' | 'contacts' | 'created_at' | 'modified_at'> = {
+  form: Omit<Task, 'id' | 'contacts' | 'created_at' | 'modified_at' | 'order'> = {
     title: '',
     description: '',
     due_date: '',

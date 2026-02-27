@@ -17,10 +17,11 @@ export interface Task {
   category: string;
   subtasks: Subtask[];
   status: 'todo' | 'in-progress' | 'await-feedback' | 'done';
+  order: number;
   created_at: string;
   modified_at: string | null;
   user: string | null;
-  contacts: Contact[]; // resolved from junction table
+  contacts: Contact[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -28,7 +29,7 @@ export class TasksDb {
   tasks = signal<Task[]>([]);
   channels: RealtimeChannel | null = null;
 
-  constructor(private supa: SupabaseClientService) {}
+  constructor(private supa: SupabaseClientService) { }
 
   /**
    * Loads all tasks with their assigned contacts via the junction table.
@@ -37,15 +38,14 @@ export class TasksDb {
   async getTasks() {
     const { data, error } = await this.supa.supabase
       .from('tasks')
-      .select(
-        `
+      .select(`
         *,
         tasks_contacts (
           contacts (id, name, email, phone, color)
         )
-      `,
-      )
-      .order('created_at', { ascending: false });
+      `)
+      .order('status', { ascending: true })
+      .order('order', { ascending: true }); // <-- Sortierung nach order
 
     if (error) {
       console.error('[Supabase] Error loading tasks:', error.message);
@@ -61,8 +61,6 @@ export class TasksDb {
         .filter(Boolean) ?? []
     }));
 
-    console.log(tasks);
-
     this.tasks.set(tasks);
   }
 
@@ -72,14 +70,12 @@ export class TasksDb {
   async getTaskById(id: number): Promise<Task | null> {
     const { data, error } = await this.supa.supabase
       .from('tasks')
-      .select(
-        `
+      .select(`
         *,
         tasks_contacts (
           contacts (id, name, email, phone, color)
         )
-      `,
-      )
+      `)
       .eq('id', id)
       .single();
 
@@ -100,18 +96,23 @@ export class TasksDb {
    * @param contactIds - Array of contact IDs to assign
    */
   async createTask(
-    task: Omit<Task, 'id' | 'contacts' | 'created_at' | 'modified_at'>,
+    task: Omit<Task, 'id' | 'contacts' | 'created_at' | 'modified_at' | 'order'>,
     contactIds: number[],
   ) {
-    // 1. Insert the task
-    const { data, error } = await this.supa.supabase.from('tasks').insert([task]).select().single();
+
+    const nextOrder = await this.getNextOrderForStatus(task.status);
+
+    const { data, error } = await this.supa.supabase
+      .from('tasks')
+      .insert([{ ...task, order: nextOrder }]) // <-- hier wird die nächste Order-Nummer gesetzt
+      .select()
+      .single();
 
     if (error) {
       console.error('[Supabase] Error creating task:', error.message);
       throw error;
     }
 
-    // 2. Insert contact assignments
     if (contactIds.length > 0) {
       await this.assignContacts(data.id, contactIds);
     }
@@ -136,7 +137,6 @@ export class TasksDb {
       throw error;
     }
 
-    // Replace contact assignments if provided
     if (contactIds !== undefined) {
       await this.replaceContacts(id, contactIds);
     }
@@ -178,10 +178,8 @@ export class TasksDb {
    * Deletes old assignments, then inserts new ones.
    */
   private async replaceContacts(taskId: number, contactIds: number[]) {
-    // Remove old
     await this.supa.supabase.from('tasks_contacts').delete().eq('task_id', taskId);
 
-    // Insert new
     if (contactIds.length > 0) {
       await this.assignContacts(taskId, contactIds);
     }
@@ -202,9 +200,46 @@ export class TasksDb {
     }
   }
 
+  async updateTaskOrder(tasks: Task[]) {
+    const updates = tasks.map(t => ({
+      id: t.id,
+      order: t.order,
+      status: t.status,
+      modified_at: new Date().toISOString()
+    }));
+
+    const { error } = await this.supa.supabase
+      .from('tasks')
+      .upsert(updates);
+
+    if (error) {
+      console.error('[Supabase] Error updating order:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * NEU: Get next order number for a status column
+   */
+  async getNextOrderForStatus(status: Task['status']): Promise<number> {
+    const { data, error } = await this.supa.supabase
+      .from('tasks')
+      .select('order')
+      .eq('status', status)
+      .order('order', { ascending: false })
+      .limit(1);
+
+    if (error) {
+      console.error('[Supabase] Error loading max order:', error.message);
+      return 0;
+    }
+
+    return data?.[0]?.order + 1 || 0;
+  }
+
   // ---- Realtime ----
   subscribeToTaskChanges() {
-    if (this.channels) return; // prevent duplicates
+    if (this.channels) return;
 
     this.channels = this.supa.supabase
       .channel('tasks-channel')
@@ -229,4 +264,3 @@ export class TasksDb {
     this.unsubscribeFromTaskChanges();
   }
 }
-
