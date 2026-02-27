@@ -24,10 +24,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-
-    .header-headline {
-      margin-bottom: 2.5rem;
-    }
+    align-items: center;
 
     nav {
       gap: 2rem;
@@ -135,8 +132,5 @@
 }
 
 .task-board {
-
-  @include for-size (lg) {
-    margin: 0 calc(-1.625rem / 2);
-  }
+  width: 100%;
 }

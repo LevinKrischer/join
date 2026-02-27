@@ -1,120 +1,62 @@
-<section class="taskboard container py-4">
+<section class="taskboard">
+  <div class="taskboard-inner d-flex flex-column flex-lg-row gap-lg-3">
 
-  <div class="taskboard-inner">
-
-    <!-- Desktop Header -->
-    <div class="row taskboard-columns-header d-none d-lg-flex mb-3">
-
-      <div class="col-lg-3">
-        <header class="kanban-header d-flex align-items-center justify-content-between">
-          <h2 class="h5 my-0">To Do</h2>
-          <button
-            class="board-list-add-button p-0 d-flex align-items-center justify-content-center border border-black border-2 rounded-3">
-            <img src="assets/icons/add-plus-dark24px.svg" alt="">
-          </button>
-        </header>
+    <!-- To Do Column -->
+    <section class="flex-lg-1 d-flex flex-column min-h-0">
+      <header class="d-flex align-items-center justify-content-between mb-3 flex-shrink-0">
+        <h2 class="h5 m-0">To Do</h2>
+        <button class="board-list-add-button p-0 d-flex align-items-center justify-content-center border border-black border-2 rounded-3">
+          <img src="assets/icons/add-plus-dark24px.svg" alt="Add task">
+        </button>
+      </header>
+      <div class="taskboard-scroll d-flex flex-row flex-lg-column overflow-x-auto overflow-lg-x-hidden overflow-lg-y-auto" horizontalScroll>
+        @for (task of todoTasks(); track task.id) {
+          <app-task-card class="task-item" [task]="task" (openTask)="openTaskDetail($event)"></app-task-card>
+        }
       </div>
+    </section>
 
-      <div class="col-lg-3">
-        <header class="kanban-header d-flex align-items-center justify-content-between">
-          <h2 class="h5 my-0">In Progress</h2>
-          <button
-            class="board-list-add-button p-0 d-flex align-items-center justify-content-center border border-black border-2 rounded-3">
-            <img src="assets/icons/add-plus-dark24px.svg" alt="">
-          </button>
-        </header>
+    <!-- In Progress Column -->
+    <section class="flex-lg-1 d-flex flex-column min-h-0">
+      <header class="d-flex align-items-center justify-content-between mb-3 flex-shrink-0">
+        <h2 class="h5 m-0">In Progress</h2>
+        <button class="board-list-add-button p-0 d-flex align-items-center justify-content-center border border-black border-2 rounded-3">
+          <img src="assets/icons/add-plus-dark24px.svg" alt="Add task">
+        </button>
+      </header>
+      <div class="taskboard-scroll d-flex flex-row flex-lg-column overflow-x-auto overflow-lg-x-hidden overflow-lg-y-auto" horizontalScroll>
+        @for (task of inProgressTasks(); track task.id) {
+          <app-task-card class="task-item" [task]="task" (openTask)="openTaskDetail($event)"></app-task-card>
+        }
       </div>
+    </section>
 
-      <div class="col-lg-3">
-        <header class="kanban-header d-flex align-items-center justify-content-between">
-          <h2 class="h5 my-0">Review</h2>
-          <button
-            class="board-list-add-button p-0 d-flex align-items-center justify-content-center border border-black border-2 rounded-3">
-            <img src="assets/icons/add-plus-dark24px.svg" alt="">
-          </button>
-        </header>
+    <!-- Await Feedback Column -->
+    <section class="flex-lg-1 d-flex flex-column min-h-0">
+      <header class="d-flex align-items-center justify-content-between mb-3 flex-shrink-0">
+        <h2 class="h5 m-0">Await Feedback</h2>
+        <button class="board-list-add-button p-0 d-flex align-items-center justify-content-center border border-black border-2 rounded-3">
+          <img src="assets/icons/add-plus-dark24px.svg" alt="Add task">
+        </button>
+      </header>
+      <div class="taskboard-scroll d-flex flex-row flex-lg-column overflow-x-auto overflow-lg-x-hidden overflow-lg-y-auto" horizontalScroll>
+        @for (task of reviewTasks(); track task.id) {
+          <app-task-card class="task-item" [task]="task" (openTask)="openTaskDetail($event)"></app-task-card>
+        }
       </div>
+    </section>
 
-      <div class="col-lg-3">
-        <header class="kanban-header">
-          <h2 class="h5 my-0">Done</h2>
-        </header>
+    <!-- Done Column -->
+    <section class="flex-lg-1 d-flex flex-column min-h-0">
+      <header class="d-flex align-items-center justify-content-between mb-3 flex-shrink-0">
+        <h2 class="h5 m-0">Done</h2>
+      </header>
+      <div class="taskboard-scroll d-flex flex-row flex-lg-column overflow-x-auto overflow-lg-x-hidden overflow-lg-y-auto" horizontalScroll>
+        @for (task of doneTasks(); track task.id) {
+          <app-task-card class="task-item" [task]="task" (openTask)="openTaskDetail($event)"></app-task-card>
+        }
       </div>
-    </div>
+    </section>
 
-    <div class="taskboard-scroll row">
-
-      <!-- Column -->
-      <section class="col-lg-3 taskboard-column">
-        <header class="kanban-header d-flex d-lg-none align-items-center justify-content-between mb-3">
-          <h2 class="h5 m-0">To Do</h2>
-          <button
-            class="board-list-add-button p-0 d-flex align-items-center justify-content-center border border-black border-2 rounded-3">
-            <img src="assets/icons/add-plus-dark24px.svg" alt="">
-          </button>
-        </header>
-
-        <div class="kanban-column d-flex flex-column gap-3">
-          <div class="d-flex flex-row flex-lg-column gap-3 gap-lg-2 overflow-x-auto overflow-x-lg-hidden" horizontalScroll>
-            @for (task of todoTasks(); track task.id) {
-            <app-task-card class="task-item" [task]="task" (openTask)="openTaskDetail($event)"></app-task-card>
-            }
-          </div>
-        </div>
-      </section>
-
-      <!-- In Progress -->
-      <section class="col-lg-3 taskboard-column">
-        <header class="kanban-header d-flex d-lg-none align-items-center justify-content-between mb-3">
-          <h2 class="h5 m-0">In Progress</h2>
-          <button
-            class="board-list-add-button p-0 d-flex align-items-center justify-content-center border border-black border-2 rounded-3">
-            <img src="assets/icons/add-plus-dark24px.svg" alt="">
-          </button>
-        </header>
-
-        <div class="kanban-column d-flex flex-column gap-3">
-          <div class="d-flex flex-row flex-lg-column gap-3 gap-lg-2 overflow-x-auto overflow-x-lg-hidden" horizontalScroll>
-            @for (task of inProgressTasks(); track task.id) {
-            <app-task-card class="task-item" [task]="task" (openTask)="openTaskDetail($event)"></app-task-card>
-            }
-          </div>
-        </div>
-      </section>
-
-      <!-- Review -->
-      <section class="col-lg-3 taskboard-column">
-        <header class="kanban-header d-flex d-lg-none align-items-center justify-content-between mb-3">
-          <h2 class="h5 m-0">Review</h2>
-          <button
-            class="board-list-add-button p-0 d-flex align-items-center justify-content-center border border-black border-2 rounded-3">
-            <img src="assets/icons/add-plus-dark24px.svg" alt="">
-          </button>
-        </header>
-
-        <div class="kanban-column d-flex flex-column gap-3">
-          <div class="d-flex flex-row flex-lg-column gap-3 gap-lg-2 overflow-x-auto overflow-x-lg-hidden" horizontalScroll>
-            @for (task of reviewTasks(); track task.id) {
-            <app-task-card class="task-item" [task]="task" (openTask)="openTaskDetail($event)"></app-task-card>
-            }
-          </div>
-        </div>
-      </section>
-
-      <!-- Done -->
-      <section class="col-lg-3 taskboard-column">
-        <header class="kanban-header d-flex d-lg-none align-items-center justify-content-between mb-3">
-          <h2 class="h5 m-0">Done</h2>
-        </header>
-
-        <div class="kanban-column d-flex flex-column gap-3">
-          <div class="d-flex flex-row flex-lg-column gap-3 gap-lg-2 overflow-x-auto overflow-x-lg-hidden" horizontalScroll>
-            @for (task of doneTasks(); track task.id) {
-            <app-task-card class="task-item" [task]="task" (openTask)="openTaskDetail($event)"></app-task-card>
-            }
-          </div>
-        </div>
-      </section>
-    </div>
   </div>
 </section>

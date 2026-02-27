@@ -11,6 +11,10 @@ input {
   gap: 0.25rem;
 }
 
+label {
+  display: none;
+}
+
 .inputWrapper {
   display: flex;
   align-items: center;
