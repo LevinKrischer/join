@@ -73,6 +73,8 @@ export class TaskAddFormComponent {
 
   selectedContactIds: number[] = [];
   newSubtaskTitle = '';
+  editingSubtaskIndex: number | null = null;
+  editingSubtaskTitle = '';
 
   async ngOnInit() {
     await this.contactsDb.getContacts();
@@ -150,6 +152,31 @@ export class TaskAddFormComponent {
 
   removeSubtask(index: number) {
     this.form.subtasks.splice(index, 1);
+  }
+
+  /** Activates inline editing for a subtask. */
+  editSubtask(index: number) {
+    this.editingSubtaskIndex = index;
+    this.editingSubtaskTitle = this.form.subtasks[index].title;
+  }
+
+  /** Confirms the inline edit. Removes the subtask if the title is empty. */
+  confirmEditSubtask() {
+    const title = this.editingSubtaskTitle.trim();
+    if (this.editingSubtaskIndex !== null) {
+      if (title) {
+        this.form.subtasks[this.editingSubtaskIndex].title = title;
+      } else {
+        this.form.subtasks.splice(this.editingSubtaskIndex, 1);
+      }
+    }
+    this.cancelEditSubtask();
+  }
+
+  /** Cancels inline editing without saving. */
+  cancelEditSubtask() {
+    this.editingSubtaskIndex = null;
+    this.editingSubtaskTitle = '';
   }
 
   onCancel() {
