@@ -25,4 +25,19 @@
   @if (isModalOpen() && modalMode === 'add') {
     <app-task-add-form [useModal]="true" (closed)="closeModal()" (created)="closeModal()" />
   }
+
+  @if (isModalOpen() && modalMode === 'detail' && selectedTask()) {
+    <aside class="modal-backdrop" (click)="closeModal()"></aside>
+    <dialog class="modal-container" open>
+      <article class="modal" (click)="$event.stopPropagation()">
+        <header class="modal-header">
+          <h2>{{ selectedTask()!.title }}</h2>
+          <button class="modal-close" (click)="closeModal()">&times;</button>
+        </header>
+        <section class="modal-body">
+          <app-task-detail [task]="selectedTask()!" (close)="closeModal()" />
+        </section>
+      </article>
+    </dialog>
+  }
 </main>
