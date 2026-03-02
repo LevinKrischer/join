@@ -28,11 +28,12 @@
   flex: 1;
   gap: 1rem;
   scrollbar-width: none;
+  -ms-overflow-style: none;
   min-width: 0;
   max-width: 100%;
+  width: 100%;
+  overflow: auto;
 
-  overflow-x: auto;
-  overflow-y: hidden;
 
   @include for-size(lg) {
     overflow-x: hidden;
