@@ -160,6 +160,9 @@ export class TaskAddFormComponent {
     try {
       await this.saveTask();
       this.feedback.show('Task added to board.');
+
+      await new Promise(resolve => setTimeout(resolve, 3000));
+
       this.created.emit();
       this.resetForm();
     } catch (err) {

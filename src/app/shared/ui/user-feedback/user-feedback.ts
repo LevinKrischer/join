@@ -27,6 +27,6 @@ export class UserFeedbackComponent {
     this.timeoutId = setTimeout(() => {
       this.visible = false;
       this.cdr.detectChanges();
-    }, 5000);
+    }, 3000);
   }
 }

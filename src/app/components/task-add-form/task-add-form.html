@@ -1,3 +1,5 @@
+<app-user-feedback #feedback animation="slide-up" icon="/assets/icons/nav-board-white-30px.svg"></app-user-feedback>
+
 @if (useModal) {
   <ui-modal-wrapper (close)="onCancel()">
     <ng-container *ngTemplateOutlet="formTemplate" />
@@ -126,7 +128,5 @@
         </ui-button>
       </div>
     </div>
-
-    <app-user-feedback #feedback animation="slide-up" icon="/assets/icons/nav-board-white-30px.svg" />
   </form>
 </ng-template>
