@@ -1,4 +1,4 @@
-@if (useModal) {
+@if (useModal()) {
   <ui-modal-wrapper (close)="onCancel()">
     <ng-container *ngTemplateOutlet="formTemplate" />
   </ui-modal-wrapper>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, viewChild, inject, ChangeDetectorRef, input, output, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -39,12 +39,13 @@ export class TaskAddFormComponent {
   contactsDb = inject(ContactsDb);
   cdr = inject(ChangeDetectorRef);
 
-  @ViewChild('feedback') feedback!: UserFeedbackComponent;
+  feedback = viewChild.required<UserFeedbackComponent>('feedback');
 
-  @Input() useModal = false;
+  useModal = input(false);
+  initialStatus = input<Task['status']>('todo');
 
-  @Output() created = new EventEmitter<void>();
-  @Output() closed = new EventEmitter<void>();
+  created = output<void>();
+  closed = output<void>();
 
   isSaving = false;
 
@@ -74,6 +75,12 @@ export class TaskAddFormComponent {
   };
 
   selectedContactIds: number[] = [];
+
+  constructor() {
+    effect(() => {
+      this.form.status = this.initialStatus();
+    });
+  }
 
   async ngOnInit() {
     await this.contactsDb.getContacts();
@@ -159,7 +166,7 @@ export class TaskAddFormComponent {
 
     try {
       await this.saveTask();
-      this.feedback.show('Task added to board.');
+      this.feedback().show('Task added to board.');
       this.created.emit();
       this.resetForm();
     } catch (err) {
@@ -192,7 +199,7 @@ export class TaskAddFormComponent {
 
   private handleSaveError(err: unknown) {
     console.error('Failed to create task:', err);
-    this.feedback.show('Saving failed. Please check your connection or try again later.');
+    this.feedback().show('Saving failed. Please check your connection or try again later.');
   }
 
   private finishSaving() {
