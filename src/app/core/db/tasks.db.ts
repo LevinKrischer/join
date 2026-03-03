@@ -29,7 +29,7 @@ export class TasksDb {
   tasks = signal<Task[]>([]);
   channels: RealtimeChannel | null = null;
 
-  constructor(private supa: SupabaseClientService) { }
+  constructor(private supa: SupabaseClientService) {}
 
   /**
    * Loads all tasks with their assigned contacts via the junction table.
@@ -38,12 +38,14 @@ export class TasksDb {
   async getTasks() {
     const { data, error } = await this.supa.supabase
       .from('tasks')
-      .select(`
+      .select(
+        `
         *,
         tasks_contacts (
           contacts (id, name, email, phone, color)
         )
-      `)
+      `,
+      )
       .order('status', { ascending: true })
       .order('order', { ascending: true }); // <-- Sortierung nach order
 
@@ -54,11 +56,9 @@ export class TasksDb {
 
     if (!data) return;
 
-    const tasks: Task[] = data.map(task => ({
+    const tasks: Task[] = data.map((task) => ({
       ...task,
-      contacts: task.tasks_contacts
-        ?.map((tc: any) => tc.contacts)
-        .filter(Boolean) ?? []
+      contacts: task.tasks_contacts?.map((tc: any) => tc.contacts).filter(Boolean) ?? [],
     }));
 
     this.tasks.set(tasks);
@@ -70,12 +70,14 @@ export class TasksDb {
   async getTaskById(id: number): Promise<Task | null> {
     const { data, error } = await this.supa.supabase
       .from('tasks')
-      .select(`
+      .select(
+        `
         *,
         tasks_contacts (
           contacts (id, name, email, phone, color)
         )
-      `)
+      `,
+      )
       .eq('id', id)
       .single();
 
@@ -99,7 +101,6 @@ export class TasksDb {
     task: Omit<Task, 'id' | 'contacts' | 'created_at' | 'modified_at' | 'order'>,
     contactIds: number[],
   ) {
-
     const nextOrder = await this.getNextOrderForStatus(task.status);
 
     const { data, error } = await this.supa.supabase
@@ -145,10 +146,14 @@ export class TasksDb {
   }
 
   /**
-   * Deletes a task. Junction table rows are removed via CASCADE.
+   * Deletes a task within Junction tbl tsks_contacts
+   * and cascades it to tbl tasks.
    */
   async deleteTask(id: number) {
-    const { error } = await this.supa.supabase.from('tasks').delete().eq('id', id);
+    const { error } = await this.supa.supabase
+      .from('tasks')
+      .delete()
+      .eq('id', id);
 
     if (error) {
       console.error('[Supabase] Error deleting task:', error.message);
@@ -201,16 +206,14 @@ export class TasksDb {
   }
 
   async updateTaskOrder(tasks: Task[]) {
-    const updates = tasks.map(t => ({
+    const updates = tasks.map((t) => ({
       id: t.id,
       order: t.order,
       status: t.status,
-      modified_at: new Date().toISOString()
+      modified_at: new Date().toISOString(),
     }));
 
-    const { error } = await this.supa.supabase
-      .from('tasks')
-      .upsert(updates);
+    const { error } = await this.supa.supabase.from('tasks').upsert(updates);
 
     if (error) {
       console.error('[Supabase] Error updating order:', error.message);
@@ -243,13 +246,15 @@ export class TasksDb {
 
     this.channels = this.supa.supabase
       .channel('tasks-channel')
-      .on('postgres_changes',
+      .on(
+        'postgres_changes',
         { event: '*', schema: 'public', table: 'tasks' },
-        async () => await this.getTasks()
+        async () => await this.getTasks(),
       )
-      .on('postgres_changes',
+      .on(
+        'postgres_changes',
         { event: '*', schema: 'public', table: 'tasks_contacts' },
-        async () => await this.getTasks()
+        async () => await this.getTasks(),
       )
       .subscribe();
   }
