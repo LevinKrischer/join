@@ -1,4 +1,5 @@
 <aside class="modal-backdrop" (click)="close.emit()"></aside>
+
 <dialog class="modal-container" open>
   <article class="modal" (click)="$event.stopPropagation()">
     <section class="modal-body">
@@ -79,3 +80,5 @@
     </section>
   </article>
 </dialog>
+
+<app-user-feedback #feedback animation="slide-up" icon="/assets/icons/nav-board-white-30px.svg" />
