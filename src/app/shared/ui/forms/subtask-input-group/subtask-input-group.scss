@@ -1,3 +1,6 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as mixins;
+
 fieldset {
   border: none;
   margin: 0;
@@ -26,4 +29,18 @@ ul.subtask-list {
 .input-group img,
 .btn-link img {
   vertical-align: middle;
+}
+
+input{
+  flex: 1;
+  padding-right: 0;
+  border: 1px solid $grey-light;
+  border-radius: $base-border-radius;
+  height: 3rem;
+  &:focus{
+    box-shadow: none;
+  }
+  &::placeholder{
+    color: $grey-light
+  }
 }

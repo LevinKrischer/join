@@ -1,4 +1,12 @@
-import { Component, viewChild, inject, ChangeDetectorRef, input, output, effect } from '@angular/core';
+import {
+  Component,
+  viewChild,
+  inject,
+  ChangeDetectorRef,
+  input,
+  output,
+  effect,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -16,6 +24,7 @@ import { Button } from '../../shared/ui/button/button';
 import { ModalWrapper } from '../../shared/ui/modal-wrapper/modal-wrapper';
 import { Textarea } from '../../shared/ui/forms/textarea/textarea';
 import { UserFeedbackComponent } from '../../shared/ui/user-feedback/user-feedback';
+import { Select } from '../../shared/ui/forms/select/select';
 
 @Component({
   selector: 'app-task-add-form',
@@ -30,6 +39,7 @@ import { UserFeedbackComponent } from '../../shared/ui/user-feedback/user-feedba
     ModalWrapper,
     Textarea,
     UserFeedbackComponent,
+    Select,
   ],
   templateUrl: 'task-add-form.html',
   styleUrls: ['task-add-form.scss'],
@@ -49,7 +59,9 @@ export class TaskAddFormComponent {
 
   isSaving = false;
 
-  form: Omit<Task, 'id' | 'contacts' | 'created_at' | 'modified_at' | 'order' | 'category'> & { category: Task['category'] | '' } = {
+  form: Omit<Task, 'id' | 'contacts' | 'created_at' | 'modified_at' | 'order' | 'category'> & {
+    category: Task['category'] | '';
+  } = {
     title: '',
     description: '',
     due_date: '',
@@ -64,7 +76,7 @@ export class TaskAddFormComponent {
     title: '',
     description: '',
     due_date: '',
-    category: ''
+    category: '',
   };
 
   dirty: Record<string, boolean> = {
@@ -112,7 +124,9 @@ export class TaskAddFormComponent {
 
     switch (field) {
       case 'title':
-        this.errors['title'] = isValidTitle(value) ? '' : 'Please enter title with max. 30 letters.';
+        this.errors['title'] = isValidTitle(value)
+          ? ''
+          : 'Please enter title with max. 30 letters.';
         break;
 
       case 'description':
@@ -167,7 +181,7 @@ export class TaskAddFormComponent {
     try {
       await this.saveTask();
       this.feedback().show('Task added to board.');
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
       this.created.emit();
       this.resetForm();
     } catch (err) {
@@ -224,4 +238,10 @@ export class TaskAddFormComponent {
       this.errors[key] = '';
     }
   }
+
+  // Options for Selections:
+  categories = [
+    { label: 'Technical Task', value: 'Technical Task' },
+    { label: 'User Story', value: 'User Story' },
+  ];
 }

@@ -13,6 +13,7 @@ export class Textarea {
   @Input() rows: number = 3;
   @Input() maxlength: number | null = null;
   @Input() errorMessage: string = '';
+  @Input() isRequired: boolean = false;
 
   @Input() model: string = '';
   @Output() modelChange = new EventEmitter<string>();

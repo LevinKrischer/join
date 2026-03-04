@@ -11,10 +11,6 @@ input {
   gap: 0.25rem;
 }
 
-label {
-  display: none;
-}
-
 .inputWrapper {
   display: flex;
   align-items: center;
@@ -87,4 +83,9 @@ label {
   .hoverIcon {
     opacity: 0;
   }
+}
+
+.required-asterisk {
+  color: $red;
+  margin-left: 2px;
 }

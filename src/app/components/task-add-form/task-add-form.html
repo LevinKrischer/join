@@ -14,9 +14,9 @@
     <div class="row">
       <div class="col-12 col-lg-5">
         <div class="mb-3">
-          <label for="Title" class="form-label">Title<span class="text-danger">*</span></label>
           <app-input-field
             type="text"
+            label="Title"
             id="Title"
             placeholder="Enter title"
             [maxlength]="30"
@@ -24,6 +24,7 @@
             [error]="errors['title']"
             (blur)="markDirty('title')"
             (inputChange)="liveValidate('title')"
+            [isRequired]="true"
           />
         </div>
 
@@ -40,10 +41,12 @@
           type="date"
           label="Due Date"
           id="Due-Date"
+          placeholder="Enter due date"
           [(model)]="form.due_date"
           [error]="errors['due_date']"
           (blur)="markDirty('due_date')"
           (inputChange)="liveValidate('due_date')"
+          [isRequired]="true"
         />
       </div>
 
@@ -91,9 +94,6 @@
         </div>
 
         <div class="mb-3">
-          <label for="Category" class="form-label"
-            >Category<span class="text-danger">*</span></label
-          >
           <select
             class="form-select"
             id="Category"
@@ -106,6 +106,19 @@
             <option value="Technical Task">Technical Task</option>
             <option value="User Story">User Story</option>
           </select>
+
+          <ui-select
+            label="Category"
+            id="Category"
+            name="category"
+            preselectedValue="Select task category"
+            [options]="categories"
+            [class.is-invalid]="errors['category']"
+            (blur)="markDirty('category')"
+            [isRequired]="true"
+          >
+          </ui-select>
+
           @if (errors['category']) {
             <div class="invalid-feedback d-block">{{ errors['category'] }}</div>
           }
