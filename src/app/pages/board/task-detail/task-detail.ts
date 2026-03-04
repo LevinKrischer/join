@@ -8,7 +8,7 @@ import { ModalWrapper } from '../../../shared/ui/modal-wrapper/modal-wrapper';
 @Component({
   selector: 'app-task-detail',
   standalone: true,
-  imports: [CommonModule, TaskAddFormComponent, UserFeedbackComponent],
+  imports: [CommonModule, TaskAddFormComponent, UserFeedbackComponent, ModalWrapper],
   templateUrl: './task-detail.html',
   styleUrls: ['./task-detail.scss'],
 })

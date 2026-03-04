@@ -10,85 +10,6 @@
   display: contents;
 }
 
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1040;
-}
-
-.modal-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1050;
-  width: 90%;
-  max-width: 75.75rem;
-  max-height: 90dvh;
-  min-height: 0;
-  height: auto;
-  background: $white;
-  border-radius: $card-border-radius;
-  border: none;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  animation: fadeInFromBottomAnimation 0.2s ease-in-out;
-
-  @include for-size(lg) {
-    min-height: 35rem;
-  }
-}
-
-.modal {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.modal-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 2rem 1rem 1rem 1rem;
-
-  @include for-size(sm) {
-    padding: 2rem;
-  }
-
-  @include for-size(md) {
-    padding: 2.5rem 2.5rem 1.5rem 2.5rem;
-  }
-
-  @include for-size(lg) {
-    padding: 3rem 2.5rem 2.5rem 2.5rem;
-  }
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  line-height: 1;
-}
-
-@keyframes fadeInFromBottomAnimation {
-  from {
-    transform: translate(-50%, 0);
-    opacity: 0;
-  }
-  to {
-    transform: translate(-50%, -50%);
-    opacity: 1;
-  }
-}
-
 h2 {
   font-size: clamp(2.5rem, 3vw, 3.75rem);
 }
@@ -275,7 +196,7 @@ strong {
   }
 
   .detail-actions {
-    display: flex; 
+    display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: 1rem;
@@ -310,4 +231,3 @@ strong {
     }
   }
 }
-
