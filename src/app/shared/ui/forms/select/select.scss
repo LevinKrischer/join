@@ -1,0 +1,16 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as mixins;
+
+select{
+  flex: 1;
+  padding-right: 0;
+  border: 1px solid $grey-light;
+  border-radius: $base-border-radius;
+  height: 3rem;
+  &:focus{
+    box-shadow: none;
+  }
+  &::placeholder{
+    color: $grey-light
+  }
+}

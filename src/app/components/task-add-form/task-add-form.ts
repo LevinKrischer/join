@@ -24,6 +24,7 @@ import { Button } from '../../shared/ui/button/button';
 import { ModalWrapper } from '../../shared/ui/modal-wrapper/modal-wrapper';
 import { Textarea } from '../../shared/ui/forms/textarea/textarea';
 import { UserFeedbackComponent } from '../../shared/ui/user-feedback/user-feedback';
+import { Select } from '../../shared/ui/forms/select/select';
 
 @Component({
   selector: 'app-task-add-form',
@@ -38,6 +39,7 @@ import { UserFeedbackComponent } from '../../shared/ui/user-feedback/user-feedba
     ModalWrapper,
     Textarea,
     UserFeedbackComponent,
+    Select,
   ],
   templateUrl: 'task-add-form.html',
   styleUrls: ['task-add-form.scss'],
@@ -99,7 +101,7 @@ export class TaskAddFormComponent {
         this.form.category = task.category;
         this.form.subtasks = task.subtasks;
         this.form.status = task.status;
-        this.selectedContactIds = task.contacts.map(c => c.id);
+        this.selectedContactIds = task.contacts.map((c) => c.id);
       } else {
         this.form.status = this.initialStatus();
       }
@@ -262,4 +264,10 @@ export class TaskAddFormComponent {
       this.errors[key] = '';
     }
   }
+
+  // Options for Selections:
+  categories = [
+    { label: 'Technical Task', value: 'Technical Task' },
+    { label: 'User Story', value: 'User Story' },
+  ];
 }

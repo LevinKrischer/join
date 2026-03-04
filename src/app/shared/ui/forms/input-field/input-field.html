@@ -1,6 +1,11 @@
 <div class="inputRow">
   @if (label) {
-    <label [for]="label" class="form-label">{{ label }}</label>
+    <label [for]="label" class="form-label"
+      >{{ label }}
+      @if (isRequired) {
+        <span class="required-asterisk" aria-hidden="true"><span class="text-danger">*</span></span>
+      }
+    </label>
   }
 
   <div class="inputWrapper" [class.hasError]="error">
@@ -16,6 +21,7 @@
       [attr.aria-describedby]="label + 'Error'"
       [attr.maxlength]="maxlength"
       [attr.min]="minDate"
+      [attr.aria-required]="isRequired"
     />
 
     @if (icon) {

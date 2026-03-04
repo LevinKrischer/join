@@ -1,8 +1,9 @@
 import { Component, signal, input, output, inject, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TasksDb, Task } from '../../../core/db/tasks.db';
+import { TasksDb, Task, Subtask } from '../../../core/db/tasks.db';
 import { TaskAddFormComponent } from '../../../components/task-add-form/task-add-form';
 import { UserFeedbackComponent } from '../../../shared/ui/user-feedback/user-feedback';
+import { ModalWrapper } from '../../../shared/ui/modal-wrapper/modal-wrapper';
 
 @Component({
   selector: 'app-task-detail',
@@ -90,4 +91,18 @@ export class TaskDetailComponent {
     this.isEditing.set(false);
   }
 
+  async toggleSubtask(subtask: Subtask) {
+    try {
+      subtask.done = !subtask.done;
+
+      await this.taskDbSingleton.updateTask(this.task().id, {
+        subtasks: this.task().subtasks,
+      });
+
+    } catch (err) {
+      console.error('Failed to update subtask:', err);
+      subtask.done = !subtask.done;
+      this.userFeedback().show('Failed to update subtask. Please try again.');
+    }
+  }
 }

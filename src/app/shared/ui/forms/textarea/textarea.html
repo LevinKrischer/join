@@ -1,6 +1,11 @@
 <div class="mb-3">
   @if (label) {
-    <label [for]="id" class="form-label">{{ label }}</label>
+    <label [for]="id" class="form-label"
+      >{{ label }}
+      @if (isRequired) {
+        <span class="required-asterisk" aria-hidden="true"><span class="text-danger">*</span></span>
+      }
+    </label>
   }
 
   <textarea

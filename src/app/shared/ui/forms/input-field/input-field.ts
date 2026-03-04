@@ -10,7 +10,7 @@ import { isValidName, isValidEmail, isValidPhone } from '../../../../core/utils/
   styleUrls: ['./input-field.scss'],
 })
 export class InputFieldComponent {
-  @Input() type: 'text' | 'date' | 'email' | 'tel' = 'text';
+  @Input() type: string | 'text' | 'date' | 'email' | 'tel' = 'text';
   @Input() label = '';
   @Input() placeholder = '';
   @Input() value = '';
@@ -18,6 +18,7 @@ export class InputFieldComponent {
   @Input() error: string | null = null;
   @Input() maxlength: number | null = null;
   @Input() minDate: string | null = null;
+  @Input() isRequired: boolean = false;
 
   @Input() model: any;
   @Output() modelChange = new EventEmitter<any>();

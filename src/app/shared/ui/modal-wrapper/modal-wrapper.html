@@ -1,7 +1,7 @@
 <div class="modal-backdrop" (click)="onClose()"></div>
 
-<div class="modal-container fadeInFromBottom">
-  <div class="modal-content">
+<div class="modal-container fadeInFromBottom" [class.size-small]="modalSize() === 'small'">
+  <div class="modal-content" [class.with-padding]="contentPadding()">
     <button type="button" class="btn-close close-btn" (click)="onClose()"></button>
     <ng-content>
     </ng-content>

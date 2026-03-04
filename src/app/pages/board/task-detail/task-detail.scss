@@ -1,4 +1,10 @@
 @use 'styles/mixins' as *;
+@use 'styles/variables' as *;
+
+* {
+  transition: $trans-default;
+  scrollbar-width: none;
+}
 
 :host {
   display: contents;
@@ -6,119 +12,93 @@
 
 .modal-backdrop {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 10;
-  animation: fadeIn 0.2s ease-in;
+  z-index: 1040;
 }
 
 .modal-container {
   position: fixed;
-  inset: 0;
-  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1050;
+  width: 90%;
+  max-width: 75.75rem;
+  max-height: 90dvh;
+  min-height: 0;
+  height: auto;
+  background: $white;
+  border-radius: $card-border-radius;
   border: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  background: transparent;
+  overflow: hidden;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  animation: fadeInFromBottomAnimation 0.2s ease-in-out;
+
+  @include for-size(lg) {
+    min-height: 35rem;
+  }
 }
 
 .modal {
-  position: relative;
-  z-index: 1001;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  background: white;
-  border-radius: 30px;
-  width: 450px;
-  height: fit-content;
-  max-height: 90dvh;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  animation: slideUp 0.25s ease-out;
+  overflow: hidden;
 }
 
-.modal::-webkit-scrollbar {
-  display: none;
-}
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem 1rem 1rem 1rem;
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: none;
-  padding: 0;
+  @include for-size(sm) {
+    padding: 2rem;
+  }
 
-  h2 {
-    margin: 0;
-    font-size: clamp(2.25rem, 3vw, 3rem);
-    font-weight: 700;
-    color: #000;
+  @include for-size(md) {
+    padding: 2.5rem 2.5rem 1.5rem 2.5rem;
+  }
+
+  @include for-size(lg) {
+    padding: 3rem 2.5rem 2.5rem 2.5rem;
   }
 }
 
 .modal-close {
   background: none;
   border: none;
-  font-size: clamp(2rem, 2.5vw, 2.5rem);
+  font-size: 1.5rem;
   cursor: pointer;
-  color: #333;
-  padding: 0;
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+}
 
-  &:hover {
-    color: #000;
+@keyframes fadeInFromBottomAnimation {
+  from {
+    transform: translate(-50%, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%);
+    opacity: 1;
   }
 }
 
-.modal-body {
-  display: flex;
-  flex-direction: column;
-  padding: 2rem 1.5rem;
-  padding-bottom: 1rem;
-  overflow-y: auto;
-  flex: 1;
-  min-height: 0;
-  scrollbar-width: none;
+h2 {
+  font-size: clamp(2.5rem, 3vw, 3.75rem);
+}
+
+strong {
+  color: $blue-dark;
+  font-weight: bold;
 
   @include for-size(lg) {
-    padding: 3rem 2.5rem;
-  }
-}
-
-.modal-body::-webkit-scrollbar {
-  display: none;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(2rem);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    font-weight: 100;
   }
 }
 
@@ -131,8 +111,7 @@
   top: 0;
   background: white;
   z-index: 5;
-  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.08);
-
+  box-shadow: 0 -4px 8px rgba(255, 255, 255, 0.9);
 }
 
 .edit-header {
@@ -147,15 +126,21 @@
   }
 }
 
+.scrollable-content {
+  display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1;
+}
+
 .task-detail {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: none;
-
 
   .task-detail::-webkit-scrollbar {
     display: none;
@@ -180,10 +165,6 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-
-      strong {
-        color: #333;
-      }
 
       &.priority {
         flex: none;
@@ -212,7 +193,23 @@
   }
 
   .detail-section {
-    overflow: visible;
+    overflow: hidden;
+
+    .details-scroll-section {
+      max-height: 9rem;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: $grey-light transparent;
+    }
+
+    .subtasks-scroll-section {
+      max-height: 5.8rem;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: $grey-light transparent;
+    }
 
     h3 {
       margin: 0 0 0.5rem;
@@ -262,34 +259,32 @@
       align-items: center;
       gap: 0.5rem;
 
-      .subtask-checkbox {
+      .subtask-checkbox-icon {
         width: 18px;
         height: 18px;
-        cursor: pointer;
-        accent-color: #4caf50;
+        flex-shrink: 0;
       }
 
-      .subtask-title {
-        color: #555;
-
-        &.done {
-          text-decoration: line-through;
-          color: #999;
-        }
+      &:hover {
+        background-color: #f0f2f5;
+        border-radius: 0.75rem;
+        cursor: pointer;
+        padding-left: 0.75rem;
       }
     }
   }
 
   .detail-actions {
-    display: flex;
+    display: flex; 
     justify-content: flex-end;
+    align-items: center;
     gap: 1rem;
     position: sticky;
     bottom: 0;
     background: white;
     z-index: 5;
     width: 100%;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0px -4px 8px rgba(255, 255, 255, 1), 0px 4px 4px rgba(255, 255, 255, 1);
 
     .action-btn {
       display: flex;
@@ -315,3 +310,4 @@
     }
   }
 }
+
