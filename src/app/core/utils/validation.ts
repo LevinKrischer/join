@@ -67,7 +67,7 @@ export function isValidPassword(input: string): boolean {
 export function isValidTitle(input: string): boolean {
   if (!input) return false;
   const trimmed = input.trim();
-  return trimmed.length <= 30;
+  return trimmed.length <= 40;
 }
 
 /**

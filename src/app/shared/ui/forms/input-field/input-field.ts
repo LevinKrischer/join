@@ -19,6 +19,8 @@ export class InputFieldComponent {
   @Input() maxlength: number | null = null;
   @Input() minDate: string | null = null;
   @Input() isRequired: boolean = false;
+  @Input() displayLabel: boolean = true;
+  @Input() reserveErrorSpace: boolean = false;
 
   @Input() model: any;
   @Output() modelChange = new EventEmitter<any>();
