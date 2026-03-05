@@ -2,14 +2,14 @@
   <div class="modal-inner d-flex flex-column h-100 w-100">
     <div class="row g-0 flex-grow-1 h-100">
       <div
-        class="col-12 col-lg-5 d-flex flex-column justify-content-center align-items-start modal-title-area p-3 p-sm-4 py-5 p-lg-5 pt-5 gap-0">
+        class="col-12 col-lg-5 d-flex flex-column justify-content-center align-items-start modal-title-area gap-0">
         <img src="/assets/icons/logo-join-default-100px.svg" alt="Join Logo" class="logo d-none d-lg-block" />
         <h2 class="mt-4 mb-1 mb-lg-3">Edit contact</h2>
         <div class="blue-divider mt-0 mt-lg-1"></div>
       </div>
 
       <div
-        class="col-12 col-lg-7 d-flex flex-row align-items-center justify-content-lg-evenly gap-lg-4 p-3 p-sm-4 p-lg-4 position-relative">
+        class="main-area col-12 col-lg-7 d-flex flex-row align-items-start align-items-lg-center justify-content-lg-evenly gap-lg-4 position-relative">
         <div class="d-flex flex-column align-items-center px-lg-2 px-xl-4">
           <div class="d-flex align-items-center justify-content-center contact-avatar"
             [style.background]="contact?.color">
@@ -17,7 +17,7 @@
           </div>
         </div>
         <form (ngSubmit)="save()"
-          class="mt-4 mt-lg-0 d-flex flex-column gap-0 px-lg-2 gap-lg-2 modal-content-area w-100 w-lg-75">
+          class="d-flex flex-column gap-0 px-lg-2 gap-lg-2 modal-content-area w-100 w-lg-75">
           <app-input-field type="text" label="Name" placeholder="Name" icon="assets/icons/form-person-24px.svg"
             [(model)]="form.name" [maxlength]="30" [error]="errors.name" (blur)="markDirty('name')"
             (input)="liveValidate('name')" [maxlength]="30" />
