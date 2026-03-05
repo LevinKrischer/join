@@ -8,6 +8,10 @@
   height: calc(100% - 5.5rem);
   max-width: 90rem;
   overflow-x: hidden;
+  margin: 0;
+  scrollbar-width: thin;
+  scrollbar-color: $grey-light transparent;
+
 
   @include for-size(sm) {
     padding: 3rem 3rem 2rem 3rem;

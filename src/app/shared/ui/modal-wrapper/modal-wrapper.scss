@@ -75,6 +75,7 @@ div.modal-content {
   border-radius: 50%;
   width: 1.5rem;
   height: 1.5rem;
+  transition: $trans-default;
 
   @include for-size(sm) {
     top: 2.5rem;
