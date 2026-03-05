@@ -1,6 +1,6 @@
 <div class="inputRow">
   @if (label) {
-    <label [for]="label" class="form-label"
+    <label [for]="label" [class.visually-hidden]="!displayLabel" class="form-label"
       >{{ label }}
       @if (isRequired) {
         <span class="required-asterisk" aria-hidden="true"><span class="text-danger">*</span></span>
@@ -18,7 +18,7 @@
       (input)="onInput($event)"
       (blur)="blur.emit()"
       aria-invalid="{{ !!error }}"
-      [attr.aria-describedby]="label + 'Error'"
+      [attr.aria-describedby]="error ? label + 'Error' : null"
       [attr.maxlength]="maxlength"
       [attr.min]="minDate"
       [attr.aria-required]="isRequired"
@@ -29,9 +29,10 @@
     }
   </div>
 
-  @if (error) {
-    <div class="text-danger small ps-2 errorMessage" [id]="label + 'Error'" role="alert">
-      {{ error }}
+  @if (reserveErrorSpace || error) {
+    <div class="text-danger small ps-2 errorMessage" [class.no-space]="!reserveErrorSpace" [id]="label + 'Error'" role="alert">
+      @if (error) {
+        {{ error }}
+      }
     </div>
   }
-</div>
