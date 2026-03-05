@@ -1,17 +1,19 @@
-<section class="contact-picker">
-  <app-input-field>
-
-  </app-input-field>
-  <!-- <input
+<section class="contact-picker flex-column">
+  <app-input-field
     type="text"
     class="form-input"
-    placeholder="Select contacts to assign"
-    (blur)="searchContact()"
-  /> -->
+    label="Assigned To"
+    placeholder="Assigned To"
+    [model]="searchTerm()"
+    (modelChange)="searchTerm.set($event)"
+    (focus)="open()"
+    (input)="open()"
+  >
+  </app-input-field>
 
   @if (isOpen()) {
     <ul class="contact-picker__dropdown">
-      @for (c of sortedContacts(); track c.id) {
+      @for (c of filteredContacts(); track c.id) {
         <li class="contact-picker__item" (click)="toggleContact(c.id)">
           <abbr class="contact-picker__avatar" [title]="c.name" [style.background]="c.color">
             {{ getInitials(c.name) }}

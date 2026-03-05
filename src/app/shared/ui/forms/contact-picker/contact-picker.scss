@@ -28,8 +28,7 @@
     content: '';
     position: absolute;
     right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 3rem;
     width: 1.5rem;
     height: 1.5rem;
     background: url('/assets/icons/arrow-dropdown-down-24px.svg') no-repeat center;
@@ -41,8 +40,7 @@
     content: '';
     position: absolute;
     right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 3rem;
     width: 1.5rem;
     height: 1.5rem;
     background: $grey-light;
@@ -64,7 +62,7 @@
   &__dropdown {
     position: absolute;
     z-index: 10;
-    top: 100%;
+    top: 5rem;
     left: 0;
     right: 0;
     max-height: 15rem;
