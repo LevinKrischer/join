@@ -35,10 +35,6 @@ div.modal-container {
   justify-content: stretch;
   animation: fadeInFromBottomAnimation 0.2s ease-in-out;
 
-  @include for-size(lg) {
-    min-height: 35rem;
-  }
-
   &.size-small {
     max-width: 33rem;
   }

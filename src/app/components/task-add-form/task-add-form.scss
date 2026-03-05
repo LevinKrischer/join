@@ -1,16 +1,16 @@
 @use 'styles/variables' as *;
 @use 'styles/mixins' as mixins;
 
-.vr{
+.vr {
   background-color: $grey-light;
 }
 
-.select-wrapper{
+.category-picker {
   position: relative;
   display: flex;
   flex: 1;
 
-  select {
+  .form-select {
     flex: 1;
     appearance: none;
     padding-right: 2.5rem;
@@ -18,16 +18,28 @@
     border-radius: $base-border-radius;
     height: 3rem;
     background-image: none;
+    color: $black;
 
-    &:focus{
+    &::placeholder {
+      color: $grey-light;
+      opacity: 1;
+    }
+
+    &:focus {
       box-shadow: none;
       border-color: $blue-light;
     }
-    &.is-invalid{
+
+    &.is-invalid {
       border-color: $red;
     }
+
+    &:hover {
+      cursor: pointer;
+    }
   }
-  &:after{
+
+  &:after {
     content: '';
     position: absolute;
     right: 1rem;
@@ -38,13 +50,13 @@
     background: url('/assets/icons/arrow-dropdown-down-24px.svg') no-repeat center;
     pointer-events: none;
     z-index: 3;
-    cursor: pointer;
   }
-  &:before{
+
+  &:before {
     content: '';
     position: absolute;
     right: 1rem;
-    top: 50%;
+    top: 1.5rem;
     transform: translateY(-50%);
     width: 1.5rem;
     height: 1.5rem;
@@ -61,15 +73,6 @@
     &:before {
       background: $off-white;
       display: block;
-    }
-  }
-
-  &:focus-within{
-    select{
-      border-color: $blue-light;
-    }
-    &:after{
-      background: url('/assets/icons/arrow-dropdown-up-24px.svg') no-repeat center;
     }
   }
 
@@ -104,7 +107,8 @@
       background: linear-gradient(to bottom, #f9f9f9, #f0f0f0);
     }
 
-    &:active {
+    &:active,
+    &.active {
       background: $blue-dark;
       color: $white;
     }

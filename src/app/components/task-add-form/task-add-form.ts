@@ -6,6 +6,9 @@ import {
   input,
   output,
   effect,
+  signal,
+  ElementRef,
+  HostListener,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -47,6 +50,7 @@ export class TaskAddFormComponent {
   tasksDb = inject(TasksDb);
   contactsDb = inject(ContactsDb);
   cdr = inject(ChangeDetectorRef);
+  elementRef = inject(ElementRef);
 
   feedback = viewChild.required<UserFeedbackComponent>('feedback');
 
@@ -88,6 +92,12 @@ export class TaskAddFormComponent {
   };
 
   selectedContactIds: number[] = [];
+
+  isCategoryOpen = signal(false);
+  categoryOptions: { value: Task['category']; label: string }[] = [
+    { value: 'Technical Task', label: 'Technical Task' },
+    { value: 'User Story', label: 'User Story' },
+  ];
 
   constructor() {
     effect(() => {
@@ -168,8 +178,34 @@ export class TaskAddFormComponent {
   // ---------------------------------------------------------
   // Form-specific handlers
   // ---------------------------------------------------------
+
+  /**
+   * Closes the category dropdown when a click occurs outside the component.
+   * @param event - The document click event.
+   */
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    const target = event.target as HTMLElement;
+    const categoryWrapper = this.elementRef.nativeElement.querySelector('.category-picker');
+    if (categoryWrapper && !categoryWrapper.contains(target)) {
+      this.isCategoryOpen.set(false);
+    }
+  }
+
   onContactsSelected(ids: number[]) {
     this.selectedContactIds = ids;
+  }
+
+  /** Opens the category dropdown. */
+  openCategoryDropdown() {
+    this.isCategoryOpen.set(true);
+  }
+
+  /** Selects a category and closes the dropdown. */
+  selectCategory(value: Task['category']) {
+    this.form.category = value;
+    this.isCategoryOpen.set(false);
+    this.markDirty('category');
   }
 
   onPrioritySelected(priority: Task['priority']) {

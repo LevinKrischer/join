@@ -1,12 +1,12 @@
 <app-user-feedback #feedback animation="slide-up" icon="/assets/icons/nav-board-white-30px.svg" />
 
 @if (useModal()) {
-  <ui-modal-wrapper (close)="onCancel()">
-    <h3 class="mb-4">Add Task</h3>
-    <ng-container *ngTemplateOutlet="formTemplate" />
-  </ui-modal-wrapper>
-} @else {
+<ui-modal-wrapper (close)="onCancel()">
+  <h3 class="mb-4">Add Task</h3>
   <ng-container *ngTemplateOutlet="formTemplate" />
+</ui-modal-wrapper>
+} @else {
+<ng-container *ngTemplateOutlet="formTemplate" />
 }
 
 <ng-template #formTemplate>
@@ -14,142 +14,85 @@
     <div class="row">
       <div [class]="editTask() ? 'col-12' : 'col-12 col-lg-5'">
         <div class="mb-3">
-          <app-input-field
-            type="text"
-            label="Title"
-            id="Title"
-            placeholder="Enter title"
-            [maxlength]="30"
-            [(model)]="form.title"
-            [error]="errors['title']"
-            (blur)="markDirty('title')"
-            (inputChange)="liveValidate('title')"
-            [isRequired]="true"
-          />
+          <app-input-field type="text" label="Title" id="Title" placeholder="Enter title" [maxlength]="30"
+            [(model)]="form.title" [error]="errors['title']" (blur)="markDirty('title')"
+            (inputChange)="liveValidate('title')" [isRequired]="true" />
         </div>
 
-        <ui-textarea
-          id="Description"
-          label="Description"
-          placeholder="Description"
-          [rows]="5"
-          [maxlength]="200"
-          [(model)]="form.description"
-        ></ui-textarea>
+        <ui-textarea id="Description" label="Description" placeholder="Description" [rows]="5" [maxlength]="200"
+          [(model)]="form.description"></ui-textarea>
 
-        <app-input-field
-          type="date"
-          label="Due Date"
-          id="Due-Date"
-          placeholder="Enter due date"
-          [(model)]="form.due_date"
-          [error]="errors['due_date']"
-          (blur)="markDirty('due_date')"
-          (inputChange)="liveValidate('due_date')"
-          [isRequired]="true"
-        />
+        <app-input-field type="date" label="Due Date" id="Due-Date" placeholder="Enter due date"
+          [(model)]="form.due_date" [error]="errors['due_date']" (blur)="markDirty('due_date')"
+          (inputChange)="liveValidate('due_date')" [isRequired]="true" />
       </div>
 
       @if (!editTask()) {
-        <div class="col-lg-1 d-none d-lg-flex justify-content-center">
-          <div class="vr"></div>
-        </div>
+      <div class="col-lg-1 d-none d-lg-flex justify-content-center">
+        <div class="vr"></div>
+      </div>
       }
 
       <div [class]="editTask() ? 'col-12' : 'col-12 col-lg-6'">
         <div class="mb-3">
           <label class="form-label d-block">Priority</label>
           <div class="d-flex gap-2">
-            <ui-button
-              type="button"
-              variant="urgent"
-              icon="urgent"
-              [active]="form.priority === 'urgent'"
-              (click)="onPrioritySelected('urgent')"
-              >Urgent</ui-button
-            >
-            <ui-button
-              type="button"
-              variant="medium"
-              icon="medium"
-              [active]="form.priority === 'medium'"
-              (click)="onPrioritySelected('medium')"
-              >Medium</ui-button
-            >
-            <ui-button
-              type="button"
-              variant="low"
-              icon="low"
-              [active]="form.priority === 'low'"
-              (click)="onPrioritySelected('low')"
-              >Low</ui-button
-            >
+            <ui-button type="button" variant="urgent" icon="urgent" [active]="form.priority === 'urgent'"
+              (click)="onPrioritySelected('urgent')">Urgent</ui-button>
+            <ui-button type="button" variant="medium" icon="medium" [active]="form.priority === 'medium'"
+              (click)="onPrioritySelected('medium')">Medium</ui-button>
+            <ui-button type="button" variant="low" icon="low" [active]="form.priority === 'low'"
+              (click)="onPrioritySelected('low')">Low</ui-button>
           </div>
         </div>
 
         <div class="mb-3">
           <label class="form-label">Assigned To</label>
-          <app-contact-picker
-            [contacts]="contactsDb.contacts()"
-            [initialSelectedIds]="selectedContactIds"
-            (selectedIdsChange)="onContactsSelected($event)"
-          />
+          <app-contact-picker [contacts]="contactsDb.contacts()" [initialSelectedIds]="selectedContactIds"
+            (selectedIdsChange)="onContactsSelected($event)" />
         </div>
 
         <div class="mb-3">
           <label for="Category" class="form-label">
             Category <span class="text-danger">*</span>
           </label>
-          <div class="select-wrapper">
-            <select
-              class="form-select"
-              id="Category"
-              [(ngModel)]="form.category"
-              name="category"
-              [class.is-invalid]="errors['category']"
-              (blur)="markDirty('category')"
-            >
-              <option value="" selected disabled>Select task category</option>
-              <option value="Technical Task">Technical Task</option>
-              <option value="User Story">User Story</option>
-            </select>
+          <div class="category-picker">
+            <input type="text" class="form-select" [class.is-invalid]="errors['category']"
+              [value]="form.category" placeholder="Select task category" readonly
+              (click)="openCategoryDropdown()" />
+
+            @if (isCategoryOpen()) {
+            <ul class="category-picker__dropdown">
+              @for (option of categoryOptions; track option.value) {
+              <li class="category-picker__item" (click)="selectCategory(option.value)"
+                [class.active]="form.category === option.value">
+                {{ option.label }}
+              </li>
+              }
+            </ul>
+            }
           </div>
 
           @if (errors['category']) {
-            <div class="invalid-feedback d-block">{{ errors['category'] }}</div>
+          <div class="invalid-feedback d-block">{{ errors['category'] }}</div>
           }
         </div>
 
         <div class="mb-3">
-          <app-subtask-input-group
-            [subtasks]="form.subtasks"
-            (subtasksChange)="form.subtasks = $event"
-          />
+          <app-subtask-input-group [subtasks]="form.subtasks" (subtasksChange)="form.subtasks = $event" />
         </div>
       </div>
     </div>
 
     <div class="row mt-4">
-      <div
-        class="col-12 d-flex justify-content-center justify-content-lg-start align-items-center gap-3"
-      >
+      <div class="col-12 d-flex justify-content-center justify-content-lg-start align-items-center gap-3">
         <span class="me-auto"><span class="text-danger">*</span>This field is required</span>
 
         @if (!editTask()) {
-          <ui-button
-            type="button"
-            variant="secondary"
-            class="d-none d-lg-inline-flex"
-            (click)="onCancel()"
-            >Clear
-          </ui-button>
+        <ui-button type="button" variant="secondary" class="d-none d-lg-inline-flex" (click)="onCancel()">Clear
+        </ui-button>
         }
-        <ui-button
-          type="submit"
-          variant="primary"
-          [disabled]="isSaving"
-          [icon]="editTask() ? 'create' : 'add'"
-        >
+        <ui-button type="submit" variant="primary" [disabled]="isSaving" [icon]="editTask() ? 'create' : 'add'">
           {{ editTask() ? 'Ok' : 'Create Task' }}
         </ui-button>
       </div>
