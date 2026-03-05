@@ -25,10 +25,11 @@ input {
   transition: border-color 0.2s ease;
 
   .form-control {
-    border: none;
+    border: 0;
     box-shadow: none;
     flex: 1;
     padding-right: 0;
+    border-radius: $base-border-radius;
 
     &:focus {
       box-shadow: none;
