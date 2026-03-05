@@ -27,6 +27,7 @@ export class InputFieldComponent {
 
   @Output() blur = new EventEmitter<void>();
   @Output() inputChange = new EventEmitter<Event>();
+  @Output() focus = new EventEmitter<void>();
 
   onInput(event: Event) {
     const value = (event.target as HTMLInputElement).value;

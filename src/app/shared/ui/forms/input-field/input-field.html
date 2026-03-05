@@ -17,6 +17,7 @@
       [value]="model ?? ''"
       (input)="onInput($event)"
       (blur)="blur.emit()"
+      (focus)="focus.emit()"
       aria-invalid="{{ !!error }}"
       [attr.aria-describedby]="error ? label + 'Error' : null"
       [attr.maxlength]="maxlength"

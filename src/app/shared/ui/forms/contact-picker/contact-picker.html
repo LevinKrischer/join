@@ -6,6 +6,7 @@
     placeholder="Assigned To"
     [model]="searchTerm()"
     (modelChange)="searchTerm.set($event)"
+    (focus)="open()"
     (input)="open()"
   >
   </app-input-field>
