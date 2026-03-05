@@ -35,11 +35,16 @@
 
   @if (selectedContacts().length > 0) {
     <ul class="contact-picker__chips">
-      @for (c of selectedContacts(); track c.id) {
-        <li>
+      @for (c of selectedContacts().slice(0, 5); track c.id) {
+        <li class="avatar">
           <abbr class="contact-picker__chip" [title]="c.name" [style.background]="c.color">
             {{ getInitials(c.name) }}
           </abbr>
+        </li>
+      }
+      @if (selectedContacts().length > 5) {
+        <li class="contact-picker__chip-more d-flex justify-content-center align-items-center">
+          +{{ selectedContacts().length - 5 }}
         </li>
       }
     </ul>

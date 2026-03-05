@@ -44,6 +44,23 @@ ul.subtask-list {
     &:hover .vr {
       opacity: 1;
     }
+
+    .btn{
+      z-index: 3;
+      &:hover{
+        &:after{
+          content: "";
+          position: absolute;
+          background-color: $grey-light;
+          border-radius: 100%;
+          width: 1.5rem;
+          height: 1.5rem;
+          z-index: -1;
+          left: 0.25rem;
+          top: 0.25rem;
+        }
+      }
+    }
   }
 }
 
@@ -106,13 +123,14 @@ input {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
+    z-index: 5;
 
     &:hover{
       background: none;
     }
     &.clear{
       right: 2rem;
-      &:after{
+      &:before{
         content: '';
         position: absolute;
         height: 1.5rem;
