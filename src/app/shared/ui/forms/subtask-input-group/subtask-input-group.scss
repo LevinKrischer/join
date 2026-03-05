@@ -56,8 +56,9 @@ ul.subtask-list {
           width: 1.5rem;
           height: 1.5rem;
           z-index: -1;
-          left: 0.25rem;
-          top: 0.25rem;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
         }
       }
     }
@@ -136,7 +137,7 @@ input {
         height: 1.5rem;
         width: 1px;
         top:.50rem;
-        right: 0.5rem;
+        right: 0;
         background-color: $grey-light;
       }
     }

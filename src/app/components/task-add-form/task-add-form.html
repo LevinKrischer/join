@@ -2,7 +2,7 @@
 
 @if (useModal()) {
   <ui-modal-wrapper (close)="onCancel()">
-    <h3 class="mb-4">Add Task</h3>
+    <h3 class="mb-3">Add Task</h3>
     <ng-container *ngTemplateOutlet="formTemplate" />
   </ui-modal-wrapper>
 } @else {
@@ -13,7 +13,7 @@
   <form (ngSubmit)="submit()">
     <div class="row">
       <div [class]="editTask() ? 'col-12' : 'col-12 col-lg-5'">
-        <div class="mb-3">
+        <div class="my-3">
           <app-input-field
             type="text"
             label="Title"
@@ -57,9 +57,9 @@
       }
 
       <div [class]="editTask() ? 'col-12' : 'col-12 col-lg-6'">
-        <div class="my-3 my-lg-0 mb-lg-3">
+        <div class="my-3">
           <label class="form-label d-block">Priority</label>
-          <div class="d-flex flex-wrap gap-2">
+          <div class="d-flex flex-wrap gap-2 priority-picker">
             <ui-button
               type="button"
               variant="urgent"

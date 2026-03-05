@@ -29,6 +29,10 @@ export class TaskBoard {
 
   open = output<Task>();
 
+  // Detects if device supports touch (mobile/tablet)
+  isMobile = signal(this.detectTouchDevice());
+  dragStartDelay = computed(() => (this.isMobile() ? 500 : 0));
+
   // Keep the input as a signal so computed columns re-evaluate when the
   // parent passes a new array (e.g. filteredTasks()).
   private _tasks = signal<Task[]>([]);
@@ -119,6 +123,18 @@ export class TaskBoard {
 
     // Refresh tasks from database
     await this.tasksDb.getTasks();
+  }
+
+  /**
+   * Detects if the device supports touch events (mobile/tablet).
+   * @returns True if touch events are supported.
+   */
+  private detectTouchDevice(): boolean {
+    return (
+      window.matchMedia('(hover: none) and (pointer: coarse)').matches ||
+      ('ontouchstart' in window) ||
+      (navigator.maxTouchPoints > 0)
+    );
   }
 
   async onCardStatusChange(event: { task: Task; newStatus: Task['status'] }) {
