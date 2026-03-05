@@ -47,6 +47,7 @@ div.modal-container {
 div.modal-content {
   height: 100%;
   overflow-y: auto;
+  scrollbar-width: thin;
 
   &.with-padding {
     padding: 2rem 1rem 1rem 1rem;
@@ -66,15 +67,26 @@ div.modal-content {
   }
 }
 
+
+
 .close-btn {
   position: absolute;
   top: 2rem;
   right: 1rem;
+  background-color: transparent;
   z-index: 1060;
+  font-size: 0.75rem;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
 
   @include for-size(sm) {
     top: 2.5rem;
     right: 2.5rem;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
   }
 
 }

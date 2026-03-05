@@ -144,7 +144,12 @@
             >Clear
           </ui-button>
         }
-        <ui-button type="submit" variant="primary" [disabled]="isSaving">
+        <ui-button
+          type="submit"
+          variant="primary"
+          [disabled]="isSaving"
+          [icon]="editTask() ? 'create' : 'add'"
+        >
           {{ editTask() ? 'Ok' : 'Create Task' }}
         </ui-button>
       </div>

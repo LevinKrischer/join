@@ -5,6 +5,10 @@ input {
   height: 3rem;
 }
 
+.visually-hidden {
+  @include mixins.visually-hidden;
+}
+
 .inputRow {
   display: flex;
   flex-direction: column;
@@ -66,6 +70,10 @@ input {
 
 .errorMessage {
   min-height: 2em;
+
+  &.no-space {
+    min-height: auto;
+  }
 }
 
 .iconWrapper {

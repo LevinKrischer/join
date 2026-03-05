@@ -81,10 +81,10 @@
 
   </div>
   } @else {
-      <div class="edit-header">
-        <h2>Edit Task</h2>
-        <button class="modal-close" (click)="onEditCancelled()">&times;</button>
-      </div>
+      <header class="edit-header">
+        <h4>Edit Task</h4>
+      </header>
+
       <app-task-add-form
         [editTask]="task()"
         (updated)="onTaskUpdated()"
