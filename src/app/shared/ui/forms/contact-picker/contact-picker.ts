@@ -1,12 +1,12 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   signal,
   computed,
   ElementRef,
   HostListener,
+  effect,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Contact } from '../../../../core/db/contacts.db';
@@ -19,23 +19,32 @@ import { Contact } from '../../../../core/db/contacts.db';
   styleUrl: './contact-picker.scss',
 })
 export class ContactPicker {
-  @Input() contacts: Contact[] = [];
-  @Output() selectedIdsChange = new EventEmitter<number[]>();
+  contacts = input<Contact[]>([]);
+  initialSelectedIds = input<number[]>([]);
+  selectedIdsChange = output<number[]>();
+
   isOpen = signal(false);
   selectedIds = signal<number[]>([]);
 
   /** Contacts sorted alphabetically by name. */
   sortedContacts = computed(() => {
-    return [...this.contacts].sort((a, b) => a.name.localeCompare(b.name));
+    return [...this.contacts()].sort((a, b) => a.name.localeCompare(b.name));
   });
 
   /** The full contact objects for all currently selected IDs. */
   selectedContacts = computed(() => {
     const ids = this.selectedIds();
-    return this.contacts.filter((c) => ids.includes(c.id));
+    return this.contacts().filter((c) => ids.includes(c.id));
   });
 
-  constructor(private elRef: ElementRef) {}
+  constructor(private elRef: ElementRef) {
+    effect(() => {
+      const ids = this.initialSelectedIds();
+      if (ids.length) {
+        this.selectedIds.set(ids);
+      }
+    });
+  }
 
   /**
    * Closes the dropdown when a click occurs outside the component.

@@ -1,4 +1,9 @@
 @use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+// Modal size variants
+$modal-max-width-normal: 75.75rem;
+$modal-max-width-small: 35rem;
 
 div.modal-backdrop {
   position: fixed;
@@ -17,10 +22,10 @@ div.modal-container {
   transform: translate(-50%, -50%);
   z-index: 1050;
   width: 90%;
-  max-width: 75.75rem;
-  height: 80%;
-  max-height: 90vh;
-  min-height: 37rem;
+  max-width: $modal-max-width-normal;
+  max-height: 90dvh;
+  min-height: 0;
+  height: auto;
   background: $white;
   border-radius: $card-border-radius;
   overflow: hidden;
@@ -29,18 +34,49 @@ div.modal-container {
   align-items: center;
   justify-content: stretch;
   animation: fadeInFromBottomAnimation 0.2s ease-in-out;
+
+  @include for-size(lg) {
+    min-height: 35rem;
+  }
+
+  &.size-small {
+    max-width: 33rem;
+  }
 }
 
 div.modal-content {
   height: 100%;
   overflow-y: auto;
+
+  &.with-padding {
+    padding: 2rem 1rem 1rem 1rem;
+
+    @include for-size(sm) {
+      padding: 2rem;
+    }
+
+    @include for-size(md) {
+      padding: 2.5rem 2.5rem 1.5rem 2.5rem;
+    }
+
+    @include for-size(lg) {
+      padding: 3rem 2.5rem 2.5rem 2.5rem;
+    }
+
+  }
 }
 
 .close-btn {
   position: absolute;
-  top: $space-md;
-  right: $space-md;
+  top: 2rem;
+  right: 1rem;
   z-index: 1060;
+
+  @include for-size(sm) {
+    top: 2.5rem;
+    right: 2.5rem;
+  }
+
 }
 
 @keyframes fadeInFromBottomAnimation {
@@ -52,15 +88,5 @@ div.modal-content {
   to {
     transform: translate(-50%, -50%);
     opacity: 1;
-  }
-}
-
-@media (max-width: 992px) {
-  div.modal-container {
-    height: 100dvh;
-  }
-
-  .close-btn {
-    filter: invert(100%);
   }
 }

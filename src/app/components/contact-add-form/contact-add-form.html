@@ -1,7 +1,7 @@
-<ui-modal-wrapper (close)="onCancel()" id="contact-add-form">
+<ui-modal-wrapper (close)="onCancel()" id="contact-add-form" [contentPadding]="false">
   <div class="modal-inner d-flex flex-column h-100 w-100">
     <div class="row g-0 flex-grow-1 h-100">
-      <div class="col-12 col-lg-5 d-flex flex-column justify-content-center align-items-start modal-title-area p-3 p-sm-4 py-5 p-lg-5 pt-5 gap-0">
+      <div class="col-12 col-lg-5 d-flex flex-column justify-content-center align-items-start modal-title-area gap-0">
         <img
           src="/assets/icons/logo-join-default-100px.svg"
           alt="Join Logo"
@@ -12,7 +12,7 @@
         <div class="blue-divider mb-2"></div>
       </div>
 
-      <div class="col-12 col-lg-7 d-flex flex-row align-items-center justify-content-lg-evenly gap-lg-4 p-3 p-sm-4 p-lg-4 position-relative">
+      <div class="main-area col-12 col-lg-7 d-flex flex-row align-items-start align-items-lg-center justify-content-lg-evenly gap-lg-4 position-relative">
         <div class="d-flex flex-column align-items-center px-lg-2 px-xl-4">
           <div class="d-flex align-items-center justify-content-center contact-avatar">
             <img src="/assets/icons/person-white-64px.svg" alt="Initialism placeholder" />

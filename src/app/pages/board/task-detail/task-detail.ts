@@ -1,22 +1,32 @@
-import { Component, input, output, inject, viewChild } from '@angular/core';
+import { Component, signal, input, output, inject, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TasksDb, Task } from '../../../core/db/tasks.db';
+import { TasksDb, Task, Subtask } from '../../../core/db/tasks.db';
+import { TaskAddFormComponent } from '../../../components/task-add-form/task-add-form';
 import { UserFeedbackComponent } from '../../../shared/ui/user-feedback/user-feedback';
+import { ModalWrapper } from '../../../shared/ui/modal-wrapper/modal-wrapper';
 
 @Component({
   selector: 'app-task-detail',
   standalone: true,
-  imports: [CommonModule, UserFeedbackComponent],
+  imports: [CommonModule, TaskAddFormComponent, UserFeedbackComponent, ModalWrapper],
   templateUrl: './task-detail.html',
   styleUrls: ['./task-detail.scss'],
 })
 export class TaskDetailComponent {
-  task = input.required<Task>(); // Wired in board.html
-  close = output<void>();
-
+  // Injections
   private taskDbSingleton = inject(TasksDb);
 
+  // Inputs
+  task = input.required<Task>(); // Wired in board.html
+
+  // Outputs
+  close = output<void>();
+
+  // Using child comps
   userFeedback = viewChild.required<UserFeedbackComponent>('feedback');
+
+  // Boolean signals
+  isEditing = signal(false);
 
   /** returns the appropriate priority icon path for the current task */
   get priorityIcon(): string {
@@ -69,7 +79,30 @@ export class TaskDetailComponent {
     }
   }
 
-  async updateTask() {
-    console.log('Hier fehlt noch die Update-Logik!');
+  updateTask() {
+    this.isEditing.set(true);
+  }
+
+  async onTaskUpdated() {
+    this.isEditing.set(false);
+  }
+
+  onEditCancelled() {
+    this.isEditing.set(false);
+  }
+
+  async toggleSubtask(subtask: Subtask) {
+    try {
+      subtask.done = !subtask.done;
+
+      await this.taskDbSingleton.updateTask(this.task().id, {
+        subtasks: this.task().subtasks,
+      });
+
+    } catch (err) {
+      console.error('Failed to update subtask:', err);
+      subtask.done = !subtask.done;
+      this.userFeedback().show('Failed to update subtask. Please try again.');
+    }
   }
 }

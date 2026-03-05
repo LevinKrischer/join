@@ -1,125 +1,25 @@
-@use'styles/mixins' as *;
+@use 'styles/mixins' as *;
 @use 'styles/variables' as *;
+
+* {
+  transition: $trans-default;
+  scrollbar-width: none;
+}
 
 :host {
   display: contents;
 }
 
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 10;
-  animation: fadeIn 0.2s ease-in;
+h2 {
+  font-size: clamp(2.5rem, 3vw, 3.75rem);
 }
 
-.modal-container {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  border: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal {
-  position: relative;
-  z-index: 1001;
-  display: flex;
-  flex-direction: column;
-  background: white;
-  border-radius: 30px;
-  width: 450px;
-  height: fit-content;
-  max-height: 90dvh;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  animation: slideUp 0.25s ease-out;
-}
-
-.modal::-webkit-scrollbar {
-  display: none;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: none;
-  padding: 0;
-
-  h2 {
-    margin: 0;
-    font-size: clamp(2.25rem, 3vw, 3rem);
-    font-weight: 700;
-    color: #000;
-  }
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  font-size: clamp(2rem, 2.5vw, 2.5rem);
-  cursor: pointer;
-  color: #333;
-  padding: 0;
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s;
-
-  &:hover {
-    color: #000;
-  }
-}
-
-.modal-body {
-  display: flex;
-  flex-direction: column;
-  padding: 2rem 1.5rem;
-  padding-bottom: 1rem;
-  overflow: hidden;
-  flex: 1;
-  min-height: 0;
-  scrollbar-width: none;
+strong {
+  color: $blue-dark;
+  font-weight: bold;
 
   @include for-size(lg) {
-    padding: 3rem 2.5rem;
-  }
-}
-
-.modal-body::-webkit-scrollbar {
-  display: none;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(2rem);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    font-weight: 100;
   }
 }
 
@@ -132,19 +32,36 @@
   top: 0;
   background: white;
   z-index: 5;
-  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -4px 8px rgba(255, 255, 255, 0.9);
+}
 
+.edit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  h2 {
+    margin: 0;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+  }
+}
+
+.scrollable-content {
+  display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1;
 }
 
 .task-detail {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: none;
-
 
   .task-detail::-webkit-scrollbar {
     display: none;
@@ -169,10 +86,6 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-
-      strong {
-        color: #333;
-      }
 
       &.priority {
         flex: none;
@@ -201,7 +114,23 @@
   }
 
   .detail-section {
-    overflow: visible;
+    overflow: hidden;
+
+    .details-scroll-section {
+      max-height: 9rem;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: $grey-light transparent;
+    }
+
+    .subtasks-scroll-section {
+      max-height: 5.8rem;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: $grey-light transparent;
+    }
 
     h3 {
       margin: 0 0 0.5rem;
@@ -251,20 +180,17 @@
       align-items: center;
       gap: 0.5rem;
 
-      .subtask-checkbox {
+      .subtask-checkbox-icon {
         width: 18px;
         height: 18px;
-        cursor: pointer;
-        accent-color: #4caf50;
+        flex-shrink: 0;
       }
 
-      .subtask-title {
-        color: #555;
-
-        &.done {
-          text-decoration: line-through;
-          color: #999;
-        }
+      &:hover {
+        background-color: #f0f2f5;
+        border-radius: 0.75rem;
+        cursor: pointer;
+        padding-left: 0.75rem;
       }
     }
   }
@@ -272,13 +198,14 @@
   .detail-actions {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     gap: 1rem;
     position: sticky;
     bottom: 0;
     background: white;
     z-index: 5;
     width: 100%;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0px -4px 8px rgba(255, 255, 255, 1), 0px 4px 4px rgba(255, 255, 255, 1);
 
     .action-btn {
       display: flex;
@@ -303,178 +230,4 @@
       }
     }
   }
-}
-
-@include for-size(xs) {
-  .modal {
-    width: min(90vw, 320px);
-    max-height: calc(85dvh - 4rem);
-    display: flex;
-    flex-direction: column;
-  }
-
-  .modal-body {
-    padding: $space-md $space-sm $space-md;
-    flex: 1;
-    overflow-y: auto;
-
-    .badge-row,
-    .detail-actions {
-      padding: 0 $space-sm;
-    }
-
-    .detail-actions {
-      gap: 0.5rem;
-    }
-
-    .modal-close {
-      width: 1.5rem;
-      height: 1.5rem;
-      font-size: 1.5rem;
-    }
-
-    .modal-header h2 {
-      font-size: clamp(1.75rem, 5vw, 2.5rem);
-    }
-
-    .category-badge {
-      padding: 0.25rem 0.5rem;
-      font-size: 0.75rem;
-    }
-
-    .detail-meta {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
-
-      .meta-item {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-
-        strong {
-          color: #333;
-        }
-
-        &.priority {
-          flex: none;
-          display: flex;
-          align-items: center;
-          gap: 1.5rem;
-        }
-
-        &.due-date {
-          flex: 1;
-        }
-      }
-
-      .priority-text {
-        color: #111;
-        letter-spacing: 0.2px;
-      }
-
-      .priority-icon {
-        width: 25px;
-        height: 25px;
-        object-fit: contain;
-        display: inline-block;
-        margin-left: -20px;
-      }
-    }
-
-    .detail-section .contacts-list {
-      gap: 0.5rem;
-    }
-
-    .detail-section .contact-avatar {
-      width: 32px;
-      height: 32px;
-      font-size: 1rem;
-    }
-  }
-
-}
-
-@include for-size(sm) {
-  .modal {
-    width: min(92vw, 360px);
-    max-height: calc(90dvh - 6rem);
-    display: flex;
-    flex-direction: column;
-  }
-
-  .modal-body {
-    padding: $space-md;
-    flex: 1;
-    overflow-y: auto;
-
-    .detail-actions {
-      gap: 0.6rem;
-    }
-
-    .modal-close {
-      width: 1.7rem;
-      height: 1.7rem;
-      font-size: 1.7rem;
-    }
-
-    .modal-header h2 {
-      font-size: clamp(2rem, 4vw, 2.7rem);
-    }
-
-    .category-badge {
-      padding: 0.3rem 0.6rem;
-      font-size: 0.85rem;
-    }
-
-    .detail-section .contact-avatar {
-      width: 34px;
-      height: 34px;
-    }
-  }
-}
-
-@include for-size(md) {
-  .modal {
-    width: min(85vw, 420px);
-    max-height: calc(90dvh - 6rem);
-    display: flex;
-    flex-direction: column;
-  }
-
-  .modal-body {
-    padding: $space-lg;
-    flex: 1;
-    overflow-y: auto;
-
-    .detail-actions {
-      gap: 0.75rem;
-    }
-
-    .modal-close {
-      width: 2rem;
-      height: 2rem;
-      font-size: 2rem;
-    }
-
-    .modal-header h2 {
-      font-size: clamp(2.2rem, 3vw, 3rem);
-    }
-
-    .category-badge {
-      padding: 0.35rem 0.7rem;
-      font-size: 0.9rem;
-    }
-
-    .detail-section .contact-avatar {
-      width: 38px;
-      height: 38px;
-    }
-  }
-}
-
-.detail-section .contact-avatar {
-  width: 38px;
-  height: 38px;
 }

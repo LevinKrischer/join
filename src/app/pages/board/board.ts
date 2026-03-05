@@ -26,17 +26,18 @@ export class Board implements OnInit, OnDestroy {
 
   isModalOpen = signal(false);
   modalMode: 'add' | 'detail' = 'add';
-  selectedTask = signal<Task | null>(null);
+  selectedTaskId = signal<number | null>(null);
+  selectedTask = computed(() => this.tasks().find(t => t.id === this.selectedTaskId()) ?? null);
 
   openAdd() {
     this.modalMode = 'add';
-    this.selectedTask.set(null);
+    this.selectedTaskId.set(null);
     this.isModalOpen.set(true);
   }
 
   openDetail(task: Task) {
     this.modalMode = 'detail';
-    this.selectedTask.set(task);
+    this.selectedTaskId.set(task.id);
     this.isModalOpen.set(true);
   }
 

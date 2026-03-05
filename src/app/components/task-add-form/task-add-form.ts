@@ -1,20 +1,7 @@
-import {
-  Component,
-  viewChild,
-  inject,
-  ChangeDetectorRef,
-  input,
-  output,
-  effect,
-} from '@angular/core';
+import { Component, viewChild, inject, ChangeDetectorRef, input, output, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  isValidTitle,
-  isValidDescription,
-  isValidDueDate,
-  isValidCategory,
-} from '../../core/utils/validation';
+import { isValidTitle, isValidDescription, isValidDueDate, isValidCategory } from '../../core/utils/validation';
 import { TasksDb, Task } from '../../core/db/tasks.db';
 import { ContactsDb } from '../../core/db/contacts.db';
 import { InputFieldComponent } from '../../shared/ui/forms/input-field/input-field';
@@ -40,6 +27,7 @@ import { Select } from '../../shared/ui/forms/select/select';
     Textarea,
     UserFeedbackComponent,
     Select,
+    Select,
   ],
   templateUrl: 'task-add-form.html',
   styleUrls: ['task-add-form.scss'],
@@ -53,8 +41,10 @@ export class TaskAddFormComponent {
 
   useModal = input(false);
   initialStatus = input<Task['status']>('todo');
+  editTask = input<Task | null>(null);
 
   created = output<void>();
+  updated = output<void>();
   closed = output<void>();
 
   isSaving = false;
@@ -90,7 +80,19 @@ export class TaskAddFormComponent {
 
   constructor() {
     effect(() => {
-      this.form.status = this.initialStatus();
+      const task = this.editTask();
+      if (task) {
+        this.form.title = task.title;
+        this.form.description = task.description;
+        this.form.due_date = task.due_date;
+        this.form.priority = task.priority;
+        this.form.category = task.category;
+        this.form.subtasks = task.subtasks;
+        this.form.status = task.status;
+        this.selectedContactIds = task.contacts.map((c) => c.id);
+      } else {
+        this.form.status = this.initialStatus();
+      }
     });
   }
 
@@ -175,15 +177,21 @@ export class TaskAddFormComponent {
   async submit() {
     this.markAllDirty();
     if (!this.isFormValid()) return;
-
     this.startSaving();
 
     try {
       await this.saveTask();
-      this.feedback().show('Task added to board.');
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      this.created.emit();
-      this.resetForm();
+
+      if (!!this.editTask()) {
+        this.feedback().show('Task updated.');
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        this.updated.emit(); // back to detail view
+      } else {
+        this.feedback().show('Task added to board.');
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        this.created.emit();
+        this.resetForm();
+      }
     } catch (err) {
       this.handleSaveError(err);
     } finally {
@@ -206,10 +214,16 @@ export class TaskAddFormComponent {
   }
 
   private async saveTask() {
-    return this.tasksDb.createTask(
-      this.form as Omit<Task, 'id' | 'contacts' | 'created_at' | 'modified_at' | 'order'>,
-      this.selectedContactIds,
-    );
+    const formData = this.form as Omit<
+      Task,
+      'id' | 'contacts' | 'created_at' | 'modified_at' | 'order'
+    >;
+
+    if (!!this.editTask()) {
+      return this.tasksDb.updateTask(this.editTask()!.id, formData, this.selectedContactIds);
+    } else {
+      return this.tasksDb.createTask(formData, this.selectedContactIds);
+    }
   }
 
   private handleSaveError(err: unknown) {

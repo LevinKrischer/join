@@ -4,42 +4,70 @@
 .modal-title-area {
   background-color: $blue-darker;
   position: relative;
+  padding: 3rem 1rem 4rem 1rem;
 
   p,
   h2 {
     color: $white;
   }
+
+  @include for-size(sm) {
+    padding: 3rem 2rem 4rem 2rem;
+  }
+
+  @include for-size(md) {
+    padding: 2.5rem;
+  }
+
+  @include for-size(lg) {
+    padding: 11rem 3rem;
+  }
+}
+
+.main-area {
+  padding: 3rem 1rem 1rem 1rem;
+
+  @include for-size(sm) {
+    padding: 3rem 2rem 1rem 2rem;
+  }
+
+  @include for-size(md) {
+    padding: 2.5rem 2.5rem 1.5rem 2.5rem;
+  }
+
+  @include for-size(lg) {
+    padding: 2.5rem 2rem 1.5rem 2rem;
+  }
 }
 
 .contact-avatar {
+  position: absolute;
   width: 5.5rem;
   height: 5.5rem;
+  border: 2px solid $white;
   border-radius: 50%;
   color: #ffffff;
   background-color: $grey;
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 3rem;
   text-align: center;
   flex-shrink: 0;
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.4);
+  top: -48px;
+  right: 50%;
+  transform: translateX(50%);
 
   @include for-size(lg) {
+    position: relative;
     width: 6.25rem;
     height: 6.25rem;
-    font-size: 3rem;
+    font-size: 3.5rem;
+    top: 0;
+    right: 0;
+    transform: none;
   }
 }
 
 .visually-hidden {
   @include visually-hidden;
-}
-
-@media (max-width: 992px) {
-  .contact-avatar {
-    position: absolute;
-    top: -50px;
-    right: 50%;
-    transform: translateX(50%);
-    border: 2px solid $white;
-  }
 }

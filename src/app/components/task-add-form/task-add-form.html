@@ -2,6 +2,7 @@
 
 @if (useModal()) {
   <ui-modal-wrapper (close)="onCancel()">
+    <h3 class="mb-4">Add Task</h3>
     <ng-container *ngTemplateOutlet="formTemplate" />
   </ui-modal-wrapper>
 } @else {
@@ -11,7 +12,7 @@
 <ng-template #formTemplate>
   <form (ngSubmit)="submit()">
     <div class="row">
-      <div class="col-12 col-lg-5">
+      <div [class]="editTask() ? 'col-12' : 'col-12 col-lg-5'">
         <div class="mb-3">
           <app-input-field
             type="text"
@@ -49,11 +50,13 @@
         />
       </div>
 
-      <div class="col-lg-1 d-none d-lg-flex justify-content-center">
-        <div class="vr"></div>
-      </div>
+      @if (!editTask()) {
+        <div class="col-lg-1 d-none d-lg-flex justify-content-center">
+          <div class="vr"></div>
+        </div>
+      }
 
-      <div class="col-12 col-lg-6">
+      <div [class]="editTask() ? 'col-12' : 'col-12 col-lg-6'">
         <div class="mb-3">
           <label class="form-label d-block">Priority</label>
           <div class="d-flex gap-2">
@@ -88,6 +91,7 @@
           <label class="form-label">Assigned To</label>
           <app-contact-picker
             [contacts]="contactsDb.contacts()"
+            [initialSelectedIds]="selectedContactIds"
             (selectedIdsChange)="onContactsSelected($event)"
           />
         </div>
@@ -137,15 +141,16 @@
         class="col-12 d-flex justify-content-center justify-content-lg-start align-items-center gap-3"
       >
         <span class="me-auto"><span class="text-danger">*</span>This field is required</span>
-        <ui-button
-          type="button"
-          variant="secondary"
-          class="d-none d-lg-inline-flex"
-          (click)="onCancel()"
-        >
-          Clear
+
+        @if (!editTask()) {
+          <ui-button type="button" variant="secondary" class="d-none d-lg-inline-flex"
+                     (click)="onCancel()">Clear
+          </ui-button>
+        }
+        <ui-button type="submit" variant="primary" [disabled]="isSaving">
+          {{ editTask() ? 'Ok' : 'Create Task' }}
         </ui-button>
-        <ui-button type="submit" variant="primary" [disabled]="isSaving"> Create Task </ui-button>
+
       </div>
     </div>
   </form>
