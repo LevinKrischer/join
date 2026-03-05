@@ -103,4 +103,8 @@ export class ContactPicker {
     const parts = name.split(' ');
     return ((parts[0]?.[0] ?? '') + (parts.at(-1)?.[0] ?? '')).toUpperCase();
   }
+
+  resetContactSelection() {
+    this.selectedIds.set([]);
+  }
 }
