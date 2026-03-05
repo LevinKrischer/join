@@ -1,5 +1,13 @@
-import { Component, input, output, signal,
-  computed, ElementRef, HostListener, effect } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  computed,
+  ElementRef,
+  HostListener,
+  effect,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Contact } from '../../../../core/db/contacts.db';
 
@@ -26,7 +34,7 @@ export class ContactPicker {
   /** The full contact objects for all currently selected IDs. */
   selectedContacts = computed(() => {
     const ids = this.selectedIds();
-    return this.contacts().filter(c => ids.includes(c.id));
+    return this.contacts().filter((c) => ids.includes(c.id));
   });
 
   constructor(private elRef: ElementRef) {
@@ -62,7 +70,7 @@ export class ContactPicker {
   toggleContact(contactId: number) {
     const current = this.selectedIds();
     const updated = current.includes(contactId)
-      ? current.filter(id => id !== contactId)
+      ? current.filter((id) => id !== contactId)
       : [...current, contactId];
     this.selectedIds.set(updated);
     this.selectedIdsChange.emit(updated);

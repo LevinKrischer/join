@@ -1,5 +1,11 @@
 <main class="contact-picker">
-  <input type="text" class="form-select" placeholder="Select contacts to assign" readonly (click)="open()"/>
+  <input
+    type="text"
+    class="form-select"
+    placeholder="Select contacts to assign"
+    readonly
+    (click)="open()"
+  />
 
   @if (isOpen()) {
     <ul class="contact-picker__dropdown">
@@ -10,8 +16,12 @@
           </abbr>
 
           <span class="contact-picker__label">{{ c.name }}</span>
-          <input type="checkbox" class="contact-picker__checkbox" [checked]="isSelected(c.id)" (click)="$event.stopPropagation(); toggleContact(c.id)"/>
-
+          <input
+            type="checkbox"
+            class="contact-picker__checkbox"
+            [checked]="isSelected(c.id)"
+            (click)="$event.stopPropagation(); toggleContact(c.id)"
+          />
         </li>
       } @empty {
         <li class="contact-picker__empty">No contacts found</li>

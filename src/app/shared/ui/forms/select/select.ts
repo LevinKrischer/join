@@ -11,6 +11,7 @@ export class Select {
   @Input() errorMessage: string = '';
   @Input() preselectedValue: string = '';
   @Input() selectedValue: any = '';
+  @Input() error: string | null = null;
   @Input() options: { label: string; value: any }[] = [];
   @Input() isRequired: boolean = false;
 }

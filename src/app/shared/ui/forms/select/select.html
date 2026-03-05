@@ -8,15 +8,17 @@
     </label>
   }
 
-  <select [id]="label" class="form-control" [value]="selectedValue">
-    <option value="" disabled selected>{{ preselectedValue }}</option>
+  <div class="select-wrapper">
+    <select [id]="label" class="form-control" [value]="selectedValue" aria-invalid="{{ !!error }}">
+      <option value="" disabled selected>{{ preselectedValue }}</option>
 
-    @for (option of options; track option.value) {
-      <option [value]="option.value">
-        {{ option.label }}
-      </option>
-    }
-  </select>
+      @for (option of options; track option.value) {
+        <option [value]="option.value">
+          {{ option.label }}
+        </option>
+      }
+    </select>
+  </div>
 
   @if (errorMessage) {
     <div class="text-danger">{{ errorMessage }}</div>
