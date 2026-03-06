@@ -134,3 +134,22 @@
     }
   }
 }
+
+.button-area{
+  position: fixed;
+  bottom: 5rem;
+  background-color: $off-white;
+  padding: 1rem 0;
+  width: 100%;
+  padding-right: 7rem;
+  z-index: 10;
+
+  @include mixins.for-size(lg) {
+    position: relative;
+    bottom: auto;
+    background: none;
+    padding: 0;
+    width: auto;
+  }
+
+}
