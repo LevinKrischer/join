@@ -1,0 +1,67 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.container {
+  padding: 3rem 1rem 0 1rem;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 5.5rem);
+    max-width: 90rem;
+    overflow: auto;
+
+    @include for-size(sm) {
+      padding: 3rem 3rem 0 3rem;
+    }
+
+    @include for-size(md) {
+      padding: 4rem 4rem 0 4rem;
+    }
+
+    @include for-size(lg) {
+      padding: 3rem 3rem;
+      overflow: auto;
+      height: 100%;
+      max-height: calc(100dvh - 5rem);
+    }
+
+    @include for-size(xl) {
+      padding: 5rem 6rem;
+    }
+}
+
+.divider {
+  height: 5rem;
+  width: 2px;
+  background-color: $grey-light;
+}
+
+.blue-divider {
+
+  @include for-size(lg) {
+    width: 2px;
+    height: 4rem;
+  }
+}
+
+.card {
+  border-radius: $card-border-radius;
+  background-color: $white;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  transition: $trans-default;
+
+  .w-33 {
+    min-width: calc(100% / 3);
+    width: calc(100% / 3);
+    max-width: calc(100% / 3);
+  }
+}
+
+.user-greet {
+  font-size: 2.5rem;
+}
+
+.user-name {
+  font-size: 3rem;
+  color: $blue-light;
+  font-weight: 700;
+}
