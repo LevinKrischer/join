@@ -6,7 +6,7 @@ export interface SingleTask {
     dueDate: string;
     priority: 'Urgent' | 'Medium' | 'Low';
     assigned?: string[];
-    category: 'User Story' | 'Technical Task';
+    category: 'User Story' | 'Technical Task' | null;
     subtasks?: { id: string; title: string; completed: boolean }[];
     order?: number;
 }

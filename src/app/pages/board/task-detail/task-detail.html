@@ -1,9 +1,10 @@
 <ui-modal-wrapper (close)="close.emit()" modalSize="small" [contentPadding]="true">
 
-      @if (!isEditing()) {
+  @if (task()) {
+    @if (!isEditing()) {
       <div class="task-detail">
 
-        @if (task().category) {
+        @if (task().category || task()) {
         <div class="badge-row">
           <div class="category-badge" [style.background]="categoryColor">
             {{ task().category }}
@@ -80,7 +81,7 @@
     </section>
 
   </div>
-  } @else {
+    } @else {
       <header class="edit-header">
         <h4>Edit Task</h4>
       </header>
@@ -90,6 +91,7 @@
         (updated)="onTaskUpdated()"
         (closed)="onEditCancelled()"
       />
+    }
   }
 
 </ui-modal-wrapper>

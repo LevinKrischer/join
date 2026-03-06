@@ -29,33 +29,29 @@
     <h5>{{ task.title | truncate:30 }}</h5>
   </div>
 
-  @if (task.description) {
-  <p>{{ task.description | truncate:35 }}</p>
-  }
+  <p class="task-description">{{ task.description | truncate:70 }}</p>
 
-  @if (task.subtasks.length || task.contacts.length) {
   <div class="info-row">
-
-    @if (task.subtasks.length) {
     <div class="progress-container">
+      @if (task.subtasks.length) {
       <div class="progress-bar">
         <div class="progress" [style.width.%]="subtaskPercent"></div>
       </div>
       <small>{{ completedSubtasks }}</small>
+      }
     </div>
-    }
 
     <div class="bottom-row">
 
       @if (task.contacts.length) {
       <div class="avatars">
-        @for (contact of task.contacts.slice(0, 5); track contact.id) {
+        @for (contact of task.contacts.slice(0, 3); track contact.id) {
         <span class="avatar" [style.background]="contact.color">
           {{ initials(contact.name) }}
         </span>
         }
-        @if (task.contacts.length > 5) {
-        <span class="avatar avatar-more">+{{ task.contacts.length - 5 }}</span>
+        @if (task.contacts.length > 3) {
+        <span class="avatar avatar-more">+{{ task.contacts.length - 3 }}</span>
         }
 
       </div>
@@ -78,5 +74,4 @@
       </div>
     </div>
   </div>
-  }
 </div>
