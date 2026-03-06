@@ -128,7 +128,7 @@
           </div>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3" id="subtasks">
           <app-subtask-input-group
             [subtasks]="form.subtasks"
             (subtasksChange)="form.subtasks = $event"
@@ -138,7 +138,9 @@
     </div>
 
     <div class="row mt-4 button-area" [class.in-modal]="useModal()">
-      <div class="button-area-inner col-12 d-flex justify-content-center justify-content-lg-end align-items-center gap-3 pb-0">
+      <div
+        class="button-area-inner col-12 d-flex justify-content-center justify-content-lg-end align-items-center gap-3 pb-0"
+      >
         <span class="me-auto d-none d-lg-inline-block"
           ><span class="text-danger">*</span>This field is required</span
         >

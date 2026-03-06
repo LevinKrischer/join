@@ -200,3 +200,13 @@
     padding: 0 0.75rem;
   }
 }
+
+#subtasks{
+  padding-bottom: 0;
+  @include mixins.for-size(lg) {
+    min-height: 13rem;
+  }
+  &:has(ul.subtask-list) {
+    padding-bottom: 0;
+  }
+}
