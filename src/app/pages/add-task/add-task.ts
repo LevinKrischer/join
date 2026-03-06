@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { TaskAddFormComponent } from '../../components/task-add-form/task-add-form';
 
 @Component({
@@ -8,4 +9,10 @@ import { TaskAddFormComponent } from '../../components/task-add-form/task-add-fo
   templateUrl: './add-task.html',
   styleUrl: './add-task.scss',
 })
-export class AddTask {}
+export class AddTask {
+  constructor(private router: Router) {}
+
+  onTaskCreated() {
+    this.router.navigate(['/board']);
+  }
+}

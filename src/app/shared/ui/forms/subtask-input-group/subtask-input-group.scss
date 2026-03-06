@@ -109,6 +109,7 @@ input {
   border: 0.0625rem solid $grey-light;
   border-radius: $base-border-radius;
   height: 3rem;
+  word-break: break-word; 
 
   &:focus {
     box-shadow: none;

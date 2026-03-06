@@ -12,6 +12,7 @@
 
 h2 {
   font-size: clamp(2.5rem, 3vw, 3.75rem);
+  word-break: break-word;
 }
 
 strong {
@@ -21,6 +22,10 @@ strong {
   @include for-size(lg) {
     font-weight: 100;
   }
+}
+
+.subtask-title {
+  word-break: break-word;
 }
 
 .badge-row {
@@ -40,7 +45,7 @@ strong {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-
+  word-break: break-word;
 }
 
 .scrollable-content {

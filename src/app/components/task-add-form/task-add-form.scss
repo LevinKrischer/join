@@ -150,7 +150,7 @@
   }
 
   @include mixins.for-size(lg) {
-    position: relative;
+    position: relative !important;
     bottom: auto;
     background: none;
     padding: 0;
@@ -204,7 +204,7 @@
 #subtasks{
   padding-bottom: 0;
   @include mixins.for-size(lg) {
-    min-height: 13rem;
+    min-height: 11.8rem;
   }
   &:has(ul.subtask-list) {
     padding-bottom: 0;
