@@ -84,7 +84,6 @@ export class LoginForm {
     if (!this.isFormValid()) return;
 
     this.submitted.emit({ email: this.form.email, password: this.form.password });
-
   }
 
   /**

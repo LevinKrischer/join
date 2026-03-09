@@ -1,0 +1,21 @@
+h3 {
+  position: relative;
+  text-align: center;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.blue-divider{
+  height: 3px;
+  width: 5.625rem;
+  background: #29abe2;
+  display: block;
+  margin: 0 auto;
+}
+
+form{
+  padding: 2rem;
+  input{
+    max-width: 26.375rem;
+  }
+}

@@ -1,13 +1,20 @@
-<ui-modal-wrapper id="login-form" [contentPadding]="false" modalSize="medium" [showCloseButton]="false">
-  <div class="modal-inner d-flex flex-column h-100 w-100">
-    <div class="row g-0 flex-grow-1 h-100">
-      <h3 class="mb-3">Log in</h3>
+<ui-modal-wrapper
+  id="login-form"
+  [contentPadding]="false"
+  [showCloseButton]="false"
+  modalSize="medium"
+>
+  <div
+    class="modal-inner d-flex flex-column h-100 justify-content-center align-items-center"
+    id="login-modal"
+  >
+    <div class="card shadow-sm p-4 w-100">
+      <h3 class="my-4 text-center">Log in</h3>
+      <div class="blue-divider"></div>
 
-      <form
-        (ngSubmit)="submit()"
-        class="mt-lg-0 d-flex flex-column gap-0 px-lg-2 gap-lg-2 modal-content-area w-100 w-lg-75"
-      >
+      <form (ngSubmit)="submit()" class="d-flex flex-column">
         <app-input-field
+          class="mb-3"
           type="email"
           label="Email"
           placeholder="Email"
@@ -22,6 +29,7 @@
         />
 
         <app-input-field
+          class="mb-3"
           type="password"
           label="Password"
           placeholder="Password"
@@ -34,11 +42,8 @@
           [reserveErrorSpace]="true"
         />
 
-        <div class="d-flex gap-4 mt-2 justify-content-center justify-content-lg-start">
-          <ui-button type="submit" variant="primary"
-            [disabled]="!isFormValid()"
-            (click)="submit()"
-            >
+        <div class="d-flex gap-4 mt-2 justify-content-center justify-content-lg-center">
+          <ui-button type="submit" variant="primary" [disabled]="!isFormValid()" (click)="submit()">
             Log in
           </ui-button>
 
