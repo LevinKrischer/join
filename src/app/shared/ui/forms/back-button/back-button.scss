@@ -1,0 +1,26 @@
+@use 'styles/variables' as *;
+
+.back-btn {
+  cursor: pointer;
+  transition: $trans-default;
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    background-color: $grey-light;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    opacity: 0;
+    transition: $trans-default;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+}
