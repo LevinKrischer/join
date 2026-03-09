@@ -23,13 +23,17 @@ export class Summary implements OnInit, OnDestroy {
   earliestOpenDueDate = computed(() => {
     const openTasks = this.tasks().filter((task) => task.status !== 'done');
 
-    const validDates = openTasks 
+    const validDates = openTasks
       .map((task) => this.parseDate(task.due_date))
       .filter((date): date is Date => date !== null)
-      .sort((a, b) => a.getTime() - b.getTime()); 
+      .sort((a, b) => a.getTime() - b.getTime());
+
+    if (validDates.length === 0) {
+      return 'No upcoming deadline';
+    }
 
     return validDates[0].toLocaleDateString('en-US', {
-      month: 'long', 
+      month: 'long',
       day: 'numeric',
       year: 'numeric',
     });
@@ -37,7 +41,7 @@ export class Summary implements OnInit, OnDestroy {
 
   getGreetingMessage(): string {
     const hour = new Date().getHours();
-    
+
     if (hour >= 0 && hour < 5) {
       return 'Still Working?';
     } else if (hour >= 5 && hour < 10) {
