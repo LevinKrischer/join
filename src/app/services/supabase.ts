@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment';
 
 /**
@@ -8,11 +8,16 @@ import { environment } from '../../environments/environment';
  * preconfigured client, avoiding duplicate connections and simplifying database, auth,
  * and storage interactions across all services and components.
  */
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class SupabaseService {
-  private supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
+  private supabase: SupabaseClient;
+
+  constructor() {
+    this.supabase = createClient(
+      environment.supabaseUrl,
+      environment.supabaseKey
+    );
+  }
 
   /**
    * Returns the initialized Supabase client.
@@ -22,4 +27,21 @@ export class SupabaseService {
   get client() {
     return this.supabase;
   }
+
+  signUp(email: string, password: string) {
+    return this.supabase.auth.signUp({ email, password });
+  }
+
+  signIn(email: string, password: string) {
+    return this.supabase.auth.signInWithPassword({ email, password });
+  }
+
+  signOut() {
+    return this.supabase.auth.signOut();
+  }
+
+  getSession() {
+    return this.supabase.auth.getSession();
+  }
+
 }
