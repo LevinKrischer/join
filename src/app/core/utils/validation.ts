@@ -11,11 +11,11 @@ export function isValidName(input: string): boolean {
 
   const trimmed = input.trim();
 
-  const regex = /^[A-Za-zÄÖÜäöüß]+(?:-[A-Za-zÄÖÜäöüß]+)*(?:\s+[A-Za-zÄÖÜäöüß]+(?:-[A-Za-zÄÖÜäöüß]+)*)+$/;
+  const regex =
+    /^[A-Za-zÄÖÜäöüß]+(?:-[A-Za-zÄÖÜäöüß]+)*(?:\s+[A-Za-zÄÖÜäöüß]+(?:-[A-Za-zÄÖÜäöüß]+)*)+$/;
 
   return regex.test(trimmed) && trimmed.length <= 30;
 }
-
 
 /**
  * Validates whether the given string is a properly formatted email address.
@@ -29,7 +29,6 @@ export function isValidEmail(input: string): boolean {
 
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed) && trimmed.length <= 35;
 }
-
 
 /**
  * Validates whether the given string is a valid phone number.

@@ -10,7 +10,7 @@ import { isValidName, isValidEmail, isValidPhone } from '../../../../core/utils/
   styleUrls: ['./input-field.scss'],
 })
 export class InputFieldComponent {
-  @Input() type: string | 'text' | 'date' | 'email' | 'tel' = 'text';
+  @Input() type: string | 'text' | 'date' | 'email' | 'tel' | 'password' = 'text';
   @Input() label = '';
   @Input() placeholder = '';
   @Input() value = '';

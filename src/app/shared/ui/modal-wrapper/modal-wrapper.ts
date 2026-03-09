@@ -23,7 +23,7 @@ export class ModalWrapper {
    * 'small' - smaller modal (max-width defined in stylesheet)
    * Default: 'normal'
    */
-  modalSize = input<'normal' | 'small'>('normal');
+  modalSize = input<'normal' | 'medium' | 'small'>('normal');
 
   /**
    * Controls whether the modal content should have padding.

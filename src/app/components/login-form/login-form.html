@@ -1,0 +1,66 @@
+<ui-modal-wrapper id="login-form" [contentPadding]="false" modalSize="medium">
+  <div class="modal-inner d-flex flex-column h-100 w-100">
+    <div class="row g-0 flex-grow-1 h-100">
+      <h3 class="mb-3">Log in</h3>
+
+      <form
+        (ngSubmit)="submit()"
+        class="mt-lg-0 d-flex flex-column gap-0 px-lg-2 gap-lg-2 modal-content-area w-100 w-lg-75"
+      >
+        <app-input-field
+          type="email"
+          label="Email"
+          placeholder="Email"
+          icon="assets/icons/form-mail-24px.svg"
+          [(model)]="form.email"
+          [error]="errors.email"
+          (blur)="markDirty('email')"
+          (input)="liveValidate('email')"
+          [maxlength]="35"
+          [displayLabel]="false"
+          [reserveErrorSpace]="true"
+        />
+
+        <app-input-field
+          type="password"
+          label="Password"
+          placeholder="Password"
+          icon="assets/icons/form-lock-24px.svg"
+          [(model)]="form.password"
+          [error]="errors.password"
+          (blur)="markDirty('password')"
+          (input)="liveValidate('password')"
+          [displayLabel]="false"
+          [reserveErrorSpace]="true"
+        />
+
+        <div class="d-flex gap-4 mt-2 justify-content-center justify-content-lg-start">
+          <ui-button
+            type="button"
+            variant="secondary"
+            icon="cancel"
+            class="d-none d-lg-inline-flex"
+            [disabled]="isSaving"
+            (click)="onCancel()"
+          >
+            Cancel
+          </ui-button>
+
+          <ui-button
+            type="submit"
+            variant="primary"
+            icon="create"
+            [disabled]="isSaving || !isFormValid()"
+          >
+            Create contact
+          </ui-button>
+        </div>
+        <div class="text-danger fw-bold mt-2">
+          @if (errorMessage) {
+            {{ errorMessage }}
+          }
+        </div>
+      </form>
+    </div>
+  </div>
+</ui-modal-wrapper>

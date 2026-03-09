@@ -3,6 +3,7 @@
 
 // Modal size variants
 $modal-max-width-normal: 75.75rem;
+
 $modal-max-width-small: 35rem;
 
 div.modal-backdrop {
@@ -37,6 +38,9 @@ div.modal-container {
 
   &.size-small {
     max-width: 33rem;
+  }
+  &.size-medium {
+    max-width: 40.75rem;
   }
 }
 
