@@ -35,24 +35,17 @@
         />
 
         <div class="d-flex gap-4 mt-2 justify-content-center justify-content-lg-start">
-          <ui-button
-            type="button"
-            variant="secondary"
-            icon="cancel"
-            class="d-none d-lg-inline-flex"
-            [disabled]="isSaving"
-            (click)="onCancel()"
-          >
-            Cancel
+          <ui-button type="submit" variant="primary" [disabled]="isSaving || !isFormValid()">
+            Log in
           </ui-button>
 
           <ui-button
-            type="submit"
-            variant="primary"
-            icon="create"
-            [disabled]="isSaving || !isFormValid()"
+            type="button"
+            variant="secondary"
+            class="d-none d-lg-inline-flex"
+            (click)="onCancel()"
           >
-            Create contact
+            Guest Log in
           </ui-button>
         </div>
         <div class="text-danger fw-bold mt-2">
