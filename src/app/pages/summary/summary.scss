@@ -73,7 +73,7 @@ h3 {
     max-width: calc(100% / 3);
   }
 
-  p{
+  p {
     font-size: 0.75rem;
 
     @include for-size(sm) {
@@ -103,7 +103,8 @@ h3 {
   }
 
   @include for-size(md) {
-  border-radius: $card-border-radius;  }
+    border-radius: $card-border-radius;
+  }
 }
 
 .card-icon {
@@ -123,10 +124,19 @@ h3 {
 
 .user-greet {
   font-size: 2.5rem;
+
+  @include for-size(lg) {
+    font-size: 3rem;
+  }
 }
 
 .user-name {
   font-size: 3rem;
   color: $blue-light;
   font-weight: 700;
+  word-break: break-word;
+
+  @include for-size(lg) {
+    font-size: 4rem;
+  }
 }
