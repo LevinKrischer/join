@@ -19,9 +19,9 @@ export class App {
     const { data } = await this.supabaseService.getSession();
 
     if (data.session) {
-      this.router.navigate(['/board']);
+      this.router.navigate(['/summary']);
     } else {
-      this.router.navigate(['/help']); // /login
+      this.router.navigate(['/login']);
     }
   }
 
