@@ -4,71 +4,46 @@
   </div>
   <nav id="main-nav" class="w-100">
     <ul class="navigation d-flex flex-row gap-lg-2 flex-lg-column justify-content-evenly">
+      @if (isLoggedIn()) {
       <li routerLinkActive="active" class="nav-item">
-        <a
-          routerLink="/summary"
-          class="nav-link d-flex gap-lg-2 flex-column flex-lg-row align-items-center"
-          ><img class="default" src="/assets/icons/nav-summary-30px.svg" alt="Summary Icon" /><img
-            class="active"
-            src="/assets/icons/nav-summary-white-30px.svg"
-            alt="Summary Icon"
-          />Summary</a
-        >
+        <a routerLink="/summary" class="nav-link d-flex gap-lg-2 flex-column flex-lg-row align-items-center"><img
+            class="default" src="/assets/icons/nav-summary-30px.svg" alt="Summary Icon" /><img class="active"
+            src="/assets/icons/nav-summary-white-30px.svg" alt="Summary Icon" />Summary</a>
       </li>
       <li routerLinkActive="active">
-        <a
-          routerLink="/add-task"
-          class="nav-link d-flex gap-lg-2 flex-column flex-lg-row align-items-center"
-          ><img
-            class="default"
-            src="/assets/icons/nav-add-tasks-30px.svg"
-            alt="Add Task Icon"
-          /><img
-            class="active"
-            src="/assets/icons/nav-add-tasks-white-30px.svg"
-            alt="Add Task Icon"
-          />Add Task</a
-        >
+        <a routerLink="/add-task" class="nav-link d-flex gap-lg-2 flex-column flex-lg-row align-items-center"><img
+            class="default" src="/assets/icons/nav-add-tasks-30px.svg" alt="Add Task Icon" /><img class="active"
+            src="/assets/icons/nav-add-tasks-white-30px.svg" alt="Add Task Icon" />Add Task</a>
       </li>
       <li routerLinkActive="active">
-        <a
-          routerLink="/board"
-          class="nav-link d-flex gap-lg-2 flex-column flex-lg-row align-items-center"
-          ><img class="default" src="/assets/icons/nav-board-30px.svg" alt="Board Icon" /><img
-            class="active"
-            src="/assets/icons/nav-board-white-30px.svg"
-            alt="Board Icon"
-          />Board</a
-        >
+        <a routerLink="/board" class="nav-link d-flex gap-lg-2 flex-column flex-lg-row align-items-center"><img
+            class="default" src="/assets/icons/nav-board-30px.svg" alt="Board Icon" /><img class="active"
+            src="/assets/icons/nav-board-white-30px.svg" alt="Board Icon" />Board</a>
       </li>
       <li routerLinkActive="active">
-        <a
-          routerLink="/contacts"
-          class="nav-link d-flex gap-lg-2 flex-column flex-lg-row align-items-center"
-          ><img class="default" src="/assets/icons/nav-contact-30px.svg" alt="Contacts Icon" /><img
-            class="active"
-            src="/assets/icons/nav-contacts-white-30px.svg"
-            alt="Contacts Icon"
-          />Contacts</a
-        >
+        <a routerLink="/contacts" class="nav-link d-flex gap-lg-2 flex-column flex-lg-row align-items-center"><img
+            class="default" src="/assets/icons/nav-contact-30px.svg" alt="Contacts Icon" /><img class="active"
+            src="/assets/icons/nav-contacts-white-30px.svg" alt="Contacts Icon" />Contacts</a>
       </li>
       <li routerLinkActive="active" class="d-none nav-item d-block">
-        <!--d-none d-lg-none -->
         <a routerLink="/test">UI & TEST</a>
       </li>
+      } @else {
+      <li routerLinkActive="active" class="nav-item">
+        <a routerLink="/login" class="nav-link d-flex gap-lg-2 flex-column flex-lg-row align-items-center"><img
+            class="default" src="/assets/icons/nav-login-30px.svg" alt="Login Icon" /><img class="active"
+            src="/assets/icons/nav-login-30px.svg" alt="Login Icon" />Login</a>
+      </li>
+      }
     </ul>
   </nav>
   <nav id="footer-nav" class="d-none d-lg-block w-100">
     <ul class="d-flex flex-row flex-lg-column justify-content-between">
       <li routerLinkActive="active" class="nav-item">
-        <a routerLink="/privacy-policy" class="d-flex flex-lg-column align-items-start"
-          >Privacy Policy</a
-        >
+        <a routerLink="/privacy-policy" class="d-flex flex-lg-column align-items-start">Privacy Policy</a>
       </li>
       <li routerLinkActive="active">
-        <a routerLink="/legal-notice" class="d-flex flex-lg-column align-items-start"
-          >Legal Notice</a
-        >
+        <a routerLink="/legal-notice" class="d-flex flex-lg-column align-items-start">Legal Notice</a>
       </li>
     </ul>
   </nav>
