@@ -11,7 +11,7 @@
     <section class="summary-overview col-12 col-lg-6 d-flex flex-column gap-4">
 
       <div class="d-flex flex-lg-row align-items-center gap-3 w-100">
-        <div class="card d-flex flex-row align-items-center justify-content-evenly px-2 py-2 p-sm-4  border-0 w-50" routerLink="/board">
+        <div class="card d-flex flex-row align-items-center justify-content-evenly px-2 py-2 p-sm-4  border-0 w-50" routerLink="/board" [fragment]="'to-do'">
           <div class="card-icon d-flex align-items-center justify-content-center">
             <img class="hoverNone" src="./assets/icons/summary-edit-69px.svg" alt="">
             <img class="hover" src="./assets/icons/summary-edit-white-69px.svg" alt="">
@@ -22,7 +22,7 @@
           </div>
         </div>
 
-        <div class="card d-flex flex-row align-items-center justify-content-evenly px-2 py-2 p-sm-4 border-0 w-50" routerLink="/board">
+        <div class="card d-flex flex-row align-items-center justify-content-evenly px-2 py-2 p-sm-4 border-0 w-50" routerLink="/board" [fragment]="'done'">
           <div class="card-icon d-flex align-items-center justify-content-center">
             <img class="hoverNone" src="./assets/icons/summary-done-default-69px.svg" alt="">
             <img class="hover" src="./assets/icons/summary-done-white-69px.svg" alt="">
@@ -63,14 +63,14 @@
           </div>
         </div>
 
-        <div class="card d-flex flex-row align-items-center gap-3 px-2 py-2 p-sm-4  border-0" style="flex: 1 1 0; min-width: 0;" routerLink="/board">
+        <div class="card d-flex flex-row align-items-center gap-3 px-2 py-2 p-sm-4  border-0" style="flex: 1 1 0; min-width: 0;" routerLink="/board" [fragment]="'in-progress'">
           <div class="card-content d-flex align-items-center justify-content-center flex-column w-100">
             <h3 class="mb-0 text-center">{{ inProgressCount() }}</h3>
             <p class="mb-0 text-center">Tasks in progress</p>
           </div>
         </div>
 
-        <div class="card d-flex flex-row align-items-center gap-3 px-2 py-2 p-sm-4  border-0" style="flex: 1 1 0; min-width: 0;" routerLink="/board">
+        <div class="card d-flex flex-row align-items-center gap-3 px-2 py-2 p-sm-4  border-0" style="flex: 1 1 0; min-width: 0;" routerLink="/board" [fragment]="'await-feedback'">
           <div class="card-content d-flex align-items-center justify-content-center flex-column w-100">
             <h3 class="mb-0 text-center">{{ awaitFeedbackCount() }}</h3>
             <p class="mb-0 text-center">Awaiting feedback</p>
