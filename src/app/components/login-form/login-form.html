@@ -1,10 +1,19 @@
+<div class="logo-intro"></div>
+
 <div class="container d-flex flex-column justify-content-between align-items-center mx-auto">
-  <section class="header d-flex w-100 justify-content-between">
-    <img src="./assets/icons/logo-join-dark-100px.svg" alt="">
+  <section class="header d-flex w-100 justify-content-end">
+    <div class="logo">
+      <img src="./assets/icons/logo-join-dark-100px.svg" alt="" />
+    </div>
     <div>
       <div class="d-flex align-items-center gap-2">
         <span class="me-2">Not a Join user?</span>
-        <ui-button type="button" variant="primary" class="d-none d-lg-inline-flex" routerLink="/signup">
+        <ui-button
+          type="button"
+          variant="primary"
+          class="d-none d-lg-inline-flex"
+          routerLink="/signup"
+        >
           Sign Up
         </ui-button>
       </div>
@@ -15,26 +24,50 @@
     <div class="blue-divider"></div>
 
     <form (ngSubmit)="submit()" class="d-flex flex-column">
-      <app-input-field type="email" label="Email" placeholder="Email" icon="assets/icons/form-mail-24px.svg"
-        [(model)]="form.email" [error]="errors.email" (blur)="markDirty('email')" (input)="liveValidate('email')"
-        [maxlength]="35" [displayLabel]="false" [reserveErrorSpace]="true" />
+      <app-input-field
+        type="email"
+        label="Email"
+        placeholder="Email"
+        icon="assets/icons/form-mail-24px.svg"
+        [(model)]="form.email"
+        [error]="errors.email"
+        (blur)="markDirty('email')"
+        (input)="liveValidate('email')"
+        [maxlength]="35"
+        [displayLabel]="false"
+        [reserveErrorSpace]="true"
+      />
 
-      <app-input-field type="password" label="Password" placeholder="Password" icon="assets/icons/form-lock-24px.svg"
-        [(model)]="form.password" [error]="errors.password" (blur)="markDirty('password')"
-        (input)="liveValidate('password')" [displayLabel]="false" [reserveErrorSpace]="true" />
+      <app-input-field
+        type="password"
+        label="Password"
+        placeholder="Password"
+        icon="assets/icons/form-lock-24px.svg"
+        [(model)]="form.password"
+        [error]="errors.password"
+        (blur)="markDirty('password')"
+        (input)="liveValidate('password')"
+        [displayLabel]="false"
+        [reserveErrorSpace]="true"
+      />
 
       <div class="d-flex gap-4 mt-2 justify-content-center justify-content-lg-center">
         <ui-button type="submit" variant="primary" [disabled]="!isFormValid()" (click)="submit()">
           Log in
         </ui-button>
 
-        <ui-button type="button" variant="secondary" class="d-none d-lg-inline-flex" (click)="guestLogin()">
+        <ui-button
+          type="button"
+          variant="secondary"
+          class="d-none d-lg-inline-flex"
+          (click)="guestLogin()"
+        >
           Guest Log in
         </ui-button>
       </div>
       <div class="text-danger fw-bold mt-2">
         @if (errorMessage()) {
-        {{ errorMessage() }}
+          {{ errorMessage() }}
         }
       </div>
     </form>
