@@ -56,6 +56,10 @@ export class Signup implements AfterViewInit {
         color: this.getRandomColor(),
       });
 
+      // Sign-up can create a session depending on Supabase auth settings.
+      // Explicitly sign out so users must log in manually afterwards.
+      await this.supabaseService.signOut();
+
       this.feedback().show('You signed up successfully! Please check your email to confirm.');
       setTimeout(() => this.router.navigate(['/login']), 1500);
     } catch {
