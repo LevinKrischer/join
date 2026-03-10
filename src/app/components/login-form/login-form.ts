@@ -1,14 +1,14 @@
 import { Component, input, output } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { ModalWrapper } from '../../shared/ui/modal-wrapper/modal-wrapper';
 import { FormsModule } from '@angular/forms';
 import { isValidEmail, isValidPassword } from '../../core/utils/validation';
 import { InputFieldComponent } from '../../shared/ui/forms/input-field/input-field';
 import { Button } from '../../shared/ui/button/button';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-login-form',
-  imports: [ModalWrapper, FormsModule, InputFieldComponent, Button],
+  imports: [FormsModule, InputFieldComponent, Button, RouterLink],
   templateUrl: './login-form.html',
   styleUrl: './login-form.scss',
 })
@@ -65,13 +65,13 @@ export class LoginForm {
       case 'email':
         this.errors.email = isValidEmail(value)
           ? ''
-          : 'Please enter a valid email address with maximum 35 characters.';
+          : 'Please enter a valid email address with maximum 35 characters';
         break;
 
       case 'password':
         this.errors.password = isValidPassword(value)
           ? ''
-          : 'Password must be at least 8 characters long.';
+          : 'Password must be at least 8 characters long';
         break;
     }
   }

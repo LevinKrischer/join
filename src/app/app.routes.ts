@@ -13,13 +13,13 @@ import { Signup } from './pages/signup/signup';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
+  { path: 'login', component: Login },
+  { path: 'signup', component: Signup },
   {
     path: '',
     component: Layout,
     children: [
       { path: '', redirectTo: 'summary', pathMatch: 'full' },
-      { path: 'login', component: Login },
-      { path: 'signup', component: Signup },
       { path: 'summary', component: Summary, canActivate: [authGuard] },
       { path: 'add-task', component: AddTask, canActivate: [authGuard] },
       { path: 'board', component: Board, canActivate: [authGuard] },
@@ -30,4 +30,5 @@ export const routes: Routes = [
       { path: 'test', component: TestComponent },
     ],
   },
+  { path: '**', redirectTo: 'summary' },
 ];

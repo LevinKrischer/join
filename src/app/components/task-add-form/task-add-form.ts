@@ -149,19 +149,19 @@ export class TaskAddFormComponent {
       case 'title':
         this.errors['title'] = isValidTitle(value)
           ? ''
-          : 'Please enter title with max. 30 letters.';
+          : 'Please enter title with max. 30 letters';
         break;
 
       case 'description':
-        this.errors['description'] = isValidDescription(value) ? '' : 'Please enter a description.';
+        this.errors['description'] = isValidDescription(value) ? '' : 'Please enter a description';
         break;
 
       case 'due_date':
-        this.errors['due_date'] = isValidDueDate(value) ? '' : 'Please enter a due date in future.';
+        this.errors['due_date'] = isValidDueDate(value) ? '' : 'Please enter a due date in future';
         break;
 
       case 'category':
-        this.errors['category'] = isValidCategory(value) ? '' : 'Please select a category.';
+        this.errors['category'] = isValidCategory(value) ? '' : 'Please select a category';
         break;
     }
   }
@@ -230,11 +230,11 @@ export class TaskAddFormComponent {
       await this.saveTask();
 
       if (!!this.editTask()) {
-        this.feedback().show('Task updated.');
+        this.feedback().show('Task updated');
         await new Promise((resolve) => setTimeout(resolve, 3000));
         this.updated.emit(); // back to detail view
       } else {
-        this.feedback().show('Task added to board.');
+        this.feedback().show('Task added to board');
         await new Promise((resolve) => setTimeout(resolve, 3000));
         this.created.emit();
         this.resetForm();
@@ -276,7 +276,7 @@ export class TaskAddFormComponent {
 
   private handleSaveError(err: unknown) {
     console.error('Failed to create task:', err);
-    this.feedback().show('Saving failed. Please check your connection or try again later.');
+    this.feedback().show('Saving failed. Please check your connection or try again later');
   }
 
   private finishSaving() {

@@ -20,7 +20,7 @@ export class Login implements AfterViewInit {
 
   ngAfterViewInit() {
     if (this.route.snapshot.queryParams['loggedOut']) {
-      this.feedback().show('You logged out successfully!');
+      this.feedback().show('You logged out successfully');
     }
   }
 
@@ -33,11 +33,11 @@ export class Login implements AfterViewInit {
         this.errorMessage.set(error.message);
         return;
       }
-      this.feedback().show('You logged in successfully!');
+      this.feedback().show('You logged in successfully');
       setTimeout(() => this.router.navigate(['/summary']), 1500);
 
     } catch {
-      this.errorMessage.set('Log-In failed. Please check your credentials, your connection or sign up.');
+      this.errorMessage.set('Log-In failed. Please check your credentials, your connection or sign up');
     }
   }
 

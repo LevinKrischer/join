@@ -101,7 +101,7 @@ export class TaskDetailComponent {
     } catch (err) {
       console.error('Failed to update subtask:', err);
       subtask.done = !subtask.done;
-      this.userFeedback().show('Failed to update subtask. Please try again.');
+      this.userFeedback().show('Failed to update subtask. Please try again');
     }
   }
 }

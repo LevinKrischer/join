@@ -85,19 +85,19 @@ export class ContactAddFormComponent {
       case 'name':
         this.errors.name = isValidName(value)
           ? ''
-          : 'Please enter first and last name with maximum 30 letters.';
+          : 'Please enter first and last name with maximum 30 letters';
         break;
 
       case 'email':
         this.errors.email = isValidEmail(value)
           ? ''
-          : 'Please enter a valid email address with maximum 35 characters.';
+          : 'Please enter a valid email address with maximum 35 characters';
         break;
 
       case 'phone':
         this.errors.phone = isValidPhone(value)
           ? ''
-          : 'Please enter 10 to 15 digits using numbers only (a leading + is allowed).';
+          : 'Please enter 10 to 15 digits using numbers only (a leading + is allowed)';
         break;
     }
   }
@@ -181,7 +181,7 @@ export class ContactAddFormComponent {
    */
   private handleSaveError(err: unknown) {
     console.error('Saving failed:', err);
-    this.errorMessage = 'Saving failed. Please check your connection or try again later.';
+    this.errorMessage = 'Saving failed. Please check your connection or try again later';
     this.cdr.detectChanges();
   }
 

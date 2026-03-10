@@ -1,3 +1,37 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+* {
+  transition: $trans-default;
+}
+
+.container {
+  min-height: 100vh;
+  padding: 3rem;
+
+  .card {
+    width: 100%;
+    max-width: 40.75rem;
+    background: $white;
+    border-radius: $card-border-radius;
+    animation: fadeInFromBottom 0.2s ease-in-out;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+
+  }
+}
+
+  a {
+    color: $grey;
+    text-decoration: none;
+
+    &:hover {
+      color: $blue-light;
+      font-weight: 700;
+    }
+  }
+
+
 h3 {
   position: relative;
   text-align: center;
@@ -5,7 +39,7 @@ h3 {
   line-height: 1;
 }
 
-.blue-divider{
+.blue-divider {
   height: 3px;
   width: 5.625rem;
   background: #29abe2;
@@ -13,9 +47,22 @@ h3 {
   margin: 0 auto;
 }
 
-form{
+form {
   padding: 2rem;
-  input{
+
+  input {
     max-width: 26.375rem;
+  }
+}
+
+@keyframes fadeInFromBottom {
+  from {
+    transform: translateY(2rem);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
