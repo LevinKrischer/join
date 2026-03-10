@@ -2,6 +2,8 @@ import { Component, inject, signal, viewChild, AfterViewInit } from '@angular/co
 import { Router } from '@angular/router';
 import { SignupForm } from '../../components/signup-form/signup-form';
 import { SupabaseService } from '../../services/supabase';
+import { ContactsDb } from '../../core/db/contacts.db';
+import { ContactAddFormComponent } from '../../components/contact-add-form/contact-add-form';
 import { UserFeedbackComponent } from '../../shared/ui/user-feedback/user-feedback';
 
 @Component({
@@ -12,6 +14,8 @@ import { UserFeedbackComponent } from '../../shared/ui/user-feedback/user-feedba
 })
 export class Signup implements AfterViewInit {
   private supabaseService = inject(SupabaseService);
+  private contactsDb = inject(ContactsDb);
+  private contactAddForm = inject(ContactAddFormComponent);
   private router = inject(Router);
   private feedback = viewChild.required<UserFeedbackComponent>('feedback');
 
@@ -30,6 +34,14 @@ export class Signup implements AfterViewInit {
 
     try {
       const { error } = await this.supabaseService.signUp(credentials.email, credentials.password);
+
+      const newContactData  = await this.contactsDb.setContact({
+          name: credentials.name,
+          email: credentials.email,
+          phone: '',
+          color: this.contactAddForm.getRandomColor()
+        });
+
       if (error) {
         this.errorMessage.set(error.message);
         return;

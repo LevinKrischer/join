@@ -47,7 +47,7 @@ export class ContactAddFormComponent {
    * Used to assign a visual identifier to newly created contacts.
    * @returns {string} A randomly selected color value.
    */
-  private getRandomColor() {
+  getRandomColor() {
     const index = Math.floor(Math.random() * CONTACT_COLORS.length);
     return CONTACT_COLORS[index];
   }
