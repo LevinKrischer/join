@@ -40,6 +40,11 @@ export class TaskBoard {
   @Input() set tasks(v: Task[] | null | undefined) {
     this._tasks.set(v ?? []);
   }
+
+  /**
+   * Returns the current task list from the internal signal.
+   * @returns Current tasks used by board columns.
+   */
   get tasks() {
     return this._tasks();
   }
@@ -52,76 +57,98 @@ export class TaskBoard {
   reviewTasks = computed(() => this._tasks().filter((t) => t.status === 'await-feedback'));
   doneTasks = computed(() => this._tasks().filter((t) => t.status === 'done'));
 
-  /** Emits the selected task to open its detail view. */
+  /**
+   * Emits the selected task to open its detail view.
+   * @param task Task that should be opened.
+   * @returns Nothing.
+   */
   openTaskDetail(task: Task) {
     this.open.emit(task);
   }
 
-  /** Shows the add-task form overlay. */
+  /**
+   * Shows the add-task form overlay for a given status column.
+   * @param status Status used to prefill the add-task form.
+   * @returns Nothing.
+   */
   openAddTask(status: Task['status']) {
     this.addTaskStatus.set(status);
     this.showAddTaskForm.set(true);
   }
 
-  /** Hides the add-task form overlay. */
+  /**
+   * Hides the add-task form overlay.
+   * @returns Nothing.
+   */
   closeAddTask() {
     this.showAddTaskForm.set(false);
   }
 
-  /** Closes the add-task form and refreshes the task list after creation. */
+  /**
+   * Closes add-task form and refreshes tasks after creation.
+   * @returns Promise that resolves when tasks are refreshed.
+   */
   async onTaskCreated() {
     this.showAddTaskForm.set(false);
-    await this.tasksDb.getTasks();
+    await this.refreshTasks();
   }
 
   /**
    * Handles drag & drop events for tasks.
-   * Updates both local state and database with new status and order.
-   * @param event - The CDK drag & drop event containing source/target container data.
-   * @param targetStatus - The status of the column the task was dropped into.
+   * @param event The drag-and-drop event with source and target containers.
+   * @param targetStatus Status of the destination column.
+   * @returns Promise that resolves when persistence and refresh are done.
    */
   async onTaskDrop(event: CdkDragDrop<Task[]>, targetStatus: Task['status']) {
-    const task = event.item.data || event.previousContainer.data[event.previousIndex];
-
-    // Case 1: Moving within the same column (reordering)
     if (event.previousContainer === event.container) {
-      const columnTasks = [...event.container.data];
-      moveItemInArray(columnTasks, event.previousIndex, event.currentIndex);
-
-      // Update order numbers for all tasks in this column
-      const tasksToUpdate = columnTasks.map((t, index) => ({
-        ...t,
-        order: index,
-      }));
-
-      await this.tasksDb.updateTaskOrder(tasksToUpdate);
+      await this.reorderTasksWithinColumn(event);
+    } else {
+      await this.moveTaskAcrossColumns(event, targetStatus);
     }
-    // Case 2: Moving to a different column
-    else {
-      const sourceTasks = [...event.previousContainer.data];
-      const targetTasks = [...event.container.data];
+    await this.refreshTasks();
+  }
 
-      transferArrayItem(sourceTasks, targetTasks, event.previousIndex, event.currentIndex);
+  /**
+   * Reorders tasks inside one column and persists new order indices.
+   * @param event The drag-and-drop event within the same column.
+   * @returns Promise that resolves after order update is persisted.
+   */
+  private async reorderTasksWithinColumn(event: CdkDragDrop<Task[]>) {
+    const columnTasks = [...event.container.data];
+    moveItemInArray(columnTasks, event.previousIndex, event.currentIndex);
+    await this.tasksDb.updateTaskOrder(this.withRecalculatedOrder(columnTasks));
+  }
 
-      // Update status and order for moved task
-      const movedTask = targetTasks[event.currentIndex];
-      movedTask.status = targetStatus;
+  /**
+   * Moves a task across columns, updates status and persists both columns.
+   * @param event The drag-and-drop event between different columns.
+   * @param targetStatus Status of the destination column.
+   * @returns Promise that resolves after order updates are persisted.
+   */
+  private async moveTaskAcrossColumns(event: CdkDragDrop<Task[]>, targetStatus: Task['status']) {
+    const sourceTasks = [...event.previousContainer.data];
+    const targetTasks = [...event.container.data];
+    transferArrayItem(sourceTasks, targetTasks, event.previousIndex, event.currentIndex);
+    targetTasks[event.currentIndex].status = targetStatus;
+    const sourceTasksUpdated = this.withRecalculatedOrder(sourceTasks);
+    const targetTasksUpdated = this.withRecalculatedOrder(targetTasks);
+    await this.tasksDb.updateTaskOrder([...sourceTasksUpdated, ...targetTasksUpdated]);
+  }
 
-      // Recalculate order numbers for both columns
-      const sourceTasksUpdated = sourceTasks.map((t, index) => ({
-        ...t,
-        order: index,
-      }));
+  /**
+   * Returns tasks with normalized zero-based order values.
+   * @param tasks Tasks that require recalculated order fields.
+   * @returns New task array including updated order numbers.
+   */
+  private withRecalculatedOrder(tasks: Task[]): Task[] {
+    return tasks.map((t, index) => ({ ...t, order: index }));
+  }
 
-      const targetTasksUpdated = targetTasks.map((t, index) => ({
-        ...t,
-        order: index,
-      }));
-
-      await this.tasksDb.updateTaskOrder([...sourceTasksUpdated, ...targetTasksUpdated]);
-    }
-
-    // Refresh tasks from database
+  /**
+   * Reloads tasks from persistence.
+   * @returns Promise that resolves when tasks are loaded.
+   */
+  private async refreshTasks() {
     await this.tasksDb.getTasks();
   }
 
@@ -137,34 +164,63 @@ export class TaskBoard {
     );
   }
 
+  /**
+   * Handles status changes triggered from a task card action.
+   * @param event Contains task to move and its target status.
+   * @returns Promise that resolves after persistence and refresh.
+   */
   async onCardStatusChange(event: { task: Task; newStatus: Task['status'] }) {
     const { task, newStatus } = event;
 
-    if (task.status === newStatus) {
+    if (this.isSameStatus(task, newStatus)) {
       return;
     }
 
-    const sourceTasks = this._tasks()
-      .filter((t) => t.status === task.status && t.id !== task.id)
-      .map((t, index) => ({
-        ...t,
-        order: index,
-      }));
+    const sourceTasks = this.getSourceTasksAfterCardMove(task);
+    const targetTasks = this.getTargetTasksForCardMove(newStatus);
+    const movedTask = this.createMovedTask(task, newStatus, targetTasks.length);
+    await this.tasksDb.updateTaskOrder([...sourceTasks, ...targetTasks, movedTask]);
+    await this.refreshTasks();
+  }
 
-    const targetTasksExisting = this._tasks()
-      .filter((t) => t.status === newStatus)
-      .map((t, index) => ({
-        ...t,
-        order: index,
-      }));
+  /**
+   * Checks whether task already has the requested status.
+   * @param task Task being evaluated.
+   * @param newStatus Requested target status.
+   * @returns True when no move is required.
+   */
+  private isSameStatus(task: Task, newStatus: Task['status']): boolean {
+    return task.status === newStatus;
+  }
 
-    const movedTask: Task = {
-      ...task,
-      status: newStatus,
-      order: targetTasksExisting.length,
-    };
+  /**
+   * Builds updated source-column tasks after removing moved task.
+   * @param task Task that is moved away from its current column.
+   * @returns Source-column tasks with normalized order.
+   */
+  private getSourceTasksAfterCardMove(task: Task): Task[] {
+    const sourceTasks = this._tasks().filter((t) => t.status === task.status && t.id !== task.id);
+    return this.withRecalculatedOrder(sourceTasks);
+  }
 
-    await this.tasksDb.updateTaskOrder([...sourceTasks, ...targetTasksExisting, movedTask]);
-    await this.tasksDb.getTasks();
+  /**
+   * Builds updated destination-column tasks before inserting moved task.
+   * @param newStatus Requested destination status.
+   * @returns Destination-column tasks with normalized order.
+   */
+  private getTargetTasksForCardMove(newStatus: Task['status']): Task[] {
+    const targetTasks = this._tasks().filter((t) => t.status === newStatus);
+    return this.withRecalculatedOrder(targetTasks);
+  }
+
+  /**
+   * Creates moved task payload with destination status and order.
+   * @param task Original task payload.
+   * @param newStatus Requested destination status.
+   * @param order New order index inside destination column.
+   * @returns Task object ready for persistence.
+   */
+  private createMovedTask(task: Task, newStatus: Task['status'], order: number): Task {
+    return { ...task, status: newStatus, order };
   }
 }

@@ -30,24 +30,41 @@ export class Board implements OnInit, OnDestroy {
   isModalOpen = signal(false);
   modalMode: 'add' | 'detail' = 'add';
   selectedTaskId = signal<number | null>(null);
-  selectedTask = computed(() => this.tasks().find(t => t.id === this.selectedTaskId()) ?? null);
+  selectedTask = computed(() => this.tasks().find((t) => t.id === this.selectedTaskId()) ?? null);
 
+  /**
+   * Opens the modal in add mode and clears any selected task.
+   * @returns Nothing.
+   */
   openAdd() {
     this.modalMode = 'add';
     this.selectedTaskId.set(null);
     this.isModalOpen.set(true);
   }
 
+  /**
+   * Opens the modal in detail mode for the selected task.
+   * @param task Task to display in detail view.
+   * @returns Nothing.
+   */
   openDetail(task: Task) {
     this.modalMode = 'detail';
     this.selectedTaskId.set(task.id);
     this.isModalOpen.set(true);
   }
 
+  /**
+   * Closes the modal wrapper.
+   * @returns Nothing.
+   */
   closeModal() {
     this.isModalOpen.set(false);
   }
-constructor() {
+
+  /**
+   * Reacts to route fragments and scrolls the matching element into view.
+   */
+  constructor() {
     effect(() => {
       const fragment = this.route.snapshot.fragment;
       if (fragment) {
@@ -61,12 +78,20 @@ constructor() {
     });
   }
 
+  /**
+   * Loads initial tasks and starts realtime task updates.
+   * @returns Promise that resolves when initialization is completed.
+   */
 
   async ngOnInit() {
     await this.tasksDb.getTasks();
     this.tasksDb.subscribeToTaskChanges();
   }
 
+  /**
+   * Handles teardown of task update subscriptions.
+   * @returns Nothing.
+   */
   ngOnDestroy() {
     this.tasksDb.unsubscribeFromTaskChanges();
     this.tasksDb.subscribeToTaskChanges();
@@ -74,6 +99,10 @@ constructor() {
 
   feedbackRef = viewChild.required<UserFeedbackComponent>('feedback');
 
+  /**
+   * Shows a success message after task deletion.
+   * @returns Nothing.
+   */
   onTaskDeleted() {
     this.feedbackRef().show('Task successfully deleted');
   }

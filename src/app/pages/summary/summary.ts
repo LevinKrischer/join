@@ -59,6 +59,10 @@ export class Summary implements OnInit, OnDestroy {
     });
   });
 
+  /**
+   * Returns the greeting text based on the current local hour.
+    * @returns Greeting text for the current time window.
+   */
   private getTimeBasedGreeting(): string {
     const hour = new Date().getHours();
 
@@ -73,47 +77,86 @@ export class Summary implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Loads session context and resolves the user greeting name.
+    * @returns Promise that resolves when greeting context initialization is complete.
+   */
   private async loadCurrentUserGreetingContext() {
     const { data } = await this.supabase.getSession();
     const sessionUser = data.session?.user;
-    const email = sessionUser?.email?.toLowerCase() ?? '';
-
+    const email = this.getSessionEmail(sessionUser);
     if (!email) {
-      this.userName.set('');
-      this.isGuestSession.set(false);
+      this.resetUserContextForMissingEmail();
       return;
     }
-
-    const isGuest = email === environment.guestEmail.toLowerCase();
-    this.isGuestSession.set(isGuest);
-
-    if (isGuest) {
+    if (this.setGuestSessionState(email)) {
       this.userName.set('');
       return;
     }
-
-    const { data: contact, error } = await this.supabase.client
-      .from('contacts')
-      .select('name')
-      .eq('email', email)
-      .maybeSingle();
-
-    if (error) {
-      const metadataName = String(
-        sessionUser?.user_metadata?.['full_name'] ?? sessionUser?.user_metadata?.['name'] ?? ''
-      ).trim();
-      this.userName.set(metadataName || this.getNameFallbackFromEmail(email));
-      return;
-    }
-
-    const fullContactName = (contact?.name ?? '').trim();
-    const metadataName = String(
-      sessionUser?.user_metadata?.['full_name'] ?? sessionUser?.user_metadata?.['name'] ?? ''
-    ).trim();
-
-    this.userName.set(fullContactName || metadataName || this.getNameFallbackFromEmail(email));
+    await this.resolveAndSetUserName(sessionUser, email);
   }
 
+  /**
+   * Normalizes the session email to lowercase.
+    * @param sessionUser Current authenticated session user.
+    * @returns Lowercase email string or an empty string.
+   */
+  private getSessionEmail(sessionUser: { email?: string | null } | null | undefined): string {
+    return sessionUser?.email?.toLowerCase() ?? '';
+  }
+
+  /**
+   * Clears user specific greeting state when no valid email exists.
+    * @returns Nothing.
+   */
+  private resetUserContextForMissingEmail() {
+    this.userName.set('');
+    this.isGuestSession.set(false);
+  }
+
+  /**
+   * Updates guest-session state and returns whether current user is guest.
+    * @param email Normalized email of the current session user.
+    * @returns True if the session belongs to the configured guest account.
+   */
+  private setGuestSessionState(email: string): boolean {
+    const isGuest = email === environment.guestEmail.toLowerCase();
+    this.isGuestSession.set(isGuest);
+    return isGuest;
+  }
+
+  /**
+   * Extracts display name from user metadata.
+    * @param sessionUser Current authenticated session user.
+    * @returns Trimmed display name from metadata or an empty string.
+   */
+  private getMetadataName(sessionUser: { user_metadata?: Record<string, unknown> | null } | null | undefined): string {
+    return String(sessionUser?.user_metadata?.['full_name'] ?? sessionUser?.user_metadata?.['name'] ?? '').trim();
+  }
+
+  /**
+   * Resolves the best available display name and stores it in state.
+    * @param sessionUser Current authenticated session user.
+    * @param email Normalized email of the current session user.
+    * @returns Promise that resolves when the name has been written to state.
+   */
+  private async resolveAndSetUserName(sessionUser: { user_metadata?: Record<string, unknown> | null } | null | undefined, email: string) {
+    const { data: contact, error } = await this.supabase.client.from('contacts').select('name').eq('email', email).maybeSingle();
+    const metadataName = this.getMetadataName(sessionUser);
+    const fallback = this.getNameFallbackFromEmail(email);
+    if (error) {
+      this.userName.set(metadataName || fallback);
+      return;
+    }
+    const fullContactName = (contact?.name ?? '').trim();
+    this.userName.set(fullContactName || metadataName || fallback);
+  }
+
+  /**
+   * Builds a display-name fallback from the email local part.
+    * @param email Email address used to derive a fallback name.
+    * @returns Human-readable fallback name.
+   */
   private getNameFallbackFromEmail(email: string): string {
     const localPart = email.split('@')[0] ?? '';
     if (!localPart) {
@@ -128,6 +171,11 @@ export class Summary implements OnInit, OnDestroy {
       .trim();
   }
 
+  /**
+   * Parses a due date string to a valid Date instance.
+    * @param dueDate Raw due-date string from task data.
+    * @returns Parsed Date or null when the input is invalid.
+   */
   private parseDate(dueDate: string): Date | null {
     if (!dueDate) {
       return null;
@@ -143,25 +191,56 @@ export class Summary implements OnInit, OnDestroy {
     return Number.isNaN(parsed.getTime()) ? null : parsed;
   }
 
+  /**
+   * Initializes summary data and optionally starts mobile greeting overlay.
+    * @returns Promise that resolves when initialization steps are completed.
+   */
   async ngOnInit() {
     const shouldShowMobileGreetingOverlay = this.consumeMobileGreetingTrigger();
 
+    this.prepareMobileGreetingOverlay(shouldShowMobileGreetingOverlay);
+    await this.initializeSummaryData();
+    this.showMobileGreetingOverlayIfNeeded(shouldShowMobileGreetingOverlay);
+    this.tasksDb.subscribeToTaskChanges();
+  }
+
+  /**
+   * Flags the mobile greeting as preparing before data load.
+    * @param shouldShowMobileGreetingOverlay Whether the overlay should be shown.
+    * @returns Nothing.
+   */
+  private prepareMobileGreetingOverlay(shouldShowMobileGreetingOverlay: boolean) {
     if (shouldShowMobileGreetingOverlay) {
       this.isPreparingMobileGreeting.set(true);
     }
+  }
 
+  /**
+   * Loads tasks and greeting context in parallel.
+    * @returns Promise that resolves when both async operations are completed.
+   */
+  private async initializeSummaryData() {
     await Promise.all([
       this.tasksDb.getTasks(),
       this.loadCurrentUserGreetingContext(),
     ]);
+  }
 
+  /**
+   * Starts the mobile greeting overlay when the trigger is active.
+    * @param shouldShowMobileGreetingOverlay Whether the overlay should be shown.
+    * @returns Nothing.
+   */
+  private showMobileGreetingOverlayIfNeeded(shouldShowMobileGreetingOverlay: boolean) {
     if (shouldShowMobileGreetingOverlay) {
       this.startMobileGreetingOverlay();
     }
-
-    this.tasksDb.subscribeToTaskChanges();
   }
 
+  /**
+   * Consumes and clears the one-time mobile greeting trigger from session storage.
+    * @returns True when the greeting overlay should be displayed on mobile.
+   */
   private consumeMobileGreetingTrigger(): boolean {
     const shouldShow = sessionStorage.getItem(this.mobileGreetingStorageKey) === '1';
     sessionStorage.removeItem(this.mobileGreetingStorageKey);
@@ -169,6 +248,10 @@ export class Summary implements OnInit, OnDestroy {
     return shouldShow && window.innerWidth < 1100;
   }
 
+  /**
+   * Displays the mobile greeting overlay for a limited duration.
+    * @returns Nothing.
+   */
   private startMobileGreetingOverlay() {
     this.showMobileGreetingOverlay.set(true);
     this.mobileGreetingTimeout = setTimeout(() => {
@@ -178,6 +261,10 @@ export class Summary implements OnInit, OnDestroy {
     }, 3000);
   }
 
+  /**
+   * Cleans up timers and realtime task subscriptions.
+    * @returns Nothing.
+   */
   ngOnDestroy() {
     if (this.mobileGreetingTimeout) {
       clearTimeout(this.mobileGreetingTimeout);
