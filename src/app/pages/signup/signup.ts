@@ -60,7 +60,7 @@ export class Signup implements AfterViewInit {
       // Explicitly sign out so users must log in manually afterwards.
       await this.supabaseService.signOut();
 
-      this.feedback().show('You signed up successfully! Please check your email to confirm.');
+      this.feedback().show('You signed up successfully!');
       setTimeout(() => this.router.navigate(['/login']), 1500);
     } catch {
       this.errorMessage.set('Sign-Up failed. Please try again.');
