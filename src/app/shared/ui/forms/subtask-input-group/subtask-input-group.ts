@@ -17,7 +17,10 @@ export class SubtaskInputGroup {
   editingSubtaskIndex: number | null = null;
   editingSubtaskTitle = '';
 
-  /** Adds a new subtask from the current input value and emits the updated list. */
+  /**
+   * Adds a new subtask from current input title.
+   * @returns Nothing.
+   */
   addSubtask() {
     const title = this.newSubtaskTitle.trim();
     if (!title) return;
@@ -27,9 +30,9 @@ export class SubtaskInputGroup {
   }
 
   /**
-   * Removes a subtask at the given index and emits the updated list.
-   *
-   * @param index - Position of the subtask to remove.
+   * Removes a subtask by array index.
+   * @param index Subtask index to remove.
+   * @returns Nothing.
    */
   removeSubtask(index: number) {
     const updated = this.subtasks().filter((_, i) => i !== index);
@@ -37,32 +40,26 @@ export class SubtaskInputGroup {
   }
 
   /**
-   * Enters edit mode for the subtask at the given index.
-   *
-   * @param index - Position of the subtask to edit.
+   * Starts edit mode for a selected subtask.
+   * @param index Subtask index to edit.
+   * @returns Nothing.
    */
   editSubtask(index: number) {
     this.editingSubtaskIndex = index;
     this.editingSubtaskTitle = this.subtasks()[index].title;
   }
 
-  /** Confirms the current subtask edit, updating or removing it if the title is empty. */
+  /**
+   * Confirms current subtask edit or removes empty-titled subtask.
+   * @returns Nothing.
+   */
   confirmEditSubtask() {
     const title = this.editingSubtaskTitle.trim();
-    if (this.editingSubtaskIndex !== null) {
-      if (title) {
-        const updated = this.subtasks().map((s, i) =>
-          i === this.editingSubtaskIndex ? { ...s, title } : s
-        );
-        this.subtasksChange.emit(updated);
-      } else {
-        this.removeSubtask(this.editingSubtaskIndex);
-      }
-    }
+    if (!this.hasEditingSubtask()) return;
+    this.applySubtaskEditResult(title);
     this.cancelEditSubtask();
   }
 
-  /** Cancels the current subtask edit and resets the editing state. */
   cancelEditSubtask() {
     this.editingSubtaskIndex = null;
     this.editingSubtaskTitle = '';

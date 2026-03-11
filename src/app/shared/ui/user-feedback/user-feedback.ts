@@ -15,6 +15,10 @@ export class UserFeedbackComponent {
 
   private timeoutId: any;
 
+  /**
+   * Creates the user-feedback component.
+   * @param cdr Change detector used to force UI updates for timed visibility changes.
+   */
   constructor(private cdr: ChangeDetectorRef) { }
 
   /**
