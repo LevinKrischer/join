@@ -131,28 +131,39 @@ h3 {
 }
 
 .user-greet-container {
+  position: fixed;
+  inset: 0;
+  padding: 1.5rem;
+  justify-content: center;
+  text-align: center;
+  background-color: $off-white;
+  animation: mobileGreetingFade 3s ease-in-out forwards;
+
+  .user-greet {
+    font-size: 2rem;
+  }
+
+  .user-name {
+    font-size: 2.5rem;
+  }
+
   @include for-size(lg) {
-    position: fixed;
-    inset: 0;
-    padding: 1.5rem;
-    justify-content: center;
-    text-align: center;
-    background-color: $off-white;
-    animation: mobileGreetingFade 3s ease-in-out forwards;
-
-    .user-greet {
-      font-size: 2rem;
-    }
-
-    .user-name {
-      font-size: 2.5rem;
-    }
+    position: static;
+    inset: auto;
+    padding: 0;
+    background-color: transparent;
+    animation: none;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
   }
 }
 
-@include for-size(lg) {
-  .mobile-greeting-preparing {
-    visibility: hidden;
+.mobile-greeting-preparing {
+  visibility: hidden;
+
+  @include for-size(lg) {
+    visibility: visible;
   }
 }
 
