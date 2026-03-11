@@ -15,6 +15,8 @@ export class InputFieldComponent {
   @Input() placeholder = '';
   @Input() value = '';
   @Input() icon: string | null = null;
+  @Input() iconAlt = '';
+  @Input() iconClickable = false;
   @Input() error: string | null = null;
   @Input() maxlength: number | null = null;
   @Input() minDate: string | null = null;
@@ -28,11 +30,22 @@ export class InputFieldComponent {
   @Output() blur = new EventEmitter<void>();
   @Output() inputChange = new EventEmitter<Event>();
   @Output() focus = new EventEmitter<void>();
+  @Output() iconClick = new EventEmitter<void>();
 
   onInput(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.modelChange.emit(value);
     this.inputChange.emit(event);
+  }
+
+  onIconClick() {
+    if (!this.iconClickable) return;
+    this.iconClick.emit();
+  }
+
+  onIconPointerDown(event: MouseEvent) {
+    if (!this.iconClickable) return;
+    event.preventDefault();
   }
 
   ngOnInit() {

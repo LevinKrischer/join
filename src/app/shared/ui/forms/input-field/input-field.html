@@ -26,7 +26,20 @@
     />
 
     @if (icon) {
-      <img class="inputIcon" [src]="icon" width="24" height="24" aria-hidden="true" />
+      @if (iconClickable) {
+        <button
+          type="button"
+          class="iconButton"
+          [attr.aria-label]="iconAlt || 'Toggle input visibility'"
+          (mousedown)="onIconPointerDown($event)"
+          (pointerdown)="onIconPointerDown($event)"
+          (click)="onIconClick()"
+        >
+          <img class="inputIcon" [src]="icon" width="24" height="24" [alt]="iconAlt" />
+        </button>
+      } @else {
+        <img class="inputIcon" [src]="icon" width="24" height="24" aria-hidden="true" />
+      }
     }
   </div>
 

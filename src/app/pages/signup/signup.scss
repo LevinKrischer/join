@@ -1,0 +1,96 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+* {
+  transition: $trans-default;
+}
+
+app-back-button {
+  position: absolute;
+  top: 2rem;
+  left: 1rem;
+  z-index: 1;
+
+  @include for-size(sm) {
+    top: 2.5rem;
+    left: 3rem;
+  }
+
+  @include for-size(lg) {
+    top: 5rem;
+  }
+}
+
+.container {
+  min-height: 100vh;
+  padding: 2rem 1rem;
+
+  @include for-size(sm) {
+    padding: 2rem;
+  }
+
+  @include for-size(lg) {
+    padding: 3rem;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 40.75rem;
+    background: $white;
+    border-radius: $card-border-radius;
+    animation: fadeInFromBottom 0.2s ease-in-out;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+  }
+}
+
+a {
+  color: $grey;
+  text-decoration: none;
+
+  &:hover {
+    color: $blue-light;
+    font-weight: 700;
+  }
+}
+
+h3 {
+  position: relative;
+  text-align: center;
+  font-weight: 700;
+  line-height: 1;
+  font-size: 2.25rem;
+
+  @include for-size(sm) {
+    font-size: 3rem;
+  }
+}
+
+.blue-divider {
+  height: 3px;
+  width: minmax(30%, 9.375rem);
+  background: $blue-light;
+  display: block;
+  margin: 0 auto;
+}
+
+.logo {
+  width: 4rem;
+  height: auto;
+
+  @include for-size(lg) {
+    width: 6.25rem;
+  }
+}
+
+@keyframes fadeInFromBottom {
+  from {
+    transform: translateY(2rem);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

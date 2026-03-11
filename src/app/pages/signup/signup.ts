@@ -1,14 +1,15 @@
 import { Component, inject, signal, viewChild, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SignupForm } from '../../components/signup-form/signup-form';
 import { SupabaseService } from '../../services/supabase';
 import { ContactsDb } from '../../core/db/contacts.db';
 import { CONTACT_COLORS } from '../../core/constants/colors';
 import { UserFeedbackComponent } from '../../shared/ui/user-feedback/user-feedback';
+import { BackButton } from '../../shared/ui/forms/back-button/back-button';
 
 @Component({
   selector: 'app-signup',
-  imports: [SignupForm, UserFeedbackComponent],
+  imports: [SignupForm, UserFeedbackComponent, BackButton, RouterLink],
   templateUrl: './signup.html',
   styleUrl: './signup.scss',
 })
@@ -54,6 +55,10 @@ export class Signup implements AfterViewInit {
         phone: '',
         color: this.getRandomColor(),
       });
+
+      // Sign-up can create a session depending on Supabase auth settings.
+      // Explicitly sign out so users must log in manually afterwards.
+      await this.supabaseService.signOut();
 
       this.feedback().show('You signed up successfully! Please check your email to confirm.');
       setTimeout(() => this.router.navigate(['/login']), 1500);

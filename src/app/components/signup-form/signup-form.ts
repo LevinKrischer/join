@@ -1,15 +1,14 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { FormsModule } from '@angular/forms';
 import { isValidEmail, isValidPassword, isValidName } from '../../core/utils/validation';
 import { InputFieldComponent } from '../../shared/ui/forms/input-field/input-field';
 import { Button } from '../../shared/ui/button/button';
 import { RouterLink } from "@angular/router";
-import { BackButton } from "../../shared/ui/forms/back-button/back-button";
 
 @Component({
   selector: 'app-signup-form',
-  imports: [FormsModule, InputFieldComponent, Button, RouterLink, BackButton],
+  imports: [FormsModule, InputFieldComponent, Button, RouterLink],
   templateUrl: './signup-form.html',
   styleUrl: './signup-form.scss',
 })
@@ -18,6 +17,10 @@ export class SignupForm {
 
   errorMessage = input('');
   isSubmitting = input(false);
+  passwordVisible = signal(false);
+  confirmPasswordVisible = signal(false);
+  passwordToggleReady = signal(false);
+  confirmPasswordToggleReady = signal(false);
 
   form = {
     name: '',
@@ -49,6 +52,16 @@ export class SignupForm {
   markDirty(field: 'name' | 'email' | 'password' | 'confirmPassword') {
     this.dirty[field] = true;
     this.validateField(field);
+
+    if (field === 'password' && !this.form.password.trim()) {
+      this.passwordVisible.set(false);
+      this.passwordToggleReady.set(false);
+    }
+
+    if (field === 'confirmPassword' && !this.form.confirmPassword.trim()) {
+      this.confirmPasswordVisible.set(false);
+      this.confirmPasswordToggleReady.set(false);
+    }
   }
 
   /**
@@ -136,5 +149,89 @@ export class SignupForm {
       !this.errors.password &&
       !this.errors.confirmPassword
     );
+  }
+
+  activatePasswordToggle(field: 'password' | 'confirmPassword') {
+    if (field === 'password') {
+      this.passwordToggleReady.set(true);
+      return;
+    }
+
+    this.confirmPasswordToggleReady.set(true);
+  }
+
+  togglePasswordVisibility(field: 'password' | 'confirmPassword') {
+    if (field === 'password') {
+      if (!this.passwordToggleReady()) return;
+      this.passwordVisible.update((current) => !current);
+      return;
+    }
+
+    if (!this.confirmPasswordToggleReady()) return;
+    this.confirmPasswordVisible.update((current) => !current);
+  }
+
+  getPasswordFieldType(field: 'password' | 'confirmPassword') {
+    if (field === 'password') {
+      return this.passwordVisible() ? 'text' : 'password';
+    }
+
+    return this.confirmPasswordVisible() ? 'text' : 'password';
+  }
+
+  getPasswordFieldIcon(field: 'password' | 'confirmPassword') {
+    if (field === 'password') {
+      if (this.passwordVisible()) {
+        return 'assets/icons/form-visibility-off-24px.svg';
+      }
+
+      if (this.passwordToggleReady()) {
+        return 'assets/icons/form-visibility-on-24px.svg';
+      }
+
+      return 'assets/icons/form-lock-24px.svg';
+    }
+
+    if (this.confirmPasswordVisible()) {
+      return 'assets/icons/form-visibility-off-24px.svg';
+    }
+
+    if (this.confirmPasswordToggleReady()) {
+      return 'assets/icons/form-visibility-on-24px.svg';
+    }
+
+    return 'assets/icons/form-lock-24px.svg';
+  }
+
+  getPasswordIconAlt(field: 'password' | 'confirmPassword') {
+    if (field === 'password') {
+      if (this.passwordVisible()) {
+        return 'Hide password';
+      }
+
+      if (this.passwordToggleReady()) {
+        return 'Show password';
+      }
+
+      return 'Password locked';
+    }
+
+    if (this.confirmPasswordVisible()) {
+      return 'Hide confirm password';
+    }
+
+    if (this.confirmPasswordToggleReady()) {
+      return 'Show confirm password';
+    }
+
+    return 'Confirm password locked';
+  }
+
+  isPasswordToggleVisible(field: 'password' | 'confirmPassword') {
+    if (field === 'password') {
+      return this.passwordToggleReady();
+    }
+
+    return this.confirmPasswordToggleReady();
   }
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit, OnDestroy, computed, inject, signal, viewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, computed, inject, signal, viewChild, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { TasksDb, Task } from '../../core/db/tasks.db';
 import { Button } from '../../shared/ui/button/button';
 import { InputFieldComponent } from '../../shared/ui/forms/input-field/input-field';
@@ -18,6 +19,7 @@ import { UserFeedbackComponent } from '../../shared/ui/user-feedback/user-feedba
 })
 export class Board implements OnInit, OnDestroy {
   private tasksDb = inject(TasksDb);
+  private route = inject(ActivatedRoute);
   tasks = this.tasksDb.tasks;
 
   todoTasks = computed(() => this.tasks().filter((t) => t.status === 'todo'));
@@ -45,6 +47,20 @@ export class Board implements OnInit, OnDestroy {
   closeModal() {
     this.isModalOpen.set(false);
   }
+constructor() {
+    effect(() => {
+      const fragment = this.route.snapshot.fragment;
+      if (fragment) {
+        setTimeout(() => {
+          const element = document.getElementById(fragment);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 0);
+      }
+    });
+  }
+
 
   async ngOnInit() {
     await this.tasksDb.getTasks();

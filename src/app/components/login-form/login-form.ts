@@ -1,14 +1,13 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { FormsModule } from '@angular/forms';
 import { isValidEmail, isValidPassword } from '../../core/utils/validation';
 import { InputFieldComponent } from '../../shared/ui/forms/input-field/input-field';
 import { Button } from '../../shared/ui/button/button';
-import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-login-form',
-  imports: [FormsModule, InputFieldComponent, Button, RouterLink],
+  imports: [FormsModule, InputFieldComponent, Button],
   templateUrl: './login-form.html',
   styleUrl: './login-form.scss',
 })
@@ -16,6 +15,8 @@ export class LoginForm {
   submitted = output<{ email: string; password: string }>();
 
   errorMessage = input('');
+  passwordVisible = signal(false);
+  passwordToggleReady = signal(false);
 
   form = {
     email: '',
@@ -40,6 +41,11 @@ export class LoginForm {
   markDirty(field: keyof typeof this.dirty) {
     this.dirty[field] = true;
     this.validateField(field);
+
+    if (field === 'password' && !this.form.password.trim()) {
+      this.passwordVisible.set(false);
+      this.passwordToggleReady.set(false);
+    }
   }
 
   /**
@@ -111,5 +117,46 @@ export class LoginForm {
     this.form.email = environment.guestEmail;
     this.form.password = environment.guestPassword;
     this.submitted.emit({ email: this.form.email, password: this.form.password });
+  }
+
+  togglePasswordVisibility() {
+    if (!this.passwordToggleReady()) return;
+    this.passwordVisible.update((current) => !current);
+  }
+
+  activatePasswordToggle() {
+    this.passwordToggleReady.set(true);
+  }
+
+  getPasswordFieldType() {
+    return this.passwordVisible() ? 'text' : 'password';
+  }
+
+  getPasswordFieldIcon() {
+    if (this.passwordVisible()) {
+      return 'assets/icons/form-visibility-off-24px.svg';
+    }
+
+    if (this.passwordToggleReady()) {
+      return 'assets/icons/form-visibility-on-24px.svg';
+    }
+
+    return 'assets/icons/form-lock-24px.svg';
+  }
+
+  getPasswordIconAlt() {
+    if (this.passwordVisible()) {
+      return 'Hide password';
+    }
+
+    if (this.passwordToggleReady()) {
+      return 'Show password';
+    }
+
+    return 'Password locked';
+  }
+
+  isPasswordToggleVisible() {
+    return this.passwordToggleReady();
   }
 }

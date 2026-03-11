@@ -1,5 +1,4 @@
 @use 'styles/variables' as *;
-@use 'styles/mixins' as *;
 
 * {
   transition: $trans-default;
@@ -61,7 +60,6 @@ h3 {
 }
 
 form {
-  padding: 2rem;
 
   input {
     max-width: 26.375rem;

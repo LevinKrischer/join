@@ -1,12 +1,13 @@
 import { Component, inject, signal, viewChild, AfterViewInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LoginForm } from '../../components/login-form/login-form';
 import { SupabaseService } from '../../services/supabase';
 import { UserFeedbackComponent } from '../../shared/ui/user-feedback/user-feedback';
+import { Button } from '../../shared/ui/button/button';
 
 @Component({
   selector: 'app-login',
-  imports: [LoginForm, UserFeedbackComponent],
+  imports: [LoginForm, UserFeedbackComponent, Button, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
