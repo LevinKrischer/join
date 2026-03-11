@@ -117,6 +117,7 @@ export class TaskAddFormComponent {
     });
   }
 
+  /** Loads the contacts list on component initialization. */
   async ngOnInit() {
     await this.contactsDb.getContacts();
   }
@@ -131,6 +132,10 @@ export class TaskAddFormComponent {
     this.validateField(field);
   }
 
+  /**
+   * Performs validation on a field only if it has already been marked as dirty.
+   * @param field The field to validate.
+   */
   liveValidate(field: keyof typeof this.form) {
     if (this.dirty[field]) {
       this.validateField(field);
@@ -166,6 +171,10 @@ export class TaskAddFormComponent {
     }
   }
 
+  /**
+   * Checks whether all required fields are filled and no validation errors remain.
+   * @returns True if the form is valid, otherwise false.
+   */
   isFormValid() {
     return (
       this.form.title.trim() !== '' &&
@@ -192,6 +201,10 @@ export class TaskAddFormComponent {
     }
   }
 
+  /**
+   * Updates the selected contact IDs when the contact picker emits a selection.
+   * @param ids The selected contact IDs.
+   */
   onContactsSelected(ids: number[]) {
     this.selectedContactIds = ids;
   }
@@ -208,10 +221,15 @@ export class TaskAddFormComponent {
     this.markDirty('category');
   }
 
+  /**
+   * Updates the form priority when a priority button is selected.
+   * @param priority The selected priority level.
+   */
   onPrioritySelected(priority: Task['priority']) {
     this.form.priority = priority;
   }
 
+  /** Resets the form and emits the closed event. */
   onCancel() {
     this.resetForm();
     this.closed.emit();
@@ -221,6 +239,7 @@ export class TaskAddFormComponent {
   // Submit flow (same pattern as contact-edit-form)
   // ---------------------------------------------------------
 
+  /** Validates the form, saves the task, shows feedback, and emits the appropriate event. */
   async submit() {
     this.markAllDirty();
     if (!this.isFormValid()) return;
@@ -251,16 +270,19 @@ export class TaskAddFormComponent {
   // Unterfunktionen (Refactoring)
   // ---------------------------------------------------------
 
+  /** Marks all form fields as dirty to trigger full validation before submission. */
   private markAllDirty() {
     for (const field of Object.keys(this.dirty) as (keyof typeof this.form)[]) {
       this.markDirty(field);
     }
   }
 
+  /** Sets the saving flag to prevent duplicate submissions. */
   private startSaving() {
     this.isSaving = true;
   }
 
+  /** Creates or updates the task via the database service depending on edit mode. */
   private async saveTask() {
     const formData = this.form as Omit<
       Task,
@@ -274,15 +296,21 @@ export class TaskAddFormComponent {
     }
   }
 
+  /**
+   * Logs the error and shows a failure feedback message.
+   * @param err The error thrown during save.
+   */
   private handleSaveError(err: unknown) {
     console.error('Failed to create task:', err);
     this.feedback().show('Saving failed. Please check your connection or try again later');
   }
 
+  /** Clears the saving flag after the save operation completes. */
   private finishSaving() {
     this.isSaving = false;
   }
 
+  /** Resets all form fields, selected contacts, dirty flags, and error messages to their defaults. */
   private resetForm() {
     this.form = {
       title: '',

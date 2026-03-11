@@ -137,6 +137,10 @@ export class SignupForm {
     this.markDirty('confirmPassword');
   }
 
+  /**
+   * Checks whether all form fields are filled, privacy is accepted, and no errors remain.
+   * @returns True if the form is valid, otherwise false.
+   */
   isFormValid() {
     return (
       this.form.name.trim() !== '' &&
@@ -151,6 +155,10 @@ export class SignupForm {
     );
   }
 
+  /**
+   * Enables the visibility toggle for the specified password field once the user starts typing.
+   * @param field The password field to activate the toggle for.
+   */
   activatePasswordToggle(field: 'password' | 'confirmPassword') {
     if (field === 'password') {
       this.passwordToggleReady.set(true);
@@ -160,6 +168,10 @@ export class SignupForm {
     this.confirmPasswordToggleReady.set(true);
   }
 
+  /**
+   * Toggles the specified password field between visible text and hidden input.
+   * @param field The password field to toggle visibility for.
+   */
   togglePasswordVisibility(field: 'password' | 'confirmPassword') {
     if (field === 'password') {
       if (!this.passwordToggleReady()) return;
@@ -171,6 +183,11 @@ export class SignupForm {
     this.confirmPasswordVisible.update((current) => !current);
   }
 
+  /**
+   * Returns the input type for the specified password field based on its visibility state.
+   * @param field The password field to get the type for.
+   * @returns The current input type.
+   */
   getPasswordFieldType(field: 'password' | 'confirmPassword') {
     if (field === 'password') {
       return this.passwordVisible() ? 'text' : 'password';
@@ -179,6 +196,11 @@ export class SignupForm {
     return this.confirmPasswordVisible() ? 'text' : 'password';
   }
 
+  /**
+   * Returns the icon path for the specified password field based on visibility and readiness state.
+   * @param field The password field to get the icon for.
+   * @returns The asset path to the appropriate icon.
+   */
   getPasswordFieldIcon(field: 'password' | 'confirmPassword') {
     if (field === 'password') {
       if (this.passwordVisible()) {
@@ -203,6 +225,11 @@ export class SignupForm {
     return 'assets/icons/form-lock-24px.svg';
   }
 
+  /**
+   * Returns the alt text for the specified password field icon based on visibility and readiness state.
+   * @param field The password field to get the alt text for.
+   * @returns The descriptive alt text string.
+   */
   getPasswordIconAlt(field: 'password' | 'confirmPassword') {
     if (field === 'password') {
       if (this.passwordVisible()) {
@@ -227,6 +254,11 @@ export class SignupForm {
     return 'Confirm password locked';
   }
 
+  /**
+   * Indicates whether the visibility toggle button should be shown for the specified password field.
+   * @param field The password field to check.
+   * @returns True if the toggle is ready to be displayed.
+   */
   isPasswordToggleVisible(field: 'password' | 'confirmPassword') {
     if (field === 'password') {
       return this.passwordToggleReady();

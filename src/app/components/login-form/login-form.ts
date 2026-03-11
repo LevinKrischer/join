@@ -113,25 +113,42 @@ export class LoginForm {
     );
   }
 
+  /**
+   * Logs in with guest credentials bypassing manual input and validation.
+   */
   guestLogin() {
     this.form.email = environment.guestEmail;
     this.form.password = environment.guestPassword;
     this.submitted.emit({ email: this.form.email, password: this.form.password });
   }
 
+  /**
+   * Toggles password field between visible text and hidden input.
+   */
   togglePasswordVisibility() {
     if (!this.passwordToggleReady()) return;
     this.passwordVisible.update((current) => !current);
   }
 
+  /**
+   * Enables the password visibility toggle once the user starts typing.
+   */
   activatePasswordToggle() {
     this.passwordToggleReady.set(true);
   }
 
+  /**
+   * Returns the input type for the password field based on visibility state.
+   * @returns The current input type.
+   */
   getPasswordFieldType() {
     return this.passwordVisible() ? 'text' : 'password';
   }
 
+  /**
+   * Returns the icon path for the password field based on visibility and readiness state.
+   * @returns The asset path to the appropriate icon.
+   */
   getPasswordFieldIcon() {
     if (this.passwordVisible()) {
       return 'assets/icons/form-visibility-off-24px.svg';
@@ -144,6 +161,10 @@ export class LoginForm {
     return 'assets/icons/form-lock-24px.svg';
   }
 
+  /**
+   * Returns the alt text for the password icon based on visibility and readiness state.
+   * @returns The descriptive alt text string.
+   */
   getPasswordIconAlt() {
     if (this.passwordVisible()) {
       return 'Hide password';
@@ -156,6 +177,10 @@ export class LoginForm {
     return 'Password locked';
   }
 
+  /**
+   * Indicates whether the password visibility toggle button should be shown.
+   * @returns True if the toggle is ready to be displayed.
+   */
   isPasswordToggleVisible() {
     return this.passwordToggleReady();
   }
