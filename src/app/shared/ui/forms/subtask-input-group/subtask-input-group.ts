@@ -68,6 +68,7 @@ export class SubtaskInputGroup {
     this.cancelEditSubtask();
   }
 
+  /** Leaves subtask edit mode and clears temporary edit state. */
   cancelEditSubtask() {
     this.editingSubtaskIndex = null;
     this.editingSubtaskTitle = '';
