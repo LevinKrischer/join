@@ -55,8 +55,16 @@ export class SubtaskInputGroup {
    */
   confirmEditSubtask() {
     const title = this.editingSubtaskTitle.trim();
-    if (!this.hasEditingSubtask()) return;
-    this.applySubtaskEditResult(title);
+    if (this.editingSubtaskIndex !== null) {
+      if (title) {
+        const updated = this.subtasks().map((s, i) =>
+          i === this.editingSubtaskIndex ? { ...s, title } : s
+        );
+        this.subtasksChange.emit(updated);
+      } else {
+        this.removeSubtask(this.editingSubtaskIndex);
+      }
+    }
     this.cancelEditSubtask();
   }
 
