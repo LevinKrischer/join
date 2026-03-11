@@ -71,6 +71,23 @@ export class SupabaseService {
   }
 
   /**
+   * Restores the {@link userName} signal from the current session's email.
+   * Should be called on app init when a session already exists (e.g. after page refresh).
+   */
+  async restoreUserName() {
+    const { data: { session } } = await this.supabase.auth.getSession();
+    if (!session?.user?.email) return;
+
+    const { data } = await this.supabase
+      .from('contacts')
+      .select('name')
+      .eq('email', session.user.email)
+      .single();
+
+    this.userName.set(data?.name ?? '');
+  }
+
+  /**
    * Retrieves the current Supabase auth session.
    *
    * @returns A promise resolving to the current session data.

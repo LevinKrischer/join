@@ -19,6 +19,7 @@ export class App {
     const { data } = await this.supabaseService.getSession();
 
     if (data.session) {
+      await this.supabaseService.restoreUserName();
       this.router.navigate(['/summary']);
     } else {
       this.router.navigate(['/login']);
