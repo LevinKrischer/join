@@ -16,6 +16,7 @@
   transition: $trans-default;
   font-weight: 400;
   height: 3rem;
+  width: 100%;
 
   @include for-size(sm) {
     font-size: 1.125rem;

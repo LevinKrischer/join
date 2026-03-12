@@ -51,3 +51,15 @@ form {
     max-width: 26.375rem;
   }
 }
+
+
+ui-button {
+  width: 11.25rem;
+  button{
+    width: 100%;
+  }
+
+  @include for-size(md) {
+    width: auto;
+  }
+}
