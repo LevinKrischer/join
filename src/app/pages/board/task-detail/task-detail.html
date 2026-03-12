@@ -1,25 +1,25 @@
 <ui-modal-wrapper (close)="close.emit()" modalSize="small" [contentPadding]="true">
 
   @if (task()) {
-    @if (!isEditing()) {
-      <div class="task-detail">
+  @if (!isEditing()) {
+  <div class="task-detail">
 
-        @if (task().category || task()) {
-        <div class="badge-row">
-          <div class="category-badge" [style.background]="categoryColor">
-            {{ task().category }}
-          </div>
-        </div>
-        }
+    @if (task().category || task()) {
+    <div class="badge-row">
+      <div class="category-badge" [style.background]="categoryColor">
+        {{ task().category }}
+      </div>
+    </div>
+    }
 
     <section class="scrollable-content">
       <header class="modal-header">
         <h2 class="mb-0">{{ task().title }}</h2>
       </header>
 
-          @if (task().description) {
-            {{ task().description }}
-          }
+      @if (task().description) {
+      {{ task().description }}
+      }
 
       <div class="detail-meta">
         <div class="meta-item due-date"><strong>Due date:</strong> {{ task().due_date }}</div>
@@ -81,17 +81,13 @@
     </section>
 
   </div>
-    } @else {
-      <header class="edit-header">
-        <h4>Edit Task</h4>
-      </header>
+  } @else {
+  <header class="edit-header">
+    <h4>Edit Task</h4>
+  </header>
 
-      <app-task-add-form
-        [editTask]="task()"
-        (updated)="onTaskUpdated()"
-        (closed)="onEditCancelled()"
-      />
-    }
+  <app-task-add-form [editTask]="task()" (updated)="onTaskUpdated()" (closed)="onEditCancelled()" />
+  }
   }
 
 </ui-modal-wrapper>

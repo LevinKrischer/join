@@ -1,10 +1,10 @@
 <form (ngSubmit)="submit()" class="d-flex flex-column pt-4">
-  <app-input-field type="text" label="Name" placeholder="Name"
-    icon="assets/icons/form-person-24px.svg" autocomplete="name" [(model)]="form.name" [error]="errors.name" (blur)="markDirty('name')"
+  <app-input-field type="text" label="Name" placeholder="Name" icon="assets/icons/form-person-24px.svg"
+    autocomplete="name" [(model)]="form.name" [error]="errors.name" (blur)="markDirty('name')"
     (input)="liveValidate('name')" [maxlength]="30" [displayLabel]="false" [reserveErrorSpace]="true" />
 
-  <app-input-field type="email" label="Email" placeholder="Email"
-    icon="assets/icons/form-mail-24px.svg" autocomplete="email" [(model)]="form.email" [error]="errors.email" (blur)="markDirty('email')"
+  <app-input-field type="email" label="Email" placeholder="Email" icon="assets/icons/form-mail-24px.svg"
+    autocomplete="email" [(model)]="form.email" [error]="errors.email" (blur)="markDirty('email')"
     (input)="liveValidate('email')" [maxlength]="35" [displayLabel]="false" [reserveErrorSpace]="true" />
 
   <app-input-field [type]="getPasswordFieldType('password')" label="Password" placeholder="Password"
@@ -14,25 +14,27 @@
     (focus)="activatePasswordToggle('password')" (input)="liveValidate('password')" [displayLabel]="false"
     [reserveErrorSpace]="true" />
 
-  <app-input-field [type]="getPasswordFieldType('confirmPassword')" label="Confirm Password" placeholder="Confirm Password"
-    [icon]="getPasswordFieldIcon('confirmPassword')" [iconAlt]="getPasswordIconAlt('confirmPassword')"
-    [iconClickable]="isPasswordToggleVisible('confirmPassword')" (iconClick)="togglePasswordVisibility('confirmPassword')"
-    autocomplete="new-password" [(model)]="form.confirmPassword" [error]="errors.confirmPassword" (blur)="markDirty('confirmPassword')"
+  <app-input-field [type]="getPasswordFieldType('confirmPassword')" label="Confirm Password"
+    placeholder="Confirm Password" [icon]="getPasswordFieldIcon('confirmPassword')"
+    [iconAlt]="getPasswordIconAlt('confirmPassword')" [iconClickable]="isPasswordToggleVisible('confirmPassword')"
+    (iconClick)="togglePasswordVisibility('confirmPassword')" autocomplete="new-password"
+    [(model)]="form.confirmPassword" [error]="errors.confirmPassword" (blur)="markDirty('confirmPassword')"
     (focus)="activatePasswordToggle('confirmPassword')" (input)="liveValidate('confirmPassword')" [displayLabel]="false"
     [reserveErrorSpace]="true" />
 
-  <div class="mb-3 d-flex justify-content-center align-items-center gap-2 privacy-checkbox" (click)="form.acceptedPrivacy = !form.acceptedPrivacy">
+  <div class="mb-3 d-flex justify-content-center align-items-center gap-2 privacy-checkbox"
+    (click)="form.acceptedPrivacy = !form.acceptedPrivacy">
     <img
       [src]="form.acceptedPrivacy ? 'assets/icons/checkbox-checked-default-24px.svg' : 'assets/icons/checkbox-default-24px.svg'"
-      [alt]="form.acceptedPrivacy ? 'Accepted' : 'Not accepted'"
-      class="checkbox-icon"
-    >
+      [alt]="form.acceptedPrivacy ? 'Accepted' : 'Not accepted'" class="checkbox-icon">
     <label class="mb-0 user-select-none" for="acceptPrivacy">
-      I accept the <a routerLink="/privacy-policy" target="_blank" class="text-primary" (click)="$event.stopPropagation()">Privacy Policy</a>
+      I accept the <a routerLink="/privacy-policy" target="_blank" class="text-primary"
+        (click)="$event.stopPropagation()">Privacy Policy</a>
     </label>
   </div>
 
-  <div class="d-flex flex-column flex-lg-row gap-2 gap-lg-4 mt-lg-2 align-items-center justify-content-center justify-content-lg-center w-100">
+  <div
+    class="d-flex flex-column flex-lg-row gap-2 gap-lg-4 mt-lg-2 align-items-center justify-content-center justify-content-lg-center w-100">
     <ui-button type="submit" variant="primary" [disabled]="!isFormValid() || isSubmitting()">
       Sign Up
     </ui-button>

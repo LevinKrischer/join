@@ -10,6 +10,7 @@
   <!-- Right: contact detail view -->
   <section class="right" [ngClass]="isMobileDetailOpen ? '' : 'd-none d-lg-block'">
     <app-contact-header [contact]="selected" (back)="backToList()" />
-    <app-contact-details [contact]="selected" (edit)="editSelected()" (remove)="deleteSelected()" (back)="backToList()" />
+    <app-contact-details [contact]="selected" (edit)="editSelected()" (remove)="deleteSelected()"
+      (back)="backToList()" />
   </section>
 </div>

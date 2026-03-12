@@ -1,12 +1,12 @@
-ol{
-  li{
+ol {
+  li {
     counter-increment: my-counter;
     padding-left: 4rem;
     font-size: 1rem;
     vertical-align: top;
     position: relative;
 
-    &::before{
+    &::before {
       content: counter(my-counter) ".";
       line-height: 1.2;
       font-size: 2rem;

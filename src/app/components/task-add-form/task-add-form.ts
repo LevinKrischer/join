@@ -27,7 +27,6 @@ import { Button } from '../../shared/ui/button/button';
 import { ModalWrapper } from '../../shared/ui/modal-wrapper/modal-wrapper';
 import { Textarea } from '../../shared/ui/forms/textarea/textarea';
 import { UserFeedbackComponent } from '../../shared/ui/user-feedback/user-feedback';
-import { Select } from '../../shared/ui/forms/select/select';
 
 @Component({
   selector: 'app-task-add-form',
@@ -67,15 +66,15 @@ export class TaskAddFormComponent {
   form: Omit<Task, 'id' | 'contacts' | 'created_at' | 'modified_at' | 'order' | 'category'> & {
     category: Task['category'] | '';
   } = {
-    title: '',
-    description: '',
-    due_date: '',
-    priority: 'medium',
-    category: '',
-    subtasks: [],
-    status: 'todo',
-    user: null,
-  };
+      title: '',
+      description: '',
+      due_date: '',
+      priority: 'medium',
+      category: '',
+      subtasks: [],
+      status: 'todo',
+      user: null,
+    };
 
   errors: Record<string, string> = {
     title: '',

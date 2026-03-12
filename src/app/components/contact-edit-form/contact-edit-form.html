@@ -1,8 +1,7 @@
 <ui-modal-wrapper (close)="onCancel()" id="contact-add-form" [contentPadding]="false">
   <div class="modal-inner d-flex flex-column h-100 w-100">
     <div class="row g-0 flex-grow-1 h-100">
-      <div
-        class="col-12 col-lg-5 d-flex flex-column justify-content-center align-items-start modal-title-area gap-0">
+      <div class="col-12 col-lg-5 d-flex flex-column justify-content-center align-items-start modal-title-area gap-0">
         <img src="/assets/icons/logo-join-default-100px.svg" alt="Join Logo" class="logo d-none d-lg-block" />
         <h2 class="mt-4 mb-1 mb-lg-3">Edit contact</h2>
         <div class="blue-divider mt-0 mt-lg-1"></div>
@@ -16,8 +15,7 @@
             {{ contact?.initials }}
           </div>
         </div>
-        <form (ngSubmit)="save()"
-          class="d-flex flex-column gap-0 px-lg-2 gap-lg-2 modal-content-area w-100 w-lg-75">
+        <form (ngSubmit)="save()" class="d-flex flex-column gap-0 px-lg-2 gap-lg-2 modal-content-area w-100 w-lg-75">
           <app-input-field type="text" label="Name" placeholder="Name" icon="assets/icons/form-person-24px.svg"
             [(model)]="form.name" [maxlength]="30" [error]="errors.name" (blur)="markDirty('name')"
             (input)="liveValidate('name')" [displayLabel]="false" [reserveErrorSpace]="true" />

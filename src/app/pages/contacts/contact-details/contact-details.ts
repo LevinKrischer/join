@@ -19,7 +19,7 @@ export class ContactDetails {
   isContactModalOpen = false;
   isMobileActionsOpen = false;
 
-  constructor(private elRef: ElementRef) {}
+  constructor(private elRef: ElementRef) { }
 
   /**
    * Closes the mobile actions menu when the user clicks outside of it.

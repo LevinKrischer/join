@@ -1,22 +1,10 @@
-<button
-  [attr.type]="type"
-  class="btn"
-  [class.btn--primary]="variant === 'primary'"
-  [class.btn--secondary]="variant === 'secondary'"
-  [class.btn--urgent]="variant === 'urgent'"
-  [class.btn--medium]="variant === 'medium'"
-  [class.btn--low]="variant === 'low'"
-  [class.btn--fab-primary]="variant === 'fab-primary'"
-  [class.btn--fab-secondary]="variant === 'fab-secondary'"
-  [class.icon--add]="icon === 'add'"
-  [class.icon--create]="icon === 'create'"
-  [class.icon--cancel]="icon === 'cancel'"
-  [class.icon--low]="icon === 'low'"
-  [class.icon--medium]="icon === 'medium'"
-  [class.icon--urgent]="icon === 'urgent'"
-  [class.active]="active"
-  [disabled]="disabled"
->
+<button [attr.type]="type" class="btn" [class.btn--primary]="variant === 'primary'"
+  [class.btn--secondary]="variant === 'secondary'" [class.btn--urgent]="variant === 'urgent'"
+  [class.btn--medium]="variant === 'medium'" [class.btn--low]="variant === 'low'"
+  [class.btn--fab-primary]="variant === 'fab-primary'" [class.btn--fab-secondary]="variant === 'fab-secondary'"
+  [class.icon--add]="icon === 'add'" [class.icon--create]="icon === 'create'" [class.icon--cancel]="icon === 'cancel'"
+  [class.icon--low]="icon === 'low'" [class.icon--medium]="icon === 'medium'" [class.icon--urgent]="icon === 'urgent'"
+  [class.active]="active" [disabled]="disabled">
   <ng-content>
     <span class="button-text"></span>
   </ng-content>

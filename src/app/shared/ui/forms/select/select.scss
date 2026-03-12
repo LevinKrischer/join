@@ -1,25 +1,28 @@
 @use 'styles/variables' as *;
 @use 'styles/mixins' as mixins;
 
-select{
+select {
   flex: 1;
   padding-right: 0;
   border: 1px solid $grey-light;
   border-radius: $base-border-radius;
   height: 3rem;
   position: relative;
-  &:focus{
+
+  &:focus {
     box-shadow: none;
-    &:after{
+
+    &:after {
       background-image: url('/assets/icons/arrow-dropdown-up-24px.svg');
     }
   }
-  &::placeholder{
+
+  &::placeholder {
     color: $grey-light
   }
 }
 
-.select-wrapper{
+.select-wrapper {
   position: relative;
   display: flex;
   flex: 1;
@@ -32,7 +35,8 @@ select{
     border-radius: $base-border-radius;
     height: 3rem;
   }
-  &:after{
+
+  &:after {
     content: '';
     position: absolute;
     right: 1rem;
@@ -43,19 +47,21 @@ select{
     background: url('/assets/icons/arrow-dropdown-down-24px.svg') no-repeat center;
     pointer-events: none;
   }
-  &:focus-within{
-    select{
+
+  &:focus-within {
+    select {
       border-color: $blue-light;
     }
-    &:after{
+
+    &:after {
       background: url('/assets/icons/arrow-dropdown-up-24px.svg') no-repeat center;
     }
   }
 }
 
-.is-invalid{
-  .select-wrapper{
-    select{
+.is-invalid {
+  .select-wrapper {
+    select {
       border-color: $red;
     }
   }

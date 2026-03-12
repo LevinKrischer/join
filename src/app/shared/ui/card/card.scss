@@ -1,16 +1,17 @@
 @use 'styles/variables' as *;
 
-div.card{
+div.card {
   display: flex;
   border-radius: $card-border-radius;
   filter: $sh-card;
   padding: 1rem;
 
-  &--light{
+  &--light {
     color: $blue-darker;
     background: $white;
   }
-  &--dark{
+
+  &--dark {
     color: $white;
     background: $blue-dark;
   }

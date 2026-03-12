@@ -19,15 +19,15 @@
   }
 }
 
-  a {
-    color: $grey;
-    text-decoration: none;
+a {
+  color: $grey;
+  text-decoration: none;
 
-    &:hover {
-      color: $blue-light;
-      font-weight: 700;
-    }
+  &:hover {
+    color: $blue-light;
+    font-weight: 700;
   }
+}
 
 
 h3 {

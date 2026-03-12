@@ -1,15 +1,17 @@
 @use 'styles/variables' as *;
 @use 'styles/mixins' as mixins;
 
-textarea{
+textarea {
   flex: 1;
   padding-right: 0;
   border: 1px solid $grey-light;
   border-radius: $base-border-radius;
-  &:focus{
+
+  &:focus {
     box-shadow: none;
   }
-  &::placeholder{
+
+  &::placeholder {
     color: $grey-light
   }
 }

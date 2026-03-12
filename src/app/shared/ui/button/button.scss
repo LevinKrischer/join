@@ -162,6 +162,7 @@
   }
 
   &.icon--low {
+
     &:active,
     &.active {
       background-color: $green;
@@ -178,6 +179,7 @@
   }
 
   &.icon--medium {
+
     &:active,
     &.active {
       background-color: $orange;
@@ -194,6 +196,7 @@
   }
 
   &.icon--urgent {
+
     &:active,
     &.active {
       background-color: $red;

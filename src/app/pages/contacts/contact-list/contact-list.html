@@ -2,7 +2,7 @@
 
 <main class="contact-list px-3">
   @if (isContactModalOpen) {
-    <app-contact-add-form (added)="onAdded()" (closed)="closeModal()"></app-contact-add-form>
+  <app-contact-add-form (added)="onAdded()" (closed)="closeModal()"></app-contact-add-form>
   }
 
   <header class="sticky-top d-none d-lg-block">
@@ -13,31 +13,28 @@
   </header>
 
   @for (group of groups; track group.letter) {
-    <section class="contacts">
-      <header>
-        <abbr class="letter">{{ group.letter }}</abbr>
-      </header>
+  <section class="contacts">
+    <header>
+      <abbr class="letter">{{ group.letter }}</abbr>
+    </header>
 
-      <hr />
+    <hr />
 
-      <ul>
-        @for (c of group.contacts; track c.id) {
-          <li class="contacts__item" (click)="select.emit(c)" [class.Active]="selectedId === c.id">
-            <abbr
-              class="initialism d-flex d-inline-flex align-items-center justify-content-center rounded-circle"
-              [title]="c.name"
-              [style.background]="c.color"
-            >
-              {{ c.initials }}
-            </abbr>
-            <dl>
-              <dt class="contacts__name">{{ c.name | truncate: 25}}</dt>
-              <dd class="contacts__email fs-6">{{ c.email | truncate: 25}}</dd>
-            </dl>
-          </li>
-        }
-      </ul>
-    </section>
+    <ul>
+      @for (c of group.contacts; track c.id) {
+      <li class="contacts__item" (click)="select.emit(c)" [class.Active]="selectedId === c.id">
+        <abbr class="initialism d-flex d-inline-flex align-items-center justify-content-center rounded-circle"
+          [title]="c.name" [style.background]="c.color">
+          {{ c.initials }}
+        </abbr>
+        <dl>
+          <dt class="contacts__name">{{ c.name | truncate: 25}}</dt>
+          <dd class="contacts__email fs-6">{{ c.email | truncate: 25}}</dd>
+        </dl>
+      </li>
+      }
+    </ul>
+  </section>
   }
 
   <!-- Mobile: FAB buttons (hidden on lg+) -->

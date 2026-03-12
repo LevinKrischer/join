@@ -1,50 +1,39 @@
 <section class="contact-picker flex-column">
-  <app-input-field
-    type="text"
-    class="form-input"
-    label="Assigned To"
-    placeholder="Assigned To"
-    [model]="searchTerm()"
-    (modelChange)="searchTerm.set($event)"
-    (focus)="open()"
-    (input)="open()"
-  >
+  <app-input-field type="text" class="form-input" label="Assigned To" placeholder="Assigned To" [model]="searchTerm()"
+    (modelChange)="searchTerm.set($event)" (focus)="open()" (input)="open()">
   </app-input-field>
 
   @if (isOpen()) {
-    <ul class="contact-picker__dropdown">
-      @for (c of filteredContacts(); track c.id) {
-        <li class="contact-picker__item" [class.contact-picker__item--selected]="isSelected(c.id)" (click)="toggleContact(c.id)">
-          <abbr class="contact-picker__avatar" [title]="c.name" [style.background]="c.color">
-            {{ getInitials(c.name) }}
-          </abbr>
+  <ul class="contact-picker__dropdown">
+    @for (c of filteredContacts(); track c.id) {
+    <li class="contact-picker__item" [class.contact-picker__item--selected]="isSelected(c.id)"
+      (click)="toggleContact(c.id)">
+      <abbr class="contact-picker__avatar" [title]="c.name" [style.background]="c.color">
+        {{ getInitials(c.name) }}
+      </abbr>
 
-          <span class="contact-picker__label">{{ c.name }}</span>
-          <input
-            type="checkbox"
-            class="contact-picker__checkbox"
-            [checked]="isSelected(c.id)"
-            (click)="$event.stopPropagation(); toggleContact(c.id)"
-          />
-        </li>
-      } @empty {
-        <li class="contact-picker__empty">No contacts found</li>
-      }
-    </ul>
+      <span class="contact-picker__label">{{ c.name }}</span>
+      <input type="checkbox" class="contact-picker__checkbox" [checked]="isSelected(c.id)"
+        (click)="$event.stopPropagation(); toggleContact(c.id)" />
+    </li>
+    } @empty {
+    <li class="contact-picker__empty">No contacts found</li>
+    }
+  </ul>
   }
 
   <ul class="contact-picker__chips">
     @for (c of selectedContacts().slice(0, 5); track c.id) {
-      <li class="avatar">
-        <abbr class="contact-picker__chip" [title]="c.name" [style.background]="c.color">
-          {{ getInitials(c.name) }}
-        </abbr>
-      </li>
+    <li class="avatar">
+      <abbr class="contact-picker__chip" [title]="c.name" [style.background]="c.color">
+        {{ getInitials(c.name) }}
+      </abbr>
+    </li>
     }
     @if (selectedContacts().length > 5) {
-      <li class="contact-picker__chip-more d-flex justify-content-center align-items-center">
-        +{{ selectedContacts().length - 5 }}
-      </li>
+    <li class="contact-picker__chip-more d-flex justify-content-center align-items-center">
+      +{{ selectedContacts().length - 5 }}
+    </li>
     }
   </ul>
 </section>

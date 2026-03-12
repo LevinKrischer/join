@@ -40,7 +40,7 @@ export class TasksDb {
    * Creates the tasks database service.
    * @param supa Shared Supabase service instance.
    */
-  constructor(private supa: SupabaseService) {}
+  constructor(private supa: SupabaseService) { }
 
   /**
    * Loads all tasks with their assigned contacts via the junction table.

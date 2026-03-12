@@ -10,8 +10,9 @@
     </div>
 
     <nav class="d-flex justify-content-between w-100" aria-label="Board actions">
-      <app-input-field class="w-100 w-lg-auto" type="text" [displayLabel]="false" label="Search tasks" placeholder="Find task"
-        icon="assets/icons/search-32px.svg" [model]="searchTerm()" (modelChange)="searchTerm.set($event)" />
+      <app-input-field class="w-100 w-lg-auto" type="text" [displayLabel]="false" label="Search tasks"
+        placeholder="Find task" icon="assets/icons/search-32px.svg" [model]="searchTerm()"
+        (modelChange)="searchTerm.set($event)" />
       <ui-button class="d-none d-lg-inline-block text-nowrap" type="button" variant="primary" icon="add"
         (click)="openAdd()">Add task</ui-button>
     </nav>

@@ -14,12 +14,12 @@ header {
   }
 }
 
-.header-container{
+.header-container {
   max-width: 90rem;
 }
 
 #logo {
-  img{
+  img {
     width: 2rem;
     height: auto;
   }
@@ -28,9 +28,11 @@ header {
 #slogan {
   color: $blue-dark;
   padding-left: $space-md;
-  h5{
+
+  h5 {
     font-family: 'Inter-Regular';
   }
+
   @include for-size(lg) {
     padding-left: 6rem;
   }
@@ -38,6 +40,7 @@ header {
 
 #header-left {
   padding-left: 1.5rem;
+
   @include for-size(lg) {
     padding-left: 0;
   }
@@ -45,6 +48,7 @@ header {
 
 #header-right {
   padding-right: $space-md;
+
   @include for-size(sm) {
     padding-right: 1.5rem;
   }
@@ -117,6 +121,7 @@ header {
     gap: $space-sm;
     text-decoration: none;
     padding: $space-md;
+
     @include for-size(lg) {
       padding: 0.5rem $space-md $space-md $space-md;
     }
@@ -134,6 +139,7 @@ header {
       cursor: pointer;
     }
   }
+
   @include for-size(lg) {
     bottom: -9rem;
   }

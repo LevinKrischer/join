@@ -2,8 +2,8 @@
 
 <div class="ContactDetails">
   @if (isContactModalOpen) {
-    <app-contact-edit-form [contact]="selectedContact" (closed)="closeModal()"
-      (saved)="onEditSaved()" (deleted)="onEditDeleted()" />
+  <app-contact-edit-form [contact]="selectedContact" (closed)="closeModal()" (saved)="onEditSaved()"
+    (deleted)="onEditDeleted()" />
   }
 
   @if (!contact) {

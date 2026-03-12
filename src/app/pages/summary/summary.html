@@ -20,73 +20,79 @@
     <section class="content-inner d-flex flex-row align-items-center gap-5">
       <section class="summary-overview col-12 col-lg-6 d-flex flex-column gap-4">
 
-      <div class="d-flex flex-lg-row align-items-center gap-3 w-100">
-        <div class="card d-flex flex-row align-items-center justify-content-evenly px-2 py-2 p-sm-4  border-0 w-50" routerLink="/board" [fragment]="'to-do'">
-          <div class="card-icon d-flex align-items-center justify-content-center">
-            <img class="hoverNone" src="./assets/icons/summary-edit-69px.svg" alt="">
-            <img class="hover" src="./assets/icons/summary-edit-white-69px.svg" alt="">
-          </div>
-          <div class="card-content d-flex align-items-center justify-content-center flex-column">
-            <h3 class="mb-0 text-center">{{ todoCount() }}</h3>
-            <p class="mb-0 text-center">To-do</p>
-          </div>
-        </div>
-
-        <div class="card d-flex flex-row align-items-center justify-content-evenly px-2 py-2 p-sm-4 border-0 w-50" routerLink="/board" [fragment]="'done'">
-          <div class="card-icon d-flex align-items-center justify-content-center">
-            <img class="hoverNone" src="./assets/icons/summary-done-default-69px.svg" alt="">
-            <img class="hover" src="./assets/icons/summary-done-white-69px.svg" alt="">
-          </div>
-          <div class="card-content d-flex align-items-center justify-content-center flex-column">
-            <h3 class="mb-0 text-center">{{ doneCount() }}</h3>
-            <p class="mb-0 text-center">Done</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="d-flex flex-lg-row align-items-center w-100">
-        <div class=" card d-flex flex-row align-items-center justify-content-evenly border-0 w-100" routerLink="/board">
-          <div class=" d-flex flex-row align-items-center gap-3 px-2 py-2 p-sm-4  border-0">
+        <div class="d-flex flex-lg-row align-items-center gap-3 w-100">
+          <div class="card d-flex flex-row align-items-center justify-content-evenly px-2 py-2 p-sm-4  border-0 w-50"
+            routerLink="/board" [fragment]="'to-do'">
             <div class="card-icon d-flex align-items-center justify-content-center">
-              <img src="./assets/icons/summary-urgent-60px.svg" alt="">
+              <img class="hoverNone" src="./assets/icons/summary-edit-69px.svg" alt="">
+              <img class="hover" src="./assets/icons/summary-edit-white-69px.svg" alt="">
             </div>
             <div class="card-content d-flex align-items-center justify-content-center flex-column">
-              <h3 class="mb-0 text-center">{{ urgentCount() }}</h3>
-              <p class="mb-0 text-center">Urgent</p>
+              <h3 class="mb-0 text-center">{{ todoCount() }}</h3>
+              <p class="mb-0 text-center">To-do</p>
             </div>
           </div>
-          <div class="divider"></div>
-          <div class="d-flex flex-row align-items-center gap-3 px-2 py-2 p-sm-4  border-0">
-            <div class="card-content d-flex align-items-start justify-content-center flex-column w-100">
-              <p class="fw-bold mb-2">{{ earliestOpenDueDate() }}</p>
-              <p class="mb-0">Upcoming deadline</p>
+
+          <div class="card d-flex flex-row align-items-center justify-content-evenly px-2 py-2 p-sm-4 border-0 w-50"
+            routerLink="/board" [fragment]="'done'">
+            <div class="card-icon d-flex align-items-center justify-content-center">
+              <img class="hoverNone" src="./assets/icons/summary-done-default-69px.svg" alt="">
+              <img class="hover" src="./assets/icons/summary-done-white-69px.svg" alt="">
+            </div>
+            <div class="card-content d-flex align-items-center justify-content-center flex-column">
+              <h3 class="mb-0 text-center">{{ doneCount() }}</h3>
+              <p class="mb-0 text-center">Done</p>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="d-flex flex-lg-row align-items-stretch gap-3 w-100">
-        <div class="card d-flex flex-row align-items-center gap-3 px-2 py-2 p-sm-4  border-0" style="flex: 1 1 0; min-width: 0;" routerLink="/board">
-          <div class="card-content d-flex justify-content-center flex-column w-100">
-            <h3 class="mb-0 text-center">{{ totalTasksCount() }}</h3>
-            <p class="mb-0 text-center">Tasks in board</p>
+        <div class="d-flex flex-lg-row align-items-center w-100">
+          <div class=" card d-flex flex-row align-items-center justify-content-evenly border-0 w-100"
+            routerLink="/board">
+            <div class=" d-flex flex-row align-items-center gap-3 px-2 py-2 p-sm-4  border-0">
+              <div class="card-icon d-flex align-items-center justify-content-center">
+                <img src="./assets/icons/summary-urgent-60px.svg" alt="">
+              </div>
+              <div class="card-content d-flex align-items-center justify-content-center flex-column">
+                <h3 class="mb-0 text-center">{{ urgentCount() }}</h3>
+                <p class="mb-0 text-center">Urgent</p>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="d-flex flex-row align-items-center gap-3 px-2 py-2 p-sm-4  border-0">
+              <div class="card-content d-flex align-items-start justify-content-center flex-column w-100">
+                <p class="fw-bold mb-2">{{ earliestOpenDueDate() }}</p>
+                <p class="mb-0">Upcoming deadline</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="card d-flex flex-row align-items-center gap-3 px-2 py-2 p-sm-4  border-0" style="flex: 1 1 0; min-width: 0;" routerLink="/board" [fragment]="'in-progress'">
-          <div class="card-content d-flex align-items-center justify-content-center flex-column w-100">
-            <h3 class="mb-0 text-center">{{ inProgressCount() }}</h3>
-            <p class="mb-0 text-center">Tasks in progress</p>
+        <div class="d-flex flex-lg-row align-items-stretch gap-3 w-100">
+          <div class="card d-flex flex-row align-items-center gap-3 px-2 py-2 p-sm-4  border-0"
+            style="flex: 1 1 0; min-width: 0;" routerLink="/board">
+            <div class="card-content d-flex justify-content-center flex-column w-100">
+              <h3 class="mb-0 text-center">{{ totalTasksCount() }}</h3>
+              <p class="mb-0 text-center">Tasks in board</p>
+            </div>
           </div>
-        </div>
 
-        <div class="card d-flex flex-row align-items-center gap-3 px-2 py-2 p-sm-4  border-0" style="flex: 1 1 0; min-width: 0;" routerLink="/board" [fragment]="'await-feedback'">
-          <div class="card-content d-flex align-items-center justify-content-center flex-column w-100">
-            <h3 class="mb-0 text-center">{{ awaitFeedbackCount() }}</h3>
-            <p class="mb-0 text-center">Awaiting feedback</p>
+          <div class="card d-flex flex-row align-items-center gap-3 px-2 py-2 p-sm-4  border-0"
+            style="flex: 1 1 0; min-width: 0;" routerLink="/board" [fragment]="'in-progress'">
+            <div class="card-content d-flex align-items-center justify-content-center flex-column w-100">
+              <h3 class="mb-0 text-center">{{ inProgressCount() }}</h3>
+              <p class="mb-0 text-center">Tasks in progress</p>
+            </div>
+          </div>
+
+          <div class="card d-flex flex-row align-items-center gap-3 px-2 py-2 p-sm-4  border-0"
+            style="flex: 1 1 0; min-width: 0;" routerLink="/board" [fragment]="'await-feedback'">
+            <div class="card-content d-flex align-items-center justify-content-center flex-column w-100">
+              <h3 class="mb-0 text-center">{{ awaitFeedbackCount() }}</h3>
+              <p class="mb-0 text-center">Awaiting feedback</p>
+            </div>
           </div>
         </div>
-      </div>
 
 
       </section>
