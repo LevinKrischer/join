@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
+﻿import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TasksDb } from '../../core/db/tasks.db';
 import { SupabaseService } from '../../services/supabase';
@@ -40,28 +40,19 @@ export class Summary implements OnInit, OnDestroy {
   urgentCount = computed(() => this.tasks().filter((task) => task.priority === 'urgent').length);
   totalTasksCount = computed(() => this.tasks().length);
 
-  earliestOpenDueDate = computed(() => {
-    const openTasks = this.tasks().filter((task) => task.status !== 'done');
+  nextOpenDueDate = computed(() => {
+    const upcomingDates = this.getUpcomingOpenTaskDates();
 
-    const validDates = openTasks
-      .map((task) => this.parseDate(task.due_date))
-      .filter((date): date is Date => date !== null)
-      .sort((a, b) => a.getTime() - b.getTime());
-
-    if (validDates.length === 0) {
+    if (upcomingDates.length === 0) {
       return 'No upcoming deadline';
     }
 
-    return validDates[0].toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    });
+    return this.formatDueDate(upcomingDates[0]);
   });
 
   /**
    * Returns the greeting text based on the current local hour.
-    * @returns Greeting text for the current time window.
+   * @ Greeting text for the current time window.
    */
   private getTimeBasedGreeting(): string {
     const hour = new Date().getHours();
@@ -79,7 +70,7 @@ export class Summary implements OnInit, OnDestroy {
 
   /**
    * Loads session context and resolves the user greeting name.
-    * @returns Promise that resolves when greeting context initialization is complete.
+   * @ Promise that resolves when greeting context initialization is complete.
    */
   private async loadCurrentUserGreetingContext() {
     const { data } = await this.supabase.getSession();
@@ -98,8 +89,8 @@ export class Summary implements OnInit, OnDestroy {
 
   /**
    * Normalizes the session email to lowercase.
-    * @param sessionUser Current authenticated session user.
-    * @returns Lowercase email string or an empty string.
+   * @ sessionUser Current authenticated session user.
+   * @ Lowercase email string or an empty string.
    */
   private getSessionEmail(sessionUser: { email?: string | null } | null | undefined): string {
     return sessionUser?.email?.toLowerCase() ?? '';
@@ -107,7 +98,6 @@ export class Summary implements OnInit, OnDestroy {
 
   /**
    * Clears user specific greeting state when no valid email exists.
-    * @returns Nothing.
    */
   private resetUserContextForMissingEmail() {
     this.userName.set('');
@@ -116,8 +106,8 @@ export class Summary implements OnInit, OnDestroy {
 
   /**
    * Updates guest-session state and returns whether current user is guest.
-    * @param email Normalized email of the current session user.
-    * @returns True if the session belongs to the configured guest account.
+   * @ email Normalized email of the current session user.
+   * @ True if the session belongs to the configured guest account.
    */
   private setGuestSessionState(email: string): boolean {
     const isGuest = email === environment.guestEmail.toLowerCase();
@@ -127,8 +117,8 @@ export class Summary implements OnInit, OnDestroy {
 
   /**
    * Extracts display name from user metadata.
-    * @param sessionUser Current authenticated session user.
-    * @returns Trimmed display name from metadata or an empty string.
+   * @ sessionUser Current authenticated session user.
+   * @ Trimmed display name from metadata or an empty string.
    */
   private getMetadataName(sessionUser: { user_metadata?: Record<string, unknown> | null } | null | undefined): string {
     return String(sessionUser?.user_metadata?.['full_name'] ?? sessionUser?.user_metadata?.['name'] ?? '').trim();
@@ -136,9 +126,9 @@ export class Summary implements OnInit, OnDestroy {
 
   /**
    * Resolves the best available display name and stores it in state.
-    * @param sessionUser Current authenticated session user.
-    * @param email Normalized email of the current session user.
-    * @returns Promise that resolves when the name has been written to state.
+   * @ sessionUser Current authenticated session user.
+   * @ email Normalized email of the current session user.
+   * @ Promise that resolves when the name has been written to state.
    */
   private async resolveAndSetUserName(sessionUser: { user_metadata?: Record<string, unknown> | null } | null | undefined, email: string) {
     const { data: contact, error } = await this.supabase.client.from('contacts').select('name').eq('email', email).maybeSingle();
@@ -154,8 +144,8 @@ export class Summary implements OnInit, OnDestroy {
 
   /**
    * Builds a display-name fallback from the email local part.
-    * @param email Email address used to derive a fallback name.
-    * @returns Human-readable fallback name.
+   * @ email Email address used to derive a fallback name.
+   * @ Human-readable fallback name.
    */
   private getNameFallbackFromEmail(email: string): string {
     const localPart = email.split('@')[0] ?? '';
@@ -173,8 +163,8 @@ export class Summary implements OnInit, OnDestroy {
 
   /**
    * Parses a due date string to a valid Date instance.
-    * @param dueDate Raw due-date string from task data.
-    * @returns Parsed Date or null when the input is invalid.
+   * @ dueDate Raw due-date string from task data.
+   * @ Parsed Date or null when the input is invalid.
    */
   private parseDate(dueDate: string): Date | null {
     if (!dueDate) {
@@ -192,8 +182,55 @@ export class Summary implements OnInit, OnDestroy {
   }
 
   /**
+   * Returns all open-task due dates that are on or after today.
+   * @returns Sorted list of upcoming due dates.
+   */
+  private getUpcomingOpenTaskDates(): Date[] {
+    const todayStart = this.getTodayStart();
+
+    return this.tasks()
+      .filter((task) => task.status !== 'done')
+      .map((task) => this.parseDate(task.due_date))
+      .filter((date): date is Date => date !== null)
+      .filter((date) => this.isDateOnOrAfter(date, todayStart))
+      .sort((a, b) => a.getTime() - b.getTime());
+  }
+
+  /**
+   * Returns today at local midnight.
+   * @returns Date instance at the start of the current day.
+   */
+  private getTodayStart(): Date {
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  }
+
+  /**
+   * Checks whether a date is on or after the given start date.
+   * @param date Date to validate.
+   * @param startDate Inclusive lower date boundary.
+   * @returns True when date is on or after startDate.
+   */
+  private isDateOnOrAfter(date: Date, startDate: Date): boolean {
+    return date.getTime() >= startDate.getTime();
+  }
+
+  /**
+   * Formats a due date for summary display.
+   * @param dueDate Due date to format.
+   * @returns Localized date label for the summary card.
+   */
+  private formatDueDate(dueDate: Date): string {
+    return dueDate.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  }
+
+  /**
    * Initializes summary data and optionally starts mobile greeting overlay.
-    * @returns Promise that resolves when initialization steps are completed.
+   * @ Promise that resolves when initialization steps are completed.
    */
   async ngOnInit() {
     const shouldShowMobileGreetingOverlay = this.consumeMobileGreetingTrigger();
@@ -206,8 +243,7 @@ export class Summary implements OnInit, OnDestroy {
 
   /**
    * Flags the mobile greeting as preparing before data load.
-    * @param shouldShowMobileGreetingOverlay Whether the overlay should be shown.
-    * @returns Nothing.
+   * @ shouldShowMobileGreetingOverlay Whether the overlay should be shown.
    */
   private prepareMobileGreetingOverlay(shouldShowMobileGreetingOverlay: boolean) {
     if (shouldShowMobileGreetingOverlay) {
@@ -217,7 +253,7 @@ export class Summary implements OnInit, OnDestroy {
 
   /**
    * Loads tasks and greeting context in parallel.
-    * @returns Promise that resolves when both async operations are completed.
+   * @ Promise that resolves when both async operations are completed.
    */
   private async initializeSummaryData() {
     await Promise.all([
@@ -228,8 +264,7 @@ export class Summary implements OnInit, OnDestroy {
 
   /**
    * Starts the mobile greeting overlay when the trigger is active.
-    * @param shouldShowMobileGreetingOverlay Whether the overlay should be shown.
-    * @returns Nothing.
+   * @ shouldShowMobileGreetingOverlay Whether the overlay should be shown.
    */
   private showMobileGreetingOverlayIfNeeded(shouldShowMobileGreetingOverlay: boolean) {
     if (shouldShowMobileGreetingOverlay) {
@@ -239,7 +274,7 @@ export class Summary implements OnInit, OnDestroy {
 
   /**
    * Consumes and clears the one-time mobile greeting trigger from session storage.
-    * @returns True when the greeting overlay should be displayed on mobile.
+   * @ True when the greeting overlay should be displayed on mobile.
    */
   private consumeMobileGreetingTrigger(): boolean {
     const shouldShow = sessionStorage.getItem(this.mobileGreetingStorageKey) === '1';
@@ -250,7 +285,6 @@ export class Summary implements OnInit, OnDestroy {
 
   /**
    * Displays the mobile greeting overlay for a limited duration.
-    * @returns Nothing.
    */
   private startMobileGreetingOverlay() {
     this.showMobileGreetingOverlay.set(true);
@@ -263,7 +297,6 @@ export class Summary implements OnInit, OnDestroy {
 
   /**
    * Cleans up timers and realtime task subscriptions.
-    * @returns Nothing.
    */
   ngOnDestroy() {
     if (this.mobileGreetingTimeout) {
@@ -273,3 +306,4 @@ export class Summary implements OnInit, OnDestroy {
   }
 
 }
+
