@@ -236,23 +236,28 @@ export class TaskAddFormComponent {
 
     try {
       await this.saveTask();
-
-      if (!!this.editTask()) {
-        this.feedback().show('Task updated');
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-        this.updated.emit();
-      } else {
-        this.feedback().show('Task added to board');
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-        this.created.emit();
-        this.resetForm();
-        this.closed.emit();
-      }
+      this.editTask() ? await this.handleUpdated() : await this.handleCreated();
     } catch (err) {
       this.handleSaveError(err);
     } finally {
       this.finishSaving();
     }
+  }
+
+  /** Shows update feedback and emits the updated event. */
+  private async handleUpdated() {
+    this.feedback().show('Task updated');
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    this.updated.emit();
+  }
+
+  /** Shows creation feedback, resets the form, and emits created/closed events. */
+  private async handleCreated() {
+    this.feedback().show('Task added to board');
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    this.created.emit();
+    this.resetForm();
+    this.closed.emit();
   }
 
   /** Marks all form fields as dirty to trigger full validation before submission. */
