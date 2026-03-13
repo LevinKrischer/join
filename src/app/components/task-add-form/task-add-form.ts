@@ -66,15 +66,15 @@ export class TaskAddFormComponent {
   form: Omit<Task, 'id' | 'contacts' | 'created_at' | 'modified_at' | 'order' | 'category'> & {
     category: Task['category'] | '';
   } = {
-      title: '',
-      description: '',
-      due_date: '',
-      priority: 'medium',
-      category: '',
-      subtasks: [],
-      status: 'todo',
-      user: null,
-    };
+    title: '',
+    description: '',
+    due_date: '',
+    priority: 'medium',
+    category: '',
+    subtasks: [],
+    status: 'todo',
+    user: null,
+  };
 
   errors: Record<string, string> = {
     title: '',
@@ -151,9 +151,7 @@ export class TaskAddFormComponent {
 
     switch (field) {
       case 'title':
-        this.errors['title'] = isValidTitle(value)
-          ? ''
-          : 'Please enter title with max. 30 letters';
+        this.errors['title'] = isValidTitle(value) ? '' : 'Please enter title with max. 30 letters';
         break;
 
       case 'description':
