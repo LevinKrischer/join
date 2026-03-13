@@ -9,11 +9,11 @@
       </div>
     </div>
     <div id="header-right" class="d-flex gap-3 align-items-center">
+      @if (supabaseService.userName()) {
       <button class="help d-none d-lg-flex">
         <a routerLinkActive="active" routerLink="/help" class=""><img src="/assets/icons/help-big-32px.svg"
             alt="Help Icon" /></a>
       </button>
-      @if (supabaseService.userName()) {
       <button class="userProfile d-flex justify-content-center align-items-center" (click)="toggleMenu($event)"
         [class.active]="menuOpen">
         {{ supabaseService.userName() | initials }}
