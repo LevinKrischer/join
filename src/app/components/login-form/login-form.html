@@ -1,20 +1,43 @@
 <form (ngSubmit)="submit()" class="d-flex flex-column pt-4 pb-2">
-  <app-input-field type="email" label="Email" placeholder="Email" icon="assets/icons/form-mail-24px.svg"
-    autocomplete="email" [(model)]="form.email" [error]="errors.email" (blur)="markDirty('email')"
-    (input)="liveValidate('email')" [maxlength]="35" [displayLabel]="false" [reserveErrorSpace]="true" />
 
-  <app-input-field [type]="getPasswordFieldType()" label="Password" placeholder="Password"
-    [icon]="getPasswordFieldIcon()" [iconAlt]="getPasswordIconAlt()" [iconClickable]="isPasswordToggleVisible()"
-    (iconClick)="togglePasswordVisibility()" autocomplete="current-password" [(model)]="form.password"
-    [error]="errorMessage() || errors.password" (blur)="markDirty('password')" (focus)="activatePasswordToggle()"
-    (input)="liveValidate('password')" [displayLabel]="false" [reserveErrorSpace]="true" />
+  <app-input-field
+    type="email"
+    label="Email"
+    placeholder="Email"
+    icon="assets/icons/form-mail-24px.svg"
+    autocomplete="email"
+    [(model)]="form.email"
+    [error]="errors.email"
+    [maxlength]="35"
+    [displayLabel]="false"
+    [reserveErrorSpace]="true"
+    (blur)="markDirty('email')"
+    (input)="liveValidate('email')"
+  />
 
-  <div
-    class="d-flex flex-column flex-sm-row gap-2 gap-lg-4 mt-sm-2 align-items-center justify-content-center justify-content-lg-center w-100">
+  <app-input-field
+    [type]="getPasswordFieldType()"
+    label="Password"
+    placeholder="Password"
+    [icon]="getPasswordFieldIcon()"
+    [iconAlt]="getPasswordIconAlt()"
+    [iconClickable]="isPasswordToggleVisible()"
+    autocomplete="current-password"
+    [(model)]="form.password"
+    [error]="errorMessage() || errors.password"
+    [displayLabel]="false"
+    [reserveErrorSpace]="true"
+    (blur)="markDirty('password')"
+    (focus)="activatePasswordToggle()"
+    (input)="liveValidate('password')"
+    (iconClick)="togglePasswordVisibility()"
+  />
+
+  <div class="d-flex flex-column flex-sm-row gap-2 gap-lg-4 mt-sm-2 align-items-center justify-content-center justify-content-lg-center w-100">
     <ui-button type="submit" variant="primary" [disabled]="!isFormValid()" (click)="submit()">
       Log in
     </ui-button>
-
-    <ui-button type="button" variant="secondary" (click)="guestLogin()"> Guest Log in </ui-button>
+    <ui-button type="button" variant="secondary" (click)="guestLogin()">Guest Log in</ui-button>
   </div>
+
 </form>

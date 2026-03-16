@@ -1,35 +1,51 @@
 <main class="board">
+
   <header class="board__header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center">
     <div class="header-headline d-flex align-items-center justify-content-between w-100">
       <h2 class="mb-0">Board</h2>
       <button
         class="board-list-add-button p-0 d-flex align-items-center justify-content-center border border-black border-2 rounded-3 d-lg-none"
-        (click)="openAdd()">
+        (click)="openAdd()"
+      >
         <img src="assets/icons/add-white-24px.svg" alt="" />
       </button>
     </div>
 
     <nav class="d-flex justify-content-between w-100" aria-label="Board actions">
-      <app-input-field class="w-100 w-lg-auto" type="text" [displayLabel]="false" label="Search tasks"
-        placeholder="Find task" icon="assets/icons/search-32px.svg" [model]="searchTerm()"
-        (modelChange)="searchTerm.set($event)" />
-      <ui-button class="d-none d-lg-inline-block text-nowrap" type="button" variant="primary" icon="add"
-        (click)="openAdd()">Add task</ui-button>
+      <app-input-field
+        class="w-100 w-lg-auto"
+        type="text"
+        label="Search tasks"
+        placeholder="Find task"
+        icon="assets/icons/search-32px.svg"
+        [displayLabel]="false"
+        [model]="searchTerm()"
+        (modelChange)="searchTerm.set($event)"
+      />
+      <ui-button
+        class="d-none d-lg-inline-block text-nowrap"
+        type="button"
+        variant="primary"
+        icon="add"
+        (click)="openAdd()"
+      >
+        Add task
+      </ui-button>
     </nav>
   </header>
 
   <section class="task-board">
-    <app-task-board [tasks]="filteredTasks()" (open)="openDetail($event)"> </app-task-board>
+    <app-task-board [tasks]="filteredTasks()" (open)="openDetail($event)" />
   </section>
 
   @if (isModalOpen() && modalMode === 'add') {
-  <app-task-add-form [useModal]="true" (closed)="closeModal()" (created)="closeModal()" />
+    <app-task-add-form [useModal]="true" (closed)="closeModal()" (created)="closeModal()" />
   }
 
   @if (isModalOpen() && modalMode === 'detail') {
-  <app-task-detail [task]="selectedTask()!" (close)="closeModal()" (deleted)="onTaskDeleted()" />
+    <app-task-detail [task]="selectedTask()!" (close)="closeModal()" (deleted)="onTaskDeleted()" />
   }
 
-
   <app-user-feedback #feedback animation="slide-up" />
+
 </main>

@@ -1,93 +1,98 @@
-<ui-modal-wrapper (close)="close.emit()" modalSize="small" [contentPadding]="true">
+<ui-modal-wrapper
+  (close)="close.emit()"
+  modalSize="small"
+  [contentPadding]="true"
+>
 
   @if (task()) {
-  @if (!isEditing()) {
-  <div class="task-detail">
+    @if (!isEditing()) {
+      <div class="task-detail">
 
-    @if (task().category || task()) {
-    <div class="badge-row">
-      <div class="category-badge" [style.background]="categoryColor">
-        {{ task().category }}
+        @if (task().category || task()) {
+          <div class="badge-row">
+            <div class="category-badge" [style.background]="categoryColor">
+              {{ task().category }}
+            </div>
+          </div>
+        }
+
+        <section class="scrollable-content">
+          <header class="modal-header">
+            <h2 class="mb-0">{{ task().title }}</h2>
+          </header>
+
+          @if (task().description) {
+            {{ task().description }}
+          }
+
+          <div class="detail-meta">
+            <div class="meta-item due-date"><strong>Due date:</strong> {{ task().due_date }}</div>
+            <div class="meta-item priority">
+              <strong>Priority:</strong>
+              <span class="priority-text">{{ task().priority | titlecase }}</span>
+              <img class="priority-icon" [src]="priorityIcon" [alt]="task().priority" />
+            </div>
+          </div>
+
+          @if (task().contacts.length) {
+            <div class="detail-section">
+              <div class="mb-2"><strong>Assigned To:</strong></div>
+              <div class="details-scroll-section">
+                <div class="contacts-list">
+                  @for (contact of task().contacts; track contact.name) {
+                    <div class="contact-item">
+                      <span class="contact-avatar" [style.background]="contact.color">
+                        {{ initials(contact.name) }}
+                      </span>
+                      <span class="contact-name">{{ contact.name }}</span>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+
+          @if (task().subtasks.length) {
+            <div class="detail-section">
+              <div class="mb-2"><strong>Subtasks:</strong></div>
+              <div class="subtasks-scroll-section">
+                <div class="subtasks-list">
+                  @for (subtask of task().subtasks; track subtask.title) {
+                    <div class="subtask-item" (click)="toggleSubtask(subtask)">
+                      <img
+                        [src]="subtask.done ? 'assets/icons/checkbox-checked-default-24px.svg' : 'assets/icons/checkbox-default-24px.svg'"
+                        [alt]="subtask.done ? 'Completed' : 'Not completed'"
+                        class="subtask-checkbox-icon"
+                      />
+                      <span class="subtask-title" [class.done]="subtask.done">
+                        {{ subtask.title }}
+                      </span>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+
+          <div class="detail-actions">
+            <button class="action-btn delete" title="Delete task" aria-label="Delete task" (click)="deleteTask()">
+              <img src="assets/icons/delete-dark-24px.svg" width="18" height="18" alt="Delete" />
+              Delete
+            </button>
+            <button class="action-btn edit" title="Edit task" aria-label="Edit task" (click)="updateTask()">
+              <img src="assets/icons/edit-dark-24px.svg" width="18" height="18" alt="Edit" />
+              Edit
+            </button>
+          </div>
+        </section>
+
       </div>
-    </div>
-    }
-
-    <section class="scrollable-content">
-      <header class="modal-header">
-        <h2 class="mb-0">{{ task().title }}</h2>
+    } @else {
+      <header class="edit-header">
+        <h4>Edit Task</h4>
       </header>
-
-      @if (task().description) {
-      {{ task().description }}
-      }
-
-      <div class="detail-meta">
-        <div class="meta-item due-date"><strong>Due date:</strong> {{ task().due_date }}</div>
-        <div class="meta-item priority"><strong>Priority:</strong>
-          <span class="priority-text">{{ task().priority | titlecase }}</span>
-          <img class="priority-icon" [src]="priorityIcon" [alt]="task().priority" />
-        </div>
-      </div>
-
-      @if (task().contacts.length) {
-      <div class="detail-section">
-        <div class="mb-2"><strong>Assigned To:</strong></div>
-        <div class="details-scroll-section">
-          <div class="contacts-list">
-            @for (contact of task().contacts; track contact.name) {
-            <div class="contact-item">
-              <span class="contact-avatar" [style.background]="contact.color">
-                {{ initials(contact.name) }}
-              </span>
-              <span class="contact-name">{{ contact.name }}</span>
-            </div>
-            }
-          </div>
-        </div>
-      </div>
-      }
-
-      @if (task().subtasks.length) {
-      <div class="detail-section">
-        <div class="mb-2"><strong>Subtasks:</strong></div>
-        <div class="subtasks-scroll-section">
-          <div class="subtasks-list">
-            @for (subtask of task().subtasks; track subtask.title) {
-            <div class="subtask-item" (click)="toggleSubtask(subtask)">
-              <img
-                [src]="subtask.done ? 'assets/icons/checkbox-checked-default-24px.svg' : 'assets/icons/checkbox-default-24px.svg'"
-                [alt]="subtask.done ? 'Completed' : 'Not completed'" class="subtask-checkbox-icon" />
-              <span class="subtask-title" [class.done]="subtask.done">
-                {{ subtask.title }}
-              </span>
-            </div>
-            }
-          </div>
-        </div>
-      </div>
-      }
-
-      <div class="detail-actions">
-        <button class="action-btn delete" title="Delete task" aria-label="Delete task" (click)="deleteTask()">
-          <img src="assets/icons/delete-dark-24px.svg" width="18" height="18" alt="Delete" />
-          Delete
-        </button>
-
-        <button class="action-btn edit" title="Edit task" aria-label="Edit task" (click)="updateTask()">
-          <img src="assets/icons/edit-dark-24px.svg" width="18" height="18" alt="Edit" />
-          Edit
-        </button>
-      </div>
-    </section>
-
-  </div>
-  } @else {
-  <header class="edit-header">
-    <h4>Edit Task</h4>
-  </header>
-
-  <app-task-add-form [editTask]="task()" (updated)="onTaskUpdated()" (closed)="onEditCancelled()" />
-  }
+      <app-task-add-form [editTask]="task()" (updated)="onTaskUpdated()" (closed)="onEditCancelled()" />
+    }
   }
 
 </ui-modal-wrapper>

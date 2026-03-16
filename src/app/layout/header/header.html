@@ -1,24 +1,33 @@
 <header class="d-flex flex-row justify-content-between align-items-center">
   <div class="header-container d-flex flex-row justify-content-between align-items-center position-relative w-100">
+
     <div id="header-left">
       <div id="logo" class="d-flex d-lg-none justify-content-lg-center">
-        <a routerLink="/"><img src="/assets/icons/logo-join-dark-100px.svg" alt="Join Logo" /></a>
+        <a routerLink="/">
+          <img src="/assets/icons/logo-join-dark-100px.svg" alt="Join Logo" />
+        </a>
       </div>
       <div id="slogan" class="d-none d-lg-flex">
         <h5>Kanban Project Management Tool</h5>
       </div>
     </div>
+
     <div id="header-right" class="d-flex gap-3 align-items-center">
       @if (supabaseService.userName()) {
-      <button class="help d-none d-lg-flex">
-        <a routerLinkActive="active" routerLink="/help" class=""><img src="/assets/icons/help-big-32px.svg"
-            alt="Help Icon" /></a>
-      </button>
-      <button class="userProfile d-flex justify-content-center align-items-center" (click)="toggleMenu($event)"
-        [class.active]="menuOpen">
-        {{ supabaseService.userName() | initials }}
-      </button>
+        <button class="help d-none d-lg-flex">
+          <a routerLinkActive="active" routerLink="/help">
+            <img src="/assets/icons/help-big-32px.svg" alt="Help Icon" />
+          </a>
+        </button>
+        <button
+          class="userProfile d-flex justify-content-center align-items-center"
+          [class.active]="menuOpen"
+          (click)="toggleMenu($event)"
+        >
+          {{ supabaseService.userName() | initials }}
+        </button>
       }
+
       <div class="userMenu" [class.visible]="menuOpen">
         <nav>
           <ul>
@@ -30,5 +39,6 @@
         </nav>
       </div>
     </div>
+
   </div>
 </header>

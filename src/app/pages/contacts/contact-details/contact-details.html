@@ -1,75 +1,80 @@
 <!-- contact-details -->
 
 <div class="ContactDetails">
+
   @if (isContactModalOpen) {
-  <app-contact-edit-form [contact]="selectedContact" (closed)="closeModal()" (saved)="onEditSaved()"
-    (deleted)="onEditDeleted()" />
+    <app-contact-edit-form
+      [contact]="selectedContact"
+      (closed)="closeModal()"
+      (saved)="onEditSaved()"
+      (deleted)="onEditDeleted()"
+    />
   }
 
   @if (!contact) {
-  <div class="pt-4">Select a contact to view details</div>
+    <div class="pt-4">Select a contact to view details</div>
   }
 
   @if (contact) {
-  <div class="fadeIn contact-card">
-    <div class="contact-avatar" [style.background]="contact.color">
-      {{ contact.initials }}
-    </div>
-
-    <div class="contact-info">
-      <div class="contact-name force-wrap-truncate">
-        {{ contact.name | truncate }}
+    <div class="fadeIn contact-card">
+      <div class="contact-avatar" [style.background]="contact.color">
+        {{ contact.initials }}
       </div>
 
-      <div class="contact-actions d-none d-sm-flex">
-        <button (click)="openEdit(contact)" title="Edit contact" aria-label="Edit contact">
-          <img src="assets/icons/edit-dark-24px.svg" alt="Edit" />
-          Edit
-        </button>
+      <div class="contact-info">
+        <div class="contact-name force-wrap-truncate">
+          {{ contact.name | truncate }}
+        </div>
 
-        <button (click)="remove.emit(contact)" title="Delete contact" aria-label="Delete contact">
-          <img src="assets/icons/delete-dark-24px.svg" alt="Delete" />
-          Delete
-        </button>
-      </div>
-
-      <div class="mobile-actions-fab d-sm-none">
-        <button class="fab-btn" (click)="toggleMobileActions()" aria-label="Contact actions">
-          <img src="assets/icons/contact_actions.svg" alt="Actions" />
-        </button>
-
-        @if (isMobileActionsOpen) {
-        <div class="fadeIn mobile-actions-dropdown">
-          <button (click)="openEdit(contact); closeMobileActions()" aria-label="Edit contact">
+        <div class="contact-actions d-none d-sm-flex">
+          <button (click)="openEdit(contact)" title="Edit contact" aria-label="Edit contact">
             <img src="assets/icons/edit-dark-24px.svg" alt="Edit" />
             Edit
           </button>
-          <button (click)="remove.emit(contact); closeMobileActions()" aria-label="Delete contact">
+          <button (click)="remove.emit(contact)" title="Delete contact" aria-label="Delete contact">
             <img src="assets/icons/delete-dark-24px.svg" alt="Delete" />
             Delete
           </button>
         </div>
-        }
+
+        <div class="mobile-actions-fab d-sm-none">
+          <button class="fab-btn" aria-label="Contact actions" (click)="toggleMobileActions()">
+            <img src="assets/icons/contact_actions.svg" alt="Actions" />
+          </button>
+
+          @if (isMobileActionsOpen) {
+            <div class="fadeIn mobile-actions-dropdown">
+              <button aria-label="Edit contact" (click)="openEdit(contact); closeMobileActions()">
+                <img src="assets/icons/edit-dark-24px.svg" alt="Edit" />
+                Edit
+              </button>
+              <button aria-label="Delete contact" (click)="remove.emit(contact); closeMobileActions()">
+                <img src="assets/icons/delete-dark-24px.svg" alt="Delete" />
+                Delete
+              </button>
+            </div>
+          }
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="fadeIn d-flex flex-column gap-3">
-    <h5 class="pt-4">Contact Information</h5>
+    <div class="fadeIn d-flex flex-column gap-3">
+      <h5 class="pt-4">Contact Information</h5>
 
-    <div>
-      <label>Email</label>
       <div>
-        <a class="force-wrap-truncate" href="mailto:{{ contact.email }}">{{ contact.email | truncate }}</a>
+        <label>Email</label>
+        <div>
+          <a class="force-wrap-truncate" href="mailto:{{ contact.email }}">{{ contact.email | truncate }}</a>
+        </div>
       </div>
-    </div>
 
-    <div>
-      <label>Phone</label>
       <div>
-        <a class="force-wrap-truncate" href="tel:{{ contact.phone }}">{{ contact.phone }}</a>
+        <label>Phone</label>
+        <div>
+          <a class="force-wrap-truncate" href="tel:{{ contact.phone }}">{{ contact.phone }}</a>
+        </div>
       </div>
     </div>
-  </div>
   }
+
 </div>

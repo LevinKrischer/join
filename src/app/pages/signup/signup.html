@@ -1,22 +1,25 @@
-<div
-  class="container d-flex flex-column justify-content-center justify-content-lg-between gap-4 align-items-center mx-auto">
+<div class="container d-flex flex-column justify-content-center justify-content-lg-between gap-4 align-items-center mx-auto">
+
   <section class="header d-flex w-100 justify-content-lg-between">
-    <img class="logo" src="./assets/icons/logo-join-dark-100px.svg" alt="">
+    <img class="logo" src="./assets/icons/logo-join-dark-100px.svg" alt="" />
   </section>
 
   <div class="card px-3 py-4 px-sm-4 px-lg-5 py-lg-4 position-relative">
     <app-back-button class="position-absolute"></app-back-button>
     <h3 class="my-2 my-lg-4 text-center">Sign Up</h3>
     <div class="blue-divider"></div>
-
-    <app-signup-form [errorMessage]="errorMessage()" [isSubmitting]="isSubmitting()"
-      (submitted)="onSubmitted($event)"></app-signup-form>
+    <app-signup-form
+      [errorMessage]="errorMessage()"
+      [isSubmitting]="isSubmitting()"
+      (submitted)="onSubmitted($event)"
+    />
   </div>
 
   <footer class="d-flex gap-4 align-items-center">
     <a routerLink="/privacy-policy">Privacy Policy</a>
     <a routerLink="/legal-notice">Legal Notice</a>
   </footer>
+
 </div>
 
 <app-user-feedback #feedback />

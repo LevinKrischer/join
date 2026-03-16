@@ -1,36 +1,61 @@
 <div class="inputRow">
+
   @if (label) {
-  <label [for]="label" [class.visually-hidden]="!displayLabel" class="form-label">{{ label }}
-    @if (isRequired) {
-    <span class="required-asterisk" aria-hidden="true"><span class="text-danger">*</span></span>
-    }
-  </label>
+    <label [for]="label" [class.visually-hidden]="!displayLabel" class="form-label">
+      {{ label }}
+      @if (isRequired) {
+        <span class="required-asterisk" aria-hidden="true"><span class="text-danger">*</span></span>
+      }
+    </label>
   }
 
   <div class="inputWrapper" [class.hasError]="error">
-    <input [id]="label" class="form-control" [type]="type" [placeholder]="placeholder" [value]="model ?? ''"
-      (input)="onInput($event)" (blur)="blur.emit()" (focus)="focus.emit()" aria-invalid="{{ !!error }}"
-      [attr.aria-describedby]="error ? label + 'Error' : null" [attr.maxlength]="maxlength" [attr.min]="minDate"
-      [attr.aria-required]="isRequired" [autocomplete]="autocomplete" />
+    <input
+      [id]="label"
+      class="form-control"
+      [type]="type"
+      [placeholder]="placeholder"
+      [value]="model ?? ''"
+      [attr.maxlength]="maxlength"
+      [attr.min]="minDate"
+      [attr.aria-required]="isRequired"
+      [attr.aria-describedby]="error ? label + 'Error' : null"
+      [autocomplete]="autocomplete"
+      aria-invalid="{{ !!error }}"
+      (input)="onInput($event)"
+      (blur)="blur.emit()"
+      (focus)="focus.emit()"
+    />
 
     @if (icon) {
-    @if (iconClickable) {
-    <button type="button" class="iconButton" [attr.aria-label]="iconAlt || 'Toggle input visibility'"
-      (mousedown)="onIconPointerDown($event)" (pointerdown)="onIconPointerDown($event)" (click)="onIconClick()">
-      <img class="inputIcon" [src]="icon" width="24" height="24" [alt]="iconAlt" />
-    </button>
-    } @else {
-    <img class="inputIcon" [src]="icon" width="24" height="24" aria-hidden="true" />
-    }
+      @if (iconClickable) {
+        <button
+          type="button"
+          class="iconButton"
+          [attr.aria-label]="iconAlt || 'Toggle input visibility'"
+          (mousedown)="onIconPointerDown($event)"
+          (pointerdown)="onIconPointerDown($event)"
+          (click)="onIconClick()"
+        >
+          <img class="inputIcon" [src]="icon" width="24" height="24" [alt]="iconAlt" />
+        </button>
+      } @else {
+        <img class="inputIcon" [src]="icon" width="24" height="24" aria-hidden="true" />
+      }
     }
   </div>
 
   @if (reserveErrorSpace || error) {
-  <div class="text-danger small ps-2 errorMessage" [class.no-space]="!reserveErrorSpace" [id]="label + 'Error'"
-    role="alert">
-    @if (error) {
-    {{ error }}
-    }
-  </div>
+    <div
+      class="text-danger small ps-2 errorMessage"
+      [class.no-space]="!reserveErrorSpace"
+      [id]="label + 'Error'"
+      role="alert"
+    >
+      @if (error) {
+        {{ error }}
+      }
+    </div>
   }
+
 </div>

@@ -1,16 +1,26 @@
 <div class="mb-3">
+
   @if (label) {
-  <label [for]="id" class="form-label">{{ label }}
-    @if (isRequired) {
-    <span class="required-asterisk" aria-hidden="true"><span class="text-danger">*</span></span>
-    }
-  </label>
+    <label [for]="id" class="form-label">
+      {{ label }}
+      @if (isRequired) {
+        <span class="required-asterisk" aria-hidden="true"><span class="text-danger">*</span></span>
+      }
+    </label>
   }
 
-  <textarea [id]="id" [attr.placeholder]="placeholder" [attr.rows]="rows" class="form-control"
-    [attr.maxlength]="maxlength" [value]="model" (input)="onInput($event)"></textarea>
+  <textarea
+    [id]="id"
+    class="form-control"
+    [attr.placeholder]="placeholder"
+    [attr.rows]="rows"
+    [attr.maxlength]="maxlength"
+    [value]="model"
+    (input)="onInput($event)"
+  ></textarea>
 
   @if (errorMessage) {
-  <div class="text-danger">{{ errorMessage }}</div>
+    <div class="text-danger">{{ errorMessage }}</div>
   }
+
 </div>

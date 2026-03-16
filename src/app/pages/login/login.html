@@ -1,8 +1,11 @@
 <div class="container d-flex flex-column justify-content-between align-items-center mx-auto">
-  <section class="header d-flex w-100 justify-content-center justify-content-lg-end"
-    [class.intro-enabled]="showIntroAnimation()">
+
+  <section
+    class="header d-flex w-100 justify-content-center justify-content-lg-end"
+    [class.intro-enabled]="showIntroAnimation()"
+  >
     @if (showIntroAnimation()) {
-    <span class="logo-intro"></span>
+      <span class="logo-intro"></span>
     }
     <img class="logo default d-lg-none" src="./assets/icons/logo-join-default-100px.svg" alt="Join Logo" />
     <img class="logo dark" src="./assets/icons/logo-join-dark-100px.svg" alt="Join Logo" />
@@ -17,19 +20,19 @@
   <div class="card px-3 py-4 px-sm-4 px-lg-5 py-lg-4">
     <h3 class="my-2 my-sm-4 text-center">Log in</h3>
     <div class="blue-divider"></div>
-
-    <app-login-form [errorMessage]="errorMessage()" (submitted)="onSubmitted($event)"></app-login-form>
+    <app-login-form [errorMessage]="errorMessage()" (submitted)="onSubmitted($event)" />
   </div>
 
   <div class="d-flex d-lg-none align-items-center gap-2">
     <span class="me-2">Not a Join user?</span>
-    <ui-button type="button" variant="primary" routerLink="/signup"> Sign Up </ui-button>
+    <ui-button type="button" variant="primary" routerLink="/signup">Sign Up</ui-button>
   </div>
 
   <footer class="d-flex gap-4 align-items-center">
     <a routerLink="/privacy-policy">Privacy Policy</a>
     <a routerLink="/legal-notice">Legal Notice</a>
   </footer>
+
 </div>
 
 <app-user-feedback #feedback />

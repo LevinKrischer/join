@@ -1,6 +1,11 @@
-<ui-modal-wrapper (close)="onCancel()" id="contact-add-form" [contentPadding]="false">
+<ui-modal-wrapper
+  (close)="onCancel()"
+  id="contact-add-form"
+  [contentPadding]="false"
+>
   <div class="modal-inner d-flex flex-column h-100 w-100">
     <div class="row g-0 flex-grow-1 h-100">
+
       <div class="col-12 col-lg-5 d-flex flex-column justify-content-center align-items-start modal-title-area gap-0">
         <img src="/assets/icons/logo-join-default-100px.svg" alt="Join Logo" class="logo d-none d-lg-block" />
         <h2 class="mt-4 mb-1 mb-lg-3">Add contact</h2>
@@ -8,44 +13,91 @@
         <div class="blue-divider mb-2"></div>
       </div>
 
-      <div
-        class="main-area col-12 col-lg-7 d-flex flex-row align-items-start align-items-lg-center justify-content-lg-evenly gap-lg-4 position-relative">
+      <div class="main-area col-12 col-lg-7 d-flex flex-row align-items-start align-items-lg-center justify-content-lg-evenly gap-lg-4 position-relative">
+
         <div class="d-flex flex-column align-items-center px-lg-2 px-xl-4">
           <div class="d-flex align-items-center justify-content-center contact-avatar">
             <img src="/assets/icons/person-white-64px.svg" alt="Initialism placeholder" />
           </div>
         </div>
-        <form (ngSubmit)="submit()"
-          class="mt-lg-0 d-flex flex-column gap-0 px-lg-2 gap-lg-2 modal-content-area w-100 w-lg-75">
-          <app-input-field type="text" label="Name" placeholder="Name" icon="assets/icons/form-person-24px.svg"
-            [(model)]="form.name" [error]="errors.name" (blur)="markDirty('name')" (input)="liveValidate('name')"
-            [maxlength]="30" [displayLabel]="false" [reserveErrorSpace]="true" />
 
-          <app-input-field type="email" label="Email" placeholder="Email" icon="assets/icons/form-mail-24px.svg"
-            [(model)]="form.email" [error]="errors.email" (blur)="markDirty('email')" (input)="liveValidate('email')"
-            [maxlength]="35" [displayLabel]="false" [reserveErrorSpace]="true" />
+        <form
+          (ngSubmit)="submit()"
+          class="mt-lg-0 d-flex flex-column gap-0 px-lg-2 gap-lg-2 modal-content-area w-100 w-lg-75"
+        >
+          <app-input-field
+            type="text"
+            label="Name"
+            placeholder="Name"
+            icon="assets/icons/form-person-24px.svg"
+            [(model)]="form.name"
+            [error]="errors.name"
+            [maxlength]="30"
+            [displayLabel]="false"
+            [reserveErrorSpace]="true"
+            (blur)="markDirty('name')"
+            (input)="liveValidate('name')"
+          />
 
-          <app-input-field type="tel" label="Phone" placeholder="Phone" icon="assets/icons/form-phone-24px.svg"
-            [(model)]="form.phone" [error]="errors.phone" (blur)="markDirty('phone')" (input)="liveValidate('phone')"
-            [displayLabel]="false" [maxlength]="15" [reserveErrorSpace]="true" />
+          <app-input-field
+            type="email"
+            label="Email"
+            placeholder="Email"
+            icon="assets/icons/form-mail-24px.svg"
+            [(model)]="form.email"
+            [error]="errors.email"
+            [maxlength]="35"
+            [displayLabel]="false"
+            [reserveErrorSpace]="true"
+            (blur)="markDirty('email')"
+            (input)="liveValidate('email')"
+          />
+
+          <app-input-field
+            type="tel"
+            label="Phone"
+            placeholder="Phone"
+            icon="assets/icons/form-phone-24px.svg"
+            [(model)]="form.phone"
+            [error]="errors.phone"
+            [maxlength]="15"
+            [displayLabel]="false"
+            [reserveErrorSpace]="true"
+            (blur)="markDirty('phone')"
+            (input)="liveValidate('phone')"
+          />
 
           <div class="d-flex gap-4 mt-2 justify-content-center justify-content-lg-start">
-            <ui-button type="button" variant="secondary" icon="cancel" class="d-none d-lg-inline-flex"
-              [disabled]="isSaving" (click)="onCancel()">
+            <ui-button
+              type="button"
+              variant="secondary"
+              icon="cancel"
+              class="d-none d-lg-inline-flex"
+              [disabled]="isSaving"
+              (click)="onCancel()"
+            >
               Cancel
             </ui-button>
 
-            <ui-button type="submit" variant="primary" icon="create" [disabled]="isSaving || !isFormValid()">
+            <ui-button
+              type="submit"
+              variant="primary"
+              icon="create"
+              [disabled]="isSaving || !isFormValid()"
+            >
               Create contact
             </ui-button>
           </div>
+
           <div class="text-danger fw-bold mt-2">
             @if (errorMessage) {
-            {{ errorMessage }}
+              {{ errorMessage }}
             }
           </div>
         </form>
+
       </div>
+
     </div>
   </div>
 </ui-modal-wrapper>

@@ -1,10 +1,18 @@
 <fieldset>
   <legend class="form-label">Subtasks</legend>
+
   <section class="input-group" aria-label="Add new subtask">
-    <input type="text" id="Subtasks" class="form-control" placeholder="Add new subtask" aria-label="New subtask title"
-      [(ngModel)]="newSubtaskTitle" name="newSubtask" (keydown.enter)="addSubtask(); $event.preventDefault()" />
-    <button type="button" class="btn btn-outline-secondary clear" aria-label="Clear input"
-      (click)="newSubtaskTitle = ''">
+    <input
+      type="text"
+      id="Subtasks"
+      class="form-control"
+      placeholder="Add new subtask"
+      aria-label="New subtask title"
+      name="newSubtask"
+      [(ngModel)]="newSubtaskTitle"
+      (keydown.enter)="addSubtask(); $event.preventDefault()"
+    />
+    <button type="button" class="btn btn-outline-secondary clear" aria-label="Clear input" (click)="newSubtaskTitle = ''">
       <img src="/assets/icons/cancel-dark-24px.svg" alt="" aria-hidden="true" />
     </button>
     <button type="button" class="btn btn-outline-secondary add" aria-label="Add subtask" (click)="addSubtask()">
@@ -13,39 +21,62 @@
   </section>
 
   @if (subtasks().length > 0) {
-  <ul class="subtask-list mt-2" role="list">
-    @for (subtask of subtasks(); track $index) {
-    <li class="py-1">
-      @if (editingSubtaskIndex === $index) {
-      <section class="input-group input-group-sm" aria-label="Edit subtask">
-        <input type="text" class="form-control" aria-label="Edit subtask title" [(ngModel)]="editingSubtaskTitle"
-          [ngModelOptions]="{ standalone: true }" (keydown.enter)="confirmEditSubtask(); $event.preventDefault()"
-          (keydown.escape)="cancelEditSubtask()" />
-        <button type="button" class="btn btn-outline-secondary clear" aria-label="Clear edit"
-          (click)="editingSubtaskTitle = ''">
-          <img src="/assets/icons/delete-dark-24px.svg" alt="" aria-hidden="true" width="18" height="18" />
-        </button>
-        <button type="button" class="btn btn-outline-secondary edit" aria-label="Confirm edit"
-          (click)="confirmEditSubtask()">
-          <img src="/assets/icons/check-dark-24px.svg" alt="" aria-hidden="true" width="20" height="20" />
-        </button>
-      </section>
-      } @else {
-      <article class="list-item d-flex align-items-center" (click)="editSubtask($index)">
-        <span>{{ subtask.title }}</span>
-        <button type="button" class="btn btn-sm btn-link p-0 ms-auto edit" aria-label="Edit subtask"
-          (click)="editSubtask($index)">
-          <img src="/assets/icons/edit-dark-24px.svg" alt="" aria-hidden="true" width="18" height="18" />
-        </button>
-        <hr class="vr mx-1 m-0" />
-        <button type="button" class="btn btn-sm btn-link p-0 ms-1 pe-2 delete" aria-label="Delete subtask"
-          (click)="removeSubtask($index); $event.stopPropagation()">
-          <img src="/assets/icons/delete-dark-24px.svg" alt="" aria-hidden="true" width="18" height="18" />
-        </button>
-      </article>
+    <ul class="subtask-list mt-2" role="list">
+      @for (subtask of subtasks(); track $index) {
+        <li class="py-1">
+          @if (editingSubtaskIndex === $index) {
+            <section class="input-group input-group-sm" aria-label="Edit subtask">
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Edit subtask title"
+                [(ngModel)]="editingSubtaskTitle"
+                [ngModelOptions]="{ standalone: true }"
+                (keydown.enter)="confirmEditSubtask(); $event.preventDefault()"
+                (keydown.escape)="cancelEditSubtask()"
+              />
+              <button
+                type="button"
+                class="btn btn-outline-secondary clear"
+                aria-label="Clear edit"
+                (click)="editingSubtaskTitle = ''"
+              >
+                <img src="/assets/icons/delete-dark-24px.svg" alt="" aria-hidden="true" width="18" height="18" />
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary edit"
+                aria-label="Confirm edit"
+                (click)="confirmEditSubtask()"
+              >
+                <img src="/assets/icons/check-dark-24px.svg" alt="" aria-hidden="true" width="20" height="20" />
+              </button>
+            </section>
+          } @else {
+            <article class="list-item d-flex align-items-center" (click)="editSubtask($index)">
+              <span>{{ subtask.title }}</span>
+              <button
+                type="button"
+                class="btn btn-sm btn-link p-0 ms-auto edit"
+                aria-label="Edit subtask"
+                (click)="editSubtask($index)"
+              >
+                <img src="/assets/icons/edit-dark-24px.svg" alt="" aria-hidden="true" width="18" height="18" />
+              </button>
+              <hr class="vr mx-1 m-0" />
+              <button
+                type="button"
+                class="btn btn-sm btn-link p-0 ms-1 pe-2 delete"
+                aria-label="Delete subtask"
+                (click)="removeSubtask($index); $event.stopPropagation()"
+              >
+                <img src="/assets/icons/delete-dark-24px.svg" alt="" aria-hidden="true" width="18" height="18" />
+              </button>
+            </article>
+          }
+        </li>
       }
-    </li>
-    }
-  </ul>
+    </ul>
   }
+
 </fieldset>

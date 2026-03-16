@@ -1,104 +1,133 @@
 <section class="taskboard">
   <div class="taskboard-inner d-flex flex-column flex-lg-row gap-lg-2 gap-xl-3" cdkDropListGroup>
-    <!--  gap-lg-3 gap-xl-4 -->
 
     <!-- To Do Column -->
     <section id="to-to" class="board-column flex-lg-1 d-flex flex-column min-h-0">
-      <header
-        class="board-column-header d-flex align-items-center justify-content-between mb-3 mb-lg-0 mb-xl-3 flex-shrink-0">
+      <header class="board-column-header d-flex align-items-center justify-content-between mb-3 mb-lg-0 mb-xl-3 flex-shrink-0">
         <h2 class="h5 m-0">To Do</h2>
         <button
           class="board-list-add-button p-0 d-flex align-items-center justify-content-center border border-black border-2 rounded-3"
-          (click)="openAddTask('todo')">
-          <img src="assets/icons/add-plus-dark24px.svg" alt="Add task">
+          (click)="openAddTask('todo')"
+        >
+          <img src="assets/icons/add-plus-dark24px.svg" alt="Add task" />
         </button>
       </header>
       <div
         class="taskboard-scroll d-flex flex-row flex-lg-column overflow-x-auto overflow-lg-x-hidden overflow-lg-y-auto gap-lg-2"
-        horizontalScroll cdkDropList [cdkDropListData]="todoTasks()" (cdkDropListDropped)="onTaskDrop($event, 'todo')">
+        horizontalScroll
+        cdkDropList
+        [cdkDropListData]="todoTasks()"
+        (cdkDropListDropped)="onTaskDrop($event, 'todo')"
+      >
         @for (task of todoTasks(); track task.id) {
-        <app-task-card class="task-item pb-2" [task]="task" (openTask)="openTaskDetail($event)"
-          (statusChange)="onCardStatusChange($event)" cdkDrag [cdkDragData]="task"
-          [cdkDragStartDelay]="dragStartDelay()" cdkDragPreviewClass="custom-drag-preview"></app-task-card>
+          <app-task-card
+            class="task-item pb-2"
+            [task]="task"
+            [cdkDragData]="task"
+            [cdkDragStartDelay]="dragStartDelay()"
+            cdkDrag
+            cdkDragPreviewClass="custom-drag-preview"
+            (openTask)="openTaskDetail($event)"
+            (statusChange)="onCardStatusChange($event)"
+          />
         } @empty {
-        <div class="no-tasks-card p-3 text-center text-muted">
-          No tasks to do
-        </div>
+          <div class="no-tasks-card p-3 text-center text-muted">No tasks to do</div>
         }
       </div>
     </section>
 
-    <!-- In Progress Column -->
     <section id="in-progress" class="board-column flex-lg-1 d-flex flex-column min-h-0">
-      <header
-        class="board-column-header d-flex align-items-center justify-content-between mb-3 mb-lg-0 mb-xl-3 flex-shrink-0">
+      <header class="board-column-header d-flex align-items-center justify-content-between mb-3 mb-lg-0 mb-xl-3 flex-shrink-0">
         <h2 class="h5 m-0">In Progress</h2>
         <button
           class="board-list-add-button p-0 d-flex align-items-center justify-content-center border border-black border-2 rounded-3"
-          (click)="openAddTask('in-progress')">
-          <img src="assets/icons/add-plus-dark24px.svg" alt="Add task">
+          (click)="openAddTask('in-progress')"
+        >
+          <img src="assets/icons/add-plus-dark24px.svg" alt="Add task" />
         </button>
       </header>
       <div
         class="taskboard-scroll d-flex flex-row flex-lg-column overflow-x-auto overflow-lg-x-hidden overflow-lg-y-auto gap-lg-2"
-        horizontalScroll cdkDropList [cdkDropListData]="inProgressTasks()"
-        (cdkDropListDropped)="onTaskDrop($event, 'in-progress')">
+        horizontalScroll
+        cdkDropList
+        [cdkDropListData]="inProgressTasks()"
+        (cdkDropListDropped)="onTaskDrop($event, 'in-progress')"
+      >
         @for (task of inProgressTasks(); track task.id) {
-        <app-task-card class="task-item pb-2" [task]="task" (openTask)="openTaskDetail($event)"
-          (statusChange)="onCardStatusChange($event)" cdkDrag [cdkDragData]="task"
-          [cdkDragStartDelay]="dragStartDelay()" cdkDragPreviewClass="custom-drag-preview"></app-task-card>
+          <app-task-card
+            class="task-item pb-2"
+            [task]="task"
+            [cdkDragData]="task"
+            [cdkDragStartDelay]="dragStartDelay()"
+            cdkDrag
+            cdkDragPreviewClass="custom-drag-preview"
+            (openTask)="openTaskDetail($event)"
+            (statusChange)="onCardStatusChange($event)"
+          />
         } @empty {
-        <div class="no-tasks-card p-3 text-center text-muted">
-          No tasks in progress
-        </div>
+          <div class="no-tasks-card p-3 text-center text-muted">No tasks in progress</div>
         }
       </div>
     </section>
 
-    <!-- Await Feedback Column -->
     <section id="await-feedback" class="board-column flex-lg-1 d-flex flex-column min-h-0">
-      <header
-        class="board-column-header d-flex align-items-center justify-content-between mb-3 mb-lg-0 mb-xl-3 flex-shrink-0">
+      <header class="board-column-header d-flex align-items-center justify-content-between mb-3 mb-lg-0 mb-xl-3 flex-shrink-0">
         <h2 class="h5 pe-2 m-0">Await Feedback</h2>
         <button
           class="board-list-add-button p-0 d-flex align-items-center justify-content-center border border-black border-2 rounded-3"
-          (click)="openAddTask('await-feedback')">
-          <img src="assets/icons/add-plus-dark24px.svg" alt="Add task">
+          (click)="openAddTask('await-feedback')"
+        >
+          <img src="assets/icons/add-plus-dark24px.svg" alt="Add task" />
         </button>
       </header>
       <div
         class="taskboard-scroll d-flex flex-row flex-lg-column overflow-x-auto overflow-lg-x-hidden overflow-lg-y-auto gap-lg-2"
-        horizontalScroll cdkDropList [cdkDropListData]="reviewTasks()"
-        (cdkDropListDropped)="onTaskDrop($event, 'await-feedback')">
+        horizontalScroll
+        cdkDropList
+        [cdkDropListData]="reviewTasks()"
+        (cdkDropListDropped)="onTaskDrop($event, 'await-feedback')"
+      >
         @for (task of reviewTasks(); track task.id) {
-        <app-task-card class="task-item pb-2" [task]="task" (openTask)="openTaskDetail($event)"
-          (statusChange)="onCardStatusChange($event)" cdkDrag [cdkDragData]="task"
-          [cdkDragStartDelay]="dragStartDelay()" cdkDragPreviewClass="custom-drag-preview"></app-task-card>
+          <app-task-card
+            class="task-item pb-2"
+            [task]="task"
+            [cdkDragData]="task"
+            [cdkDragStartDelay]="dragStartDelay()"
+            cdkDrag
+            cdkDragPreviewClass="custom-drag-preview"
+            (openTask)="openTaskDetail($event)"
+            (statusChange)="onCardStatusChange($event)"
+          />
         } @empty {
-        <div class="no-tasks-card p-3 text-center text-muted">
-          No tasks awaiting feedback
-        </div>
+          <div class="no-tasks-card p-3 text-center text-muted">No tasks awaiting feedback</div>
         }
       </div>
     </section>
 
-    <!-- Done Column -->
     <section id="done" class="board-column flex-lg-1 d-flex flex-column min-h-0">
-      <header
-        class="board-column-header d-flex align-items-center justify-content-between mb-3 mb-lg-0 mb-xl-3 flex-shrink-0">
+      <header class="board-column-header d-flex align-items-center justify-content-between mb-3 mb-lg-0 mb-xl-3 flex-shrink-0">
         <h2 class="h5 m-0">Done</h2>
       </header>
       <div
         class="taskboard-scroll d-flex flex-row flex-lg-column overflow-x-auto overflow-lg-x-hidden overflow-lg-y-auto gap-lg-2"
-        horizontalScroll cdkDropList [cdkDropListData]="doneTasks()" (cdkDropListDropped)="onTaskDrop($event, 'done')">
+        horizontalScroll
+        cdkDropList
+        [cdkDropListData]="doneTasks()"
+        (cdkDropListDropped)="onTaskDrop($event, 'done')"
+      >
         @for (task of doneTasks(); track task.id) {
-        <app-task-card class="task-item pb-2" [task]="task" (openTask)="openTaskDetail($event)"
-          (statusChange)="onCardStatusChange($event)" cdkDrag [cdkDragData]="task"
-          [cdkDragStartDelay]="dragStartDelay()" cdkDragPreviewClass="custom-drag-preview"></app-task-card>
+          <app-task-card
+            class="task-item pb-2"
+            [task]="task"
+            [cdkDragData]="task"
+            [cdkDragStartDelay]="dragStartDelay()"
+            cdkDrag
+            cdkDragPreviewClass="custom-drag-preview"
+            (openTask)="openTaskDetail($event)"
+            (statusChange)="onCardStatusChange($event)"
+          />
         } @empty {
-        <div class="no-tasks-card p-3 text-center text-muted">
-          No tasks done
-        </div>
+          <div class="no-tasks-card p-3 text-center text-muted">No tasks done</div>
         }
       </div>
     </section>
@@ -107,6 +136,10 @@
 </section>
 
 @if (showAddTaskForm()) {
-<app-task-add-form [useModal]="true" [initialStatus]="addTaskStatus()" (closed)="closeAddTask()"
-  (created)="onTaskCreated()" />
+  <app-task-add-form
+    [useModal]="true"
+    [initialStatus]="addTaskStatus()"
+    (closed)="closeAddTask()"
+    (created)="onTaskCreated()"
+  />
 }

@@ -1,25 +1,33 @@
 <div class="mb-3">
+
   @if (label) {
-  <label [for]="label" class="form-label">{{ label }}
-    @if (isRequired) {
-    <span class="required-asterisk" aria-hidden="true"><span class="text-danger">*</span></span>
-    }
-  </label>
+    <label [for]="label" class="form-label">
+      {{ label }}
+      @if (isRequired) {
+        <span class="required-asterisk" aria-hidden="true"><span class="text-danger">*</span></span>
+      }
+    </label>
   }
 
   <div class="select-wrapper">
-    <select [id]="label" class="form-control" [value]="selectedValue" aria-invalid="{{ !!error }}">
+    <select
+      [id]="label"
+      class="form-control"
+      [value]="selectedValue"
+      aria-invalid="{{ !!error }}"
+    >
       <option value="" disabled selected>{{ preselectedValue }}</option>
 
       @for (option of options; track option.value) {
-      <option [value]="option.value">
-        {{ option.label }}
-      </option>
+        <option [value]="option.value">
+          {{ option.label }}
+        </option>
       }
     </select>
   </div>
 
   @if (errorMessage) {
-  <div class="text-danger">{{ errorMessage }}</div>
+    <div class="text-danger">{{ errorMessage }}</div>
   }
+
 </div>
