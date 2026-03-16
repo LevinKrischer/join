@@ -1,6 +1,35 @@
 import { Injectable, signal } from '@angular/core';
 import { SupabaseService } from '../../services/supabase';
 import { RealtimeChannel } from '@supabase/supabase-js';
+import { isUserContactPhone } from '../utils/user-contact-marker';
+
+export const CONTACT_DELETE_BLOCKED_BY_USER = 'CONTACT_DELETE_BLOCKED_BY_USER';
+
+/**
+ * Checks whether an unknown error represents a blocked contact deletion because a user exists.
+ * @param err Unknown thrown value.
+ * @returns True when the error matches the protected-delete case.
+ */
+export function isContactDeleteBlockedByUserError(err: unknown): boolean {
+  if (typeof err === 'string') {
+    return err === CONTACT_DELETE_BLOCKED_BY_USER;
+  }
+
+  if (err instanceof Error) {
+    return err.message === CONTACT_DELETE_BLOCKED_BY_USER || err.name === CONTACT_DELETE_BLOCKED_BY_USER;
+  }
+
+  if (typeof err === 'object' && err !== null) {
+    const candidate = err as { message?: unknown; name?: unknown; code?: unknown };
+    return (
+      candidate.message === CONTACT_DELETE_BLOCKED_BY_USER ||
+      candidate.name === CONTACT_DELETE_BLOCKED_BY_USER ||
+      candidate.code === CONTACT_DELETE_BLOCKED_BY_USER
+    );
+  }
+
+  return false;
+}
 
 export interface Contact {
   id: number;
@@ -130,8 +159,55 @@ export class ContactsDb {
    * @throws If the delete operation fails.
    */
   async deleteContact(id: number) {
+    const isLinkedToUser = await this.hasLinkedUserByContactId(id);
+    if (isLinkedToUser) {
+      const blockedDeleteError = new Error(CONTACT_DELETE_BLOCKED_BY_USER);
+      blockedDeleteError.name = CONTACT_DELETE_BLOCKED_BY_USER;
+      throw blockedDeleteError;
+    }
+
     await this.deleteTaskContactAssignments(id);
     await this.deleteContactById(id);
+  }
+
+  /**
+   * Checks whether the contact is protected from deletion because it represents a user account.
+   * @param id Contact ID to check.
+   * @returns True when this contact should not be deleted.
+   * @throws If the contact lookup fails.
+   */
+  private async hasLinkedUserByContactId(id: number): Promise<boolean> {
+    const { data: contact, error: contactError } = await this.supa.client
+      .from('contacts')
+      .select('email, phone')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (contactError) {
+      console.error('[Supabase] Error loading contact before delete:', contactError.message);
+      throw contactError;
+    }
+
+    const email = (contact?.email ?? '').trim();
+    if (!email) {
+      return false;
+    }
+
+    if (isUserContactPhone(contact?.phone)) {
+      return true;
+    }
+
+    const {
+      data: { session },
+      error: sessionError,
+    } = await this.supa.client.auth.getSession();
+
+    if (sessionError) {
+      console.error('[Supabase] Error loading auth session before delete:', sessionError.message);
+      return false;
+    }
+
+    return (session?.user?.email ?? '').trim().toLowerCase() === email.toLowerCase();
   }
 
   /**

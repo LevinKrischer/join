@@ -1,7 +1,7 @@
 import { Component, OnInit, signal, computed, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContactsDb } from '../../core/db/contacts.db';
-import { Contact, ContactWithInitials, GroupedContacts } from './../../core/db/contacts.db';
+import { Contact, ContactWithInitials, GroupedContacts, isContactDeleteBlockedByUserError } from './../../core/db/contacts.db';
 import { ContactDetails } from './contact-details/contact-details';
 import { ContactList } from './contact-list/contact-list';
 import { ContactHeader } from './contact-header/contact-header';
@@ -153,11 +153,21 @@ export class Contacts implements OnInit {
 
     const deletedName = this.selected.name;
 
-    await this.contactsDb.deleteContact(this.selected.id);
+    try {
+      await this.contactsDb.deleteContact(this.selected.id);
 
-    this.selected = null;
-    this.isMobileDetailOpen = false;
+      this.selected = null;
+      this.isMobileDetailOpen = false;
 
-    this.feedback.show(`Contact '${deletedName}' has been deleted!`);
+      this.feedback.show(`Contact '${deletedName}' has been deleted!`);
+    } catch (err) {
+      if (isContactDeleteBlockedByUserError(err)) {
+        this.feedback.show('This contact cannot be deleted because a user account exists for this email address.');
+        return;
+      }
+
+      this.feedback.show('Deleting failed. Please check your connection or try again later.');
+      console.error('Failed to delete selected contact:', err);
+    }
   }
 }

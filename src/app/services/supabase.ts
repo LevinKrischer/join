@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { AuthChangeEvent, Session, createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment';
+import { decodeUserContactPhone, encodeUserContactPhone, isUserContactPhone } from '../core/utils/user-contact-marker';
 
 @Injectable({ providedIn: 'root' })
 
@@ -42,6 +43,8 @@ export class SupabaseService {
     const res = await this.supabase.auth.signInWithPassword({ email, password });
 
     if (!res.error && res.data.user) {
+      await this.ensureCurrentUserContactMarker(res.data.user.email ?? '');
+
       const { data } = await this.supabase
         .from('contacts')
         .select('name')
@@ -70,6 +73,8 @@ export class SupabaseService {
     const { data: { session } } = await this.supabase.auth.getSession();
     if (!session?.user?.email) return;
 
+    await this.ensureCurrentUserContactMarker(session.user.email);
+
     const { data } = await this.supabase
       .from('contacts')
       .select('name')
@@ -95,5 +100,38 @@ export class SupabaseService {
    */
   onAuthStateChange(callback: (event: AuthChangeEvent, session: Session | null) => void) {
     return this.supabase.auth.onAuthStateChange(callback);
+  }
+
+  /**
+   * Ensures that the current user's contact keeps an internal user marker in phone.
+   * This keeps deletion protection stable even if the visible phone value is edited.
+   * @param email Current authenticated user email.
+   * @returns Promise that resolves after marker migration attempt.
+   */
+  private async ensureCurrentUserContactMarker(email: string) {
+    const normalizedEmail = email.trim();
+    if (!normalizedEmail) {
+      return;
+    }
+
+    const { data: contact, error } = await this.supabase
+      .from('contacts')
+      .select('id, phone')
+      .eq('email', normalizedEmail)
+      .maybeSingle();
+
+    if (error || !contact) {
+      return;
+    }
+
+    if (isUserContactPhone(contact.phone)) {
+      return;
+    }
+
+    const visiblePhone = decodeUserContactPhone(contact.phone);
+    await this.supabase
+      .from('contacts')
+      .update({ phone: encodeUserContactPhone(visiblePhone) })
+      .eq('id', contact.id);
   }
 }

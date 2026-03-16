@@ -4,6 +4,7 @@ import { SignupForm } from '../../components/signup-form/signup-form';
 import { SupabaseService } from '../../services/supabase';
 import { ContactsDb } from '../../core/db/contacts.db';
 import { CONTACT_COLORS } from '../../core/constants/colors';
+import { encodeUserContactPhone } from '../../core/utils/user-contact-marker';
 import { UserFeedbackComponent } from '../../shared/ui/user-feedback/user-feedback';
 import { BackButton } from '../../shared/ui/forms/back-button/back-button';
 
@@ -87,7 +88,7 @@ export class Signup {
     await this.contactsDb.setContact({
       name: credentials.name,
       email: credentials.email,
-      phone: '',
+      phone: encodeUserContactPhone(''),
       color: this.getRandomColor(),
     });
   }

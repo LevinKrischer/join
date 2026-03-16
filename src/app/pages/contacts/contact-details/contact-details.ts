@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, HostListener, ElementRef } from
 import { ContactWithInitials } from '../../../core/db/contacts.db';
 import { ContactEditFormComponent } from '../../../components/contact-edit-form/contact-edit-form';
 import { TruncatePipe } from '../../../services/truncate.pipe';
+import { decodeUserContactPhone } from '../../../core/utils/user-contact-marker';
 
 @Component({
   selector: 'app-contact-details',
@@ -73,5 +74,14 @@ export class ContactDetails {
       this.remove.emit(this.contact);
     }
     this.closeModal();
+  }
+
+  /**
+   * Returns a user-facing phone number without internal marker prefix.
+   * @param phone Stored phone value from contact.
+   * @returns Decoded phone value.
+   */
+  displayPhone(phone: string): string {
+    return decodeUserContactPhone(phone);
   }
 }

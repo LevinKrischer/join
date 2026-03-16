@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, inject, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ContactsDb, Contact, ContactWithInitials } from './../../core/db/contacts.db';
+import { ContactsDb, Contact, ContactWithInitials, isContactDeleteBlockedByUserError } from './../../core/db/contacts.db';
+import { decodeUserContactPhone, encodeUserContactPhone, isUserContactPhone } from '../../core/utils/user-contact-marker';
 import { isValidName, isValidEmail, isValidPhone } from '../../core/utils/validation';
 import { InputFieldComponent } from '../../shared/ui/forms/input-field/input-field';
 import { ModalWrapper } from '../../shared/ui/modal-wrapper/modal-wrapper';
@@ -55,7 +56,7 @@ export class ContactEditFormComponent {
     this.form = {
       name: this.contact.name,
       email: this.contact.email,
-      phone: this.contact.phone,
+      phone: decodeUserContactPhone(this.contact.phone),
     };
   }
 
@@ -191,10 +192,15 @@ export class ContactEditFormComponent {
    * Sends the updated contact data to the database.
    */
   private async updateContact() {
+    const nextPhone = String(this.form.phone);
+    const persistedPhone = this.contact && isUserContactPhone(this.contact.phone)
+      ? encodeUserContactPhone(nextPhone)
+      : nextPhone;
+
     return this.db.updateContact(this.contact!.id, {
       name: String(this.form.name),
       email: String(this.form.email),
-      phone: String(this.form.phone),
+      phone: persistedPhone,
     });
   }
 
@@ -229,6 +235,12 @@ export class ContactEditFormComponent {
    */
   private handleDeleteError(err: unknown) {
     console.error('Failed to delete contact:', err);
+    if (isContactDeleteBlockedByUserError(err)) {
+      this.errorMessage = 'This contact cannot be deleted because a user account exists for this email address.';
+      this.cdr.detectChanges();
+      return;
+    }
+
     this.errorMessage = 'Deleting failed. Please check your connection or try again later';
     this.cdr.detectChanges();
   }
