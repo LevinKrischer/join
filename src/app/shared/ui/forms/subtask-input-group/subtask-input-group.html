@@ -13,10 +13,10 @@
       (keydown.enter)="addSubtask(); $event.preventDefault()"
     />
     <button type="button" class="btn btn-outline-secondary clear" aria-label="Clear input" (click)="newSubtaskTitle = ''">
-      <img src="/assets/icons/cancel-dark-24px.svg" alt="" aria-hidden="true" />
+      <img src="assets/icons/cancel-dark-24px.svg" alt="" aria-hidden="true" />
     </button>
     <button type="button" class="btn btn-outline-secondary add" aria-label="Add subtask" (click)="addSubtask()">
-      <img src="/assets/icons/check-dark-24px.svg" alt="" aria-hidden="true" />
+      <img src="assets/icons/check-dark-24px.svg" alt="" aria-hidden="true" />
     </button>
   </section>
 
@@ -41,7 +41,7 @@
                 aria-label="Clear edit"
                 (click)="editingSubtaskTitle = ''"
               >
-                <img src="/assets/icons/delete-dark-24px.svg" alt="" aria-hidden="true" width="18" height="18" />
+                <img src="assets/icons/delete-dark-24px.svg" alt="" aria-hidden="true" width="18" height="18" />
               </button>
               <button
                 type="button"
@@ -49,7 +49,7 @@
                 aria-label="Confirm edit"
                 (click)="confirmEditSubtask()"
               >
-                <img src="/assets/icons/check-dark-24px.svg" alt="" aria-hidden="true" width="20" height="20" />
+                <img src="assets/icons/check-dark-24px.svg" alt="" aria-hidden="true" width="20" height="20" />
               </button>
             </section>
           } @else {
@@ -61,7 +61,7 @@
                 aria-label="Edit subtask"
                 (click)="editSubtask($index)"
               >
-                <img src="/assets/icons/edit-dark-24px.svg" alt="" aria-hidden="true" width="18" height="18" />
+                <img src="assets/icons/edit-dark-24px.svg" alt="" aria-hidden="true" width="18" height="18" />
               </button>
               <hr class="vr mx-1 m-0" />
               <button
@@ -70,7 +70,7 @@
                 aria-label="Delete subtask"
                 (click)="removeSubtask($index); $event.stopPropagation()"
               >
-                <img src="/assets/icons/delete-dark-24px.svg" alt="" aria-hidden="true" width="18" height="18" />
+                <img src="assets/icons/delete-dark-24px.svg" alt="" aria-hidden="true" width="18" height="18" />
               </button>
             </article>
           }

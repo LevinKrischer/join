@@ -130,23 +130,23 @@
 
   &.icon--add {
     &::after {
-      background-image: url('/assets/icons/add-white-24px.svg');
+      background-image: url('/join/assets/icons/add-white-24px.svg');
     }
   }
 
   &.icon--create {
     &::after {
-      background-image: url('/assets/icons/check-white-24px.svg');
+      background-image: url('/join/assets/icons/check-white-24px.svg');
     }
   }
 
   &.icon--cancel {
     &::after {
-      background-image: url('/assets/icons/cancel-dark-24px.svg');
+      background-image: url('/join/assets/icons/cancel-dark-24px.svg');
     }
 
     &:hover::after {
-      background-image: url('/assets/icons/cancel-blue-24px.svg');
+      background-image: url('/join/assets/icons/cancel-blue-24px.svg');
     }
   }
 
@@ -166,12 +166,12 @@
     }
 
     &::after {
-      background-image: url('/assets/icons/prio-low-20px.svg');
+      background-image: url('/join/assets/icons/prio-low-20px.svg');
     }
 
     &:active::after,
     &.active::after {
-      background-image: url('/assets/icons/prio-low-white-20px.svg');
+      background-image: url('/join/assets/icons/prio-low-white-20px.svg');
     }
   }
 
@@ -182,12 +182,12 @@
     }
 
     &::after {
-      background-image: url('/assets/icons/prio-medium-20px.svg');
+      background-image: url('/join/assets/icons/prio-medium-20px.svg');
     }
 
     &:active::after,
     &.active::after {
-      background-image: url('/assets/icons/prio-medium-white-20px.svg');
+      background-image: url('/join/assets/icons/prio-medium-white-20px.svg');
     }
   }
 
@@ -198,12 +198,12 @@
     }
 
     &::after {
-      background-image: url('/assets/icons/prio-urgent-20px.svg');
+      background-image: url('/join/assets/icons/prio-urgent-20px.svg');
     }
 
     &:active::after,
     &.active::after {
-      background-image: url('/assets/icons/prio-urgent-white-20px.svg');
+      background-image: url('/join/assets/icons/prio-urgent-white-20px.svg');
     }
   }
 }

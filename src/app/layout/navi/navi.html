@@ -1,29 +1,29 @@
 <div id="sideNav" class="d-flex flex-row flex-lg-column align-items-center">
   <div id="logo" class="d-none d-lg-flex">
-    <a routerLink="/"><img src="/assets/icons/logo-join-default-100px.svg" alt="Join Logo" /></a>
+    <a routerLink="/"><img src="assets/icons/logo-join-default-100px.svg" alt="Join Logo" /></a>
   </div>
   <nav id="main-nav" class="w-100">
     <ul class="navigation d-flex flex-row gap-lg-2 flex-lg-column justify-content-evenly">
       @if (isLoggedIn()) {
       <li routerLinkActive="active" class="nav-item">
         <a routerLink="/summary" class="nav-link d-flex gap-lg-2 flex-column flex-lg-row align-items-center"><img
-            class="default" src="/assets/icons/nav-summary-30px.svg" alt="Summary Icon" /><img class="active"
-            src="/assets/icons/nav-summary-white-30px.svg" alt="Summary Icon" />Summary</a>
+            class="default" src="assets/icons/nav-summary-30px.svg" alt="Summary Icon" /><img class="active"
+            src="assets/icons/nav-summary-white-30px.svg" alt="Summary Icon" />Summary</a>
       </li>
       <li routerLinkActive="active">
         <a routerLink="/add-task" class="nav-link d-flex gap-lg-2 flex-column flex-lg-row align-items-center"><img
-            class="default" src="/assets/icons/nav-add-tasks-30px.svg" alt="Add Task Icon" /><img class="active"
-            src="/assets/icons/nav-add-tasks-white-30px.svg" alt="Add Task Icon" />Add Task</a>
+            class="default" src="assets/icons/nav-add-tasks-30px.svg" alt="Add Task Icon" /><img class="active"
+            src="assets/icons/nav-add-tasks-white-30px.svg" alt="Add Task Icon" />Add Task</a>
       </li>
       <li routerLinkActive="active">
         <a routerLink="/board" class="nav-link d-flex gap-lg-2 flex-column flex-lg-row align-items-center"><img
-            class="default" src="/assets/icons/nav-board-30px.svg" alt="Board Icon" /><img class="active"
-            src="/assets/icons/nav-board-white-30px.svg" alt="Board Icon" />Board</a>
+            class="default" src="assets/icons/nav-board-30px.svg" alt="Board Icon" /><img class="active"
+            src="assets/icons/nav-board-white-30px.svg" alt="Board Icon" />Board</a>
       </li>
       <li routerLinkActive="active">
         <a routerLink="/contacts" class="nav-link d-flex gap-lg-2 flex-column flex-lg-row align-items-center"><img
-            class="default" src="/assets/icons/nav-contact-30px.svg" alt="Contacts Icon" /><img class="active"
-            src="/assets/icons/nav-contacts-white-30px.svg" alt="Contacts Icon" />Contacts</a>
+            class="default" src="assets/icons/nav-contact-30px.svg" alt="Contacts Icon" /><img class="active"
+            src="assets/icons/nav-contacts-white-30px.svg" alt="Contacts Icon" />Contacts</a>
       </li>
       <li routerLinkActive="active" class="d-none nav-item d-block">
         <a routerLink="/test">UI & TEST</a>
@@ -31,8 +31,8 @@
       } @else {
       <li routerLinkActive="active" class="nav-item">
         <a routerLink="/login" class="nav-link d-flex gap-lg-2 flex-column flex-lg-row align-items-center"><img
-            class="default" src="/assets/icons/nav-login-30px.svg" alt="Login Icon" /><img class="active"
-            src="/assets/icons/nav-login-30px.svg" alt="Login Icon" />Login</a>
+            class="default" src="assets/icons/nav-login-30px.svg" alt="Login Icon" /><img class="active"
+            src="assets/icons/nav-login-30px.svg" alt="Login Icon" />Login</a>
       </li>
       }
     </ul>
